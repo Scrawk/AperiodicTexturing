@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 
+using Common.Core.Numerics;
 using Common.Core.Colors;
 using ImageProcessing.Images;
 
@@ -10,33 +10,39 @@ public class WangTile
 	public WangTile()
 	{
 		id = -1;
-		e0 = -1;
-		e1 = -1;
-		e2 = -1;
-		e3 = -1;
+		left = -1;
+		bottom = -1;
+		right = -1;
+		top = -1;
 	}
 
-	public WangTile(int id, int e0, int e1, int e2, int e3, int tileSize)
+	public WangTile(int id, int left, int bottom, int right, int top, int tileSize)
 	{
 		this.id = id;
-		this.e0 = e0;
-		this.e1 = e1;
-		this.e2 = e2;
-		this.e3 = e3;
+		this.left = left;
+		this.bottom = bottom;
+		this.right = right;
+		this.top = top;
 
 		TileSize = tileSize;
 		Image = new ColorImage2D(tileSize, tileSize);
 	}
 
-	public readonly int id, e0, e1, e2, e3;
+	public readonly int id, left, bottom, right, top;
 
 	public readonly int TileSize;
 
 	public ColorImage2D Image { get; private set; }
 
-	public WangTile Copy()
+    public override string ToString()
     {
-		var copy = new WangTile(id, e0, e1, e2, e3, TileSize);
+		return string.Format("[WangTile: id={0}, bottom={1}, top={2}]", 
+			id, bottom, top);
+    }
+
+    public WangTile Copy()
+    {
+		var copy = new WangTile(id, left, bottom, right, top, TileSize);
 		copy.Image = Image.Copy();
 		
 		return copy;
@@ -61,10 +67,12 @@ public class WangTileSet
 
 	public WangTile[] Tiles { get; private set; }
 
-	private static ColorRGB[] Colors = new ColorRGB[]
+	public WangTile[,] Tiles2 { get; private set; }
+
+	private static ColorRGBA[] Colors = new ColorRGBA[]
 	{
-			new ColorRGB(1,0,0), new ColorRGB(0,1,0), new ColorRGB(0,0,1),
-			new ColorRGB(1,1,0), new ColorRGB(1,0,1), new ColorRGB(0,1,1)
+			new ColorRGBA(1,0,0,1), new ColorRGBA(0,1,0,1), new ColorRGBA(0,0,1,1),
+			new ColorRGBA(1,1,0,1), new ColorRGBA(1,0,1,1), new ColorRGBA(0,1,1,1)
 	};
 
 	public WangTileSet(int numHColors, int numVColors, int tileSize)
@@ -76,19 +84,19 @@ public class WangTileSet
 		int size = numHColors*numHColors*numVColors*numVColors;
 		
 		Tiles = new WangTile[size];
-		
-		for (int e0 = 0; e0 < NumHColors; e0++)
-		{
-			for (int e1 = 0; e1 < NumVColors; e1++)
-			{
-				for (int e2 = 0; e2 < NumHColors; e2++)
-				{
-					for (int e3 = 0; e3 < NumVColors; e3++)
-					{
-						int index = GetIndex(e0, e1, e2, e3);
-						var tile = new WangTile(index, e0, e1, e2, e3, tileSize);
 
-						AddEdgeColor(e0, e1, e2, e3, tile.Image);
+		for (int left = 0; left < NumHColors; left++)
+		{
+			for (int bottom = 0; bottom < NumVColors; bottom++)
+			{
+				for (int right = 0; right < NumHColors; right++)
+				{
+					for (int top = 0; top < NumVColors; top++)
+					{
+						int index = GetIndex(left, bottom, right, top);
+						var tile = new WangTile(index, left, bottom, right, top, tileSize);
+
+						AddEdgeColor(left, bottom, right, top, tile.Image);
 
 						Tiles[index] = tile;
 					}
@@ -96,69 +104,53 @@ public class WangTileSet
 			}
 		}
 
+		Tiles2 = new WangTile[NumHTiles, NumVTiles];
+
 	}
 	
-	public int GetIndex(int e0, int e1, int e2, int e3)
+	public int GetIndex(int left, int bottom, int right, int top)
 	{
-		return (e0*(NumVColors * NumHColors * NumVColors) + e1*(NumHColors * NumVColors) + e2*(NumVColors) + e3);
+		return (left*(NumVColors * NumHColors * NumVColors) + bottom*(NumHColors * NumVColors) + right*(NumVColors) + top);
 	}
 
 	public int GetIndex(WangTile tile)
 	{
-		return (tile.e0 * (NumVColors * NumHColors * NumVColors) + tile.e1 * (NumHColors * NumVColors) + tile.e2 * (NumVColors) + tile.e3);
+		return (tile.left * (NumVColors * NumHColors * NumVColors) + tile.bottom * (NumHColors * NumVColors) + tile.right * (NumVColors) + tile.top);
 	}
 
-	private void AddEdgeColor(int e0, int e1, int e2, int e3, ColorImage2D col)
+	private void AddEdgeColor(int left, int bottom, int right, int top, ColorImage2D col)
 	{
 		int border = 4;
-		float alpha = 0.5f;
 		int size = TileSize;
+		ColorRGBA a = new ColorRGBA(1, 1, 1, 0.5);
 
-		int num = Colors.GetLength(0);
-
-		for (int i = border; i < size - border; i++)
-		{
-			for (int j = 0; j < border; j++)
-			{
-				col[i, j] += Colors[e0 % num] * alpha;
-
-				col[i, j + size - border] += Colors[e2 % num] * alpha;
-
-				col[j, i] += Colors[e1 % num] * alpha;
-
-				col[j + size - border, i] += Colors[e3 % num] * alpha;
-			}
-		}
+		col.DrawBox(0, border, border, size - border, Colors[left] * a, true);
+		col.DrawBox(border, 0, size - border, border, Colors[bottom] * a, true);
+		col.DrawBox(size - border, border, size, size - border, Colors[right] * a, true);
+		col.DrawBox(border, size - border, size - border, size, Colors[top] * a, true);
 	}
 
 	public WangTile[,] OrthogonalCompaction()
 	{
-	    int height = NumHColors * NumHColors;
-	    int width = NumVColors * NumVColors;
-	
-        var result = new WangTile[height,width];
+		int width = NumHTiles;
+		int height = NumVTiles;
+        var result = new WangTile[width, height];
 
-		var travelHEdges = TravelEdges(0, NumHColors - 1);
-		var travelVEdges = TravelEdges(0, NumVColors - 1);
+		var HEdges = TravelEdges(NumHColors);
+		var VEdges = TravelEdges(NumVColors);
 
-		for (int j = 0; j < width; j++)
+		for (int j = 0; j < height; j++)
 		{
-			for (int i = 0; i < height; i++)
+			for (int i = 0; i < width; i++)
 			{
-				int hIndex0 = i % (NumHColors * NumHColors);
-				int hIndex2 = hIndex0 + 1;
-				int vIndex1 = j % (NumVColors * NumVColors);
-				int vIndex3 = vIndex1 + 1;
+				int left = HEdges[i];
+				int bottom = VEdges[j];
+				int right = HEdges[i + 1];
+				int top = VEdges[j + 1];
 
-				int e0 = travelHEdges[hIndex0];
-				int e3 = travelVEdges[vIndex1];
-				int e2 = travelHEdges[hIndex2];
-				int e1 = travelVEdges[vIndex3];
-
-				int index = GetIndex(e0, e1, e2, e3);
+				int index = GetIndex(left, bottom, right, top);
 
 				result[i, j] = Tiles[index].Copy();
-
 			}
 		}
 
@@ -183,19 +175,22 @@ public class WangTileSet
 		{
 			for (int i = 0; i < numHTiles; i++)
 			{
-				int e0, e1, e2, e3;
+				int im1 = MathUtil.Wrap(i - 1, numHTiles);
+				int ip1 = MathUtil.Wrap(i + 1, numHTiles);
+				int jm1 = MathUtil.Wrap(j - 1, numVTiles);
+				int jp1 = MathUtil.Wrap(j + 1, numVTiles);
 
-				e0 = result[(i + numHTiles - 1) % numHTiles, j].e2;
-				e1 = result[i, (j + 1) % numVTiles].e3;
-				e2 = result[(i + 1) % numHTiles, j].e0;
-				e3 = result[i, (j + numVTiles - 1) % numVTiles].e1;
+				int left = result[im1, j].right;
+				int bottom = result[i, jm1].top;
+				int right = result[ip1, j].left;
+				int top = result[i, jp1].bottom;
 
-				if (e0 < 0) e0 = rnd.Next(0, int.MaxValue) % NumHColors;
-				if (e1 < 0) e1 = rnd.Next(0, int.MaxValue) % NumVColors;
-				if (e2 < 0) e2 = rnd.Next(0, int.MaxValue) % NumHColors;
-				if (e3 < 0) e3 = rnd.Next(0, int.MaxValue) % NumVColors;
+				if (left < 0) left = rnd.Next(0, NumHColors);
+				if (bottom < 0) bottom = rnd.Next(0, NumVColors);
+				if (right < 0) right = rnd.Next(0, NumHColors);
+				if (top < 0) top = rnd.Next(0, NumVColors);
 
-				int index = GetIndex(e0, e1, e2, e3);
+				int index = GetIndex(left, bottom, right, top);
 
 				result[i, j] = Tiles[index].Copy();
 			}
@@ -204,20 +199,18 @@ public class WangTileSet
 		return result;
 	}
 	
-	private static int[] TravelEdges(int startNode, int endNode)
+	private static int[] TravelEdges(int numColors)
 	{
-	    int numNodes = (endNode - startNode + 1);
+        var result = new int[numColors * numColors + 1];
 	    
-        var result = new int[numNodes*numNodes + 1];
-	    
-	    for(int i = startNode; i <= endNode; i++)
+	    for(int i = 0; i < numColors; i++)
 		{
-	        for(int j = startNode; j <= endNode; j++)
+	        for(int j = 0; j < numColors; j++)
 	        {
-	            int index = EdgeOrdering(i - startNode, j - startNode);
-	
-	            result[index] = i - startNode;
-	            result[index + 1] = j - startNode;
+	            int index = EdgeOrdering(i, j);
+
+	            result[index] = i;
+	            result[index + 1] = j;
 	        }
 		}
 	    

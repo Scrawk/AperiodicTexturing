@@ -37,7 +37,6 @@ public class TileMapping2 : MonoBehaviour
 	WangTile[,] m_tileMapping;
 	
 	Texture2D m_tileTexture;
-	Texture2D m_colorTileTexture;
 	Texture2D m_tileMappingTexture;
 	
 	void Start () 
@@ -53,9 +52,8 @@ public class TileMapping2 : MonoBehaviour
 
 		m_colorTileTexture = CreateTileTexture(m_tileCompaction);
 
-		m_tileMappingTexture = CreateMappingTexture(m_tileMapping);
+		m_tileMappingTexture = CreateMappingTexture(m_tileMapping, m_tileCompaction);
 
-		
 		float tileTexWidth = m_tileTexture.width / m_tileSize;
 		float tileTexHeight = m_tileTexture.height / m_tileSize;
 		Vector2 tileScale = new Vector2(tileTexWidth, tileTexHeight);
@@ -83,33 +81,34 @@ public class TileMapping2 : MonoBehaviour
 
 	Texture2D CreateTileTexture(WangTile[,] compaction)
 	{
+		int tileTextureWidth = compaction.GetLength(0);
+		int tileTextureHeight = compaction.GetLength(1);
 
-		int tileTextureHeight = compaction.GetLength(0);
-		int tileTextureWidth = compaction.GetLength(1);
-
-		int glTileTextureHeight = m_tileSize * tileTextureHeight;
-		int glTileTextureWidth = m_tileSize * tileTextureWidth;
-
-		Color[] tileData = new Color[glTileTextureWidth * glTileTextureHeight];
+		int width = m_tileSize * tileTextureWidth;
+		int height = m_tileSize * tileTextureHeight;
+		
+		Color[] tileData = new Color[width * height];
 
 		for (int x = 0; x < tileTextureWidth; x++)
 		{
 			for (int y = 0; y < tileTextureHeight; y++)
 			{
-				//int idx = set.GetIndex(compaction[y, x]);
-				var tile = compaction[y, x];
+				var tile = compaction[x, y];
 
 				for (int i = 0; i < m_tileSize; i++)
 				{
 					for (int j = 0; j < m_tileSize; j++)
 					{
-						tileData[(x * m_tileSize + i) + (y * m_tileSize + j) * glTileTextureWidth] = tile.Image[m_tileSize - 1 - i, j].ToColor();
+						int xi = x * m_tileSize + i;
+						int yj = y * m_tileSize + j;
+
+						tileData[xi + yj * width] = tile.Image[i, j].ToColor();
 					}
 				}
 			}
 		}
 
-		var tileTexture = new Texture2D(glTileTextureWidth, glTileTextureHeight, TextureFormat.ARGB32, true);
+		var tileTexture = new Texture2D(width, height, TextureFormat.ARGB32, true);
 		tileTexture.SetPixels(tileData);
 		tileTexture.Apply();
 
@@ -117,7 +116,7 @@ public class TileMapping2 : MonoBehaviour
 	}
 
 
-	Texture2D CreateMappingTexture(WangTile[,] tiles)
+	Texture2D CreateMappingTexture(WangTile[,] tiles, WangTile[,] compaction)
 	{
 		int width = tiles.GetLength(0);
 		int height = tiles.GetLength(1);
@@ -128,12 +127,12 @@ public class TileMapping2 : MonoBehaviour
 		{
             for(int j = 0; j < height; j++)
             {
-                int id = tiles[j,i].id;
+                int id = tiles[i,j].id;
                 int row = 0, col = 0;
 
-				WangTileSet.TileLocation(m_tileCompaction, id, ref row, ref col);
+				WangTileSet.TileLocation(compaction, id, ref row, ref col);
                 
-                data[i+j*width] = new Color32( (byte)col, (byte)row, 0, 0);
+                data[i+j*width] = new Color32( (byte)row, (byte)col, 0, 0);
             }
 		}
 		
