@@ -44,8 +44,6 @@ public class TileMapping2 : MonoBehaviour
 
 		m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
 
-		//m_tileCompaction = m_tileSet.OrthogonalCompaction();
-
 		m_tileMapping = m_tileSet.SequentialTiling(m_mappingHeight, m_mappingWidth, m_mappingSeed);
 
 		m_tileTexture = CreateTileTexture(m_tileSet);
@@ -91,7 +89,7 @@ public class TileMapping2 : MonoBehaviour
 		{
 			for (int y = 0; y < tileTextureHeight; y++)
 			{
-				var tile = set.Tiles2[x, y];
+				var tile = set.Tiles[x, y];
 
 				for (int i = 0; i < m_tileSize; i++)
 				{
@@ -125,12 +123,8 @@ public class TileMapping2 : MonoBehaviour
 		{
             for(int j = 0; j < height; j++)
             {
-                int id = tiles[i,j].id;
-                int row = 0, col = 0;
-
-				WangTileSet.TileLocation(set.Tiles2, id, ref row, ref col);
-                
-                data[i+j*width] = new Color32( (byte)row, (byte)col, 0, 0);
+				var index = tiles[i, j].Index;
+                data[i+j*width] = new Color32( (byte)index.x, (byte)index.y, 0, 0);
             }
 		}
 		
