@@ -97,7 +97,6 @@ public class TileMapping2 : MonoBehaviour
 			for (int y = 0; y < tileTextureHeight; y++)
 			{
 				//int idx = set.GetIndex(compaction[y, x]);
-
 				var tile = compaction[y, x];
 
 				for (int i = 0; i < m_tileSize; i++)
