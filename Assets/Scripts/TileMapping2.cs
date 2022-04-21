@@ -33,7 +33,7 @@ public class TileMapping2 : MonoBehaviour
 	public string m_resultFileName = "Result Textures/ResultTiles";
 	
 	WangTileSet m_tileSet;
-	WangTile[,] m_tileCompaction;
+	//WangTile[,] m_tileCompaction;
 	WangTile[,] m_tileMapping;
 	
 	Texture2D m_tileTexture;
@@ -44,15 +44,13 @@ public class TileMapping2 : MonoBehaviour
 
 		m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
 
-		m_tileCompaction = m_tileSet.OrthogonalCompaction();
+		//m_tileCompaction = m_tileSet.OrthogonalCompaction();
 
 		m_tileMapping = m_tileSet.SequentialTiling(m_mappingHeight, m_mappingWidth, m_mappingSeed);
 
-		m_tileTexture = CreateTileTexture(m_tileCompaction);
+		m_tileTexture = CreateTileTexture(m_tileSet);
 
-		m_colorTileTexture = CreateTileTexture(m_tileCompaction);
-
-		m_tileMappingTexture = CreateMappingTexture(m_tileMapping, m_tileCompaction);
+		m_tileMappingTexture = CreateMappingTexture(m_tileMapping, m_tileSet);
 
 		float tileTexWidth = m_tileTexture.width / m_tileSize;
 		float tileTexHeight = m_tileTexture.height / m_tileSize;
@@ -79,10 +77,10 @@ public class TileMapping2 : MonoBehaviour
 
 	}
 
-	Texture2D CreateTileTexture(WangTile[,] compaction)
+	Texture2D CreateTileTexture(WangTileSet set)
 	{
-		int tileTextureWidth = compaction.GetLength(0);
-		int tileTextureHeight = compaction.GetLength(1);
+		int tileTextureWidth = set.NumHTiles;
+		int tileTextureHeight = set.NumVTiles;
 
 		int width = m_tileSize * tileTextureWidth;
 		int height = m_tileSize * tileTextureHeight;
@@ -93,7 +91,7 @@ public class TileMapping2 : MonoBehaviour
 		{
 			for (int y = 0; y < tileTextureHeight; y++)
 			{
-				var tile = compaction[x, y];
+				var tile = set.Tiles2[x, y];
 
 				for (int i = 0; i < m_tileSize; i++)
 				{
@@ -116,7 +114,7 @@ public class TileMapping2 : MonoBehaviour
 	}
 
 
-	Texture2D CreateMappingTexture(WangTile[,] tiles, WangTile[,] compaction)
+	Texture2D CreateMappingTexture(WangTile[,] tiles, WangTileSet set)
 	{
 		int width = tiles.GetLength(0);
 		int height = tiles.GetLength(1);
@@ -130,7 +128,7 @@ public class TileMapping2 : MonoBehaviour
                 int id = tiles[i,j].id;
                 int row = 0, col = 0;
 
-				WangTileSet.TileLocation(compaction, id, ref row, ref col);
+				WangTileSet.TileLocation(set.Tiles2, id, ref row, ref col);
                 
                 data[i+j*width] = new Color32( (byte)row, (byte)col, 0, 0);
             }

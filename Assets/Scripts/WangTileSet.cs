@@ -28,6 +28,8 @@ public class WangTile
 		Image = new ColorImage2D(tileSize, tileSize);
 	}
 
+	public Index2 Index;
+
 	public readonly int id, left, bottom, right, top;
 
 	public readonly int TileSize;
@@ -93,7 +95,7 @@ public class WangTileSet
 				{
 					for (int top = 0; top < NumVColors; top++)
 					{
-						int index = GetIndex(left, bottom, right, top);
+						int index = TileIndex1D(left, bottom, right, top);
 						var tile = new WangTile(index, left, bottom, right, top, tileSize);
 
 						AddEdgeColor(left, bottom, right, top, tile.Image);
@@ -106,16 +108,29 @@ public class WangTileSet
 
 		Tiles2 = new WangTile[NumHTiles, NumVTiles];
 
-	}
-	
-	public int GetIndex(int left, int bottom, int right, int top)
-	{
-		return (left*(NumVColors * NumHColors * NumVColors) + bottom*(NumHColors * NumVColors) + right*(NumVColors) + top);
-	}
+		var HEdges = TravelEdges(NumHColors);
+		var VEdges = TravelEdges(NumVColors);
 
-	public int GetIndex(WangTile tile)
-	{
-		return (tile.left * (NumVColors * NumHColors * NumVColors) + tile.bottom * (NumHColors * NumVColors) + tile.right * (NumVColors) + tile.top);
+		for (int j = 0; j < NumVTiles; j++)
+		{
+			for (int i = 0; i < NumHTiles; i++)
+			{
+				int left = HEdges[i];
+				int bottom = VEdges[j];
+				int right = HEdges[i + 1];
+				int top = VEdges[j + 1];
+
+				int index = TileIndex1D(left, bottom, right, top);
+
+				var tile = new WangTile(index, left, bottom, right, top, tileSize);
+				tile.Index = new Index2(i, j);
+
+				AddEdgeColor(left, bottom, right, top, tile.Image);
+
+				Tiles2[i, j] = tile;
+			}
+		}
+
 	}
 
 	private void AddEdgeColor(int left, int bottom, int right, int top, ColorImage2D col)
@@ -148,7 +163,7 @@ public class WangTileSet
 				int right = HEdges[i + 1];
 				int top = VEdges[j + 1];
 
-				int index = GetIndex(left, bottom, right, top);
+				int index = TileIndex1D(left, bottom, right, top);
 
 				result[i, j] = Tiles[index].Copy();
 			}
@@ -190,7 +205,7 @@ public class WangTileSet
 				if (right < 0) right = rnd.Next(0, NumHColors);
 				if (top < 0) top = rnd.Next(0, NumVColors);
 
-				int index = GetIndex(left, bottom, right, top);
+				int index = TileIndex1D(left, bottom, right, top);
 
 				result[i, j] = Tiles[index].Copy();
 			}
@@ -207,7 +222,7 @@ public class WangTileSet
 		{
 	        for(int j = 0; j < numColors; j++)
 	        {
-	            int index = EdgeOrdering(i, j);
+	            int index = TileIndex1D(i, j);
 
 	            result[index] = i;
 	            result[index + 1] = j;
@@ -217,24 +232,39 @@ public class WangTileSet
 	    return result;
 	}
 
-	private static int EdgeOrdering(int x, int y)
+	public int TileIndex1D(int left, int bottom, int right, int top)
 	{
-	    if(x < y)
-	        return (2*x + y*y);
-	    else if(x == y)
-	    {
-	        if(x > 0)
-	            return ((x+1)*(x+1) - 2);
-	        else
-	            return 0;
-	    }
-	    else
-	    {
-	        if(y > 0)
-	            return (x*x + 2*y - 1);
-	        else
-	            return ((x+1)*(x+1) - 1);
-	    }
+		return (left * (NumVColors * NumHColors * NumVColors) + bottom * (NumHColors * NumVColors) + right * (NumVColors) + top);
+	}
+
+	private static int TileIndex1D(int x, int y)
+	{
+		int result;
+
+		if (x < y)
+			result = (2 * x + y * y);
+		else if (x == y)
+		{
+			if (x > 0)
+				result = ((x + 1) * (x + 1) - 2);
+			else
+				result = 0;
+		}
+		else if (y > 0)
+			result = (x * x + 2 * y - 1);
+		else
+			result = ((x + 1) * (x + 1) - 1);
+
+		return result;
+	}
+
+	private static Index2 TileIndex2D(int left, int bottom, int right, int top)
+	{
+		Index2 result;
+		result.x = TileIndex1D(left, right);
+		result.y = TileIndex1D(bottom, top);
+
+		return result;
 	}
 
 	public static void TileLocation(WangTile[,] tiling, int id, ref int row, ref int col)
