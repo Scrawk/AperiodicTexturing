@@ -1,0 +1,1354 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common.GraphTheory</name>
+    </assembly>
+    <members>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph">
+            <summary>
+            A adjacency graph made op of vertices and edges.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.BreadthFirstOrder(System.Int32)">
+            <summary>
+            Return a list of vertex indices ordered breadth first.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <returns>The vertices in breadth first order.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.BreadthFirstOrder(System.Int32,System.Func{Common.GraphTheory.AdjacencyGraphs.GraphVertex,Common.GraphTheory.AdjacencyGraphs.GraphVertex,System.Single},System.Single)">
+            <summary>
+            Return a list of vertex indices ordered breadth first
+            but stopping when max distance is reached.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <param name="DistanceFunc">The function used to calculate the distance between two vertices.</param>
+            <param name="maxDistance">The distance to stop at.</param>
+            <returns>The vertices in breadth first order.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.BreadthFirstTree(System.Int32)">
+            <summary>
+            Return a tree of vertex indices ordered breadth first.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <returns>The vertices in breadth first order.</returns>
+        </member>
+        <member name="F:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.NOT_VISITED_TAG">
+            <summary>
+            Use to tag if vertices have been visited or not.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.#ctor(System.Int32)">
+            <summary>
+            Create a graph with a fixed number of vertices.
+            </summary>
+            <param name="size">The number of vertices.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.#ctor(System.Collections.Generic.IEnumerable{Common.GraphTheory.AdjacencyGraphs.GraphVertex})">
+            <summary>
+            Create a graph from a set of vertices.
+            These vertices must have already had there
+            index set correctly.
+            </summary>
+            <param name="vertices">The graphs vertices.</param>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.VertexCount">
+            <summary>
+            The number of vertices in graph.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.EdgeCount">
+            <summary>
+            The number of edges in graph.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Vertices">
+            <summary>
+            The graph vertices.
+            The vertex index must match its position in array.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Edges">
+            <summary>
+            The graph edges.
+            Each vertex index is used to look up
+            all the edges going from that vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Print">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.EnumerateVertices">
+            <summary>
+            Enumerate through all the vertices in th graph.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.EnumerateEdges">
+            <summary>
+            Enumerate through all the edges in th graph.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.InBounds(System.Int32)">
+            <summary>
+            Is the index in the graph vertices bounds.
+            </summary>
+            <param name="i">The index</param>
+            <returns>Is the index in the graph vertices bounds.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Clear">
+            <summary>
+            Clear the graph.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.ClearEdges">
+            <summary>
+            Clear the edges and leave the vertices.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.ClearEdges(System.Int32)">
+            <summary>
+            Clear the edges for the vertex at the index.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.Fill(System.Int32)">
+            <summary>
+            Fill the graph.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.TagVertices(System.Int32)">
+            <summary>
+            Set the vertices tag.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetVertex(System.Int32)">
+            <summary>
+            Get the vertex at index i.
+            </summary>
+            <param name="i">The vertices index.</param>
+            <returns>The vertex</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.SetVertex(System.Int32,Common.GraphTheory.AdjacencyGraphs.GraphVertex)">
+            <summary>
+            Set the vertex at index i.
+            </summary>
+            <param name="i"></param>
+            <param name="vert"></param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetVertices">
+            <summary>
+            Get a list of all the vertices.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetVertexData``1(System.Int32)">
+            <summary>
+            Get the data belonging to
+            the vertex at index i.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetEdgeData``1(System.Int32,System.Int32)">
+            <summary>
+            Get the edge going from and 
+            to vertices at the indexs.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetEdgeWeight(System.Int32,System.Int32)">
+            <summary>
+            Get The edges weight or 0 if edge not found.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetEdgeOrCreateEdge(System.Int32,System.Int32)">
+            <summary>
+            Get the edge and if edge
+            does not already exist create a new one.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetEdge(System.Int32,System.Int32)">
+            <summary>
+            Get the edge going from and 
+            to vertices at the indexs.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetFirstEdge(System.Int32)">
+            <summary>
+            Get the first edge fo the vertex.
+            </summary>
+            <param name="v">The verts index</param>
+            <returns>THe first edge.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.RandomizeEdges(System.Int32)">
+            <summary>
+            Randomize all the edges order in graph
+            </summary>
+            <param name="seed">The random generators seed</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.RandomizeEdges(System.Int32,System.Random)">
+            <summary>
+            Randomize all the edges order for a vertex.
+            </summary>
+            <param name="v">The vertices index.</param>
+            <param name="rnd">The random generator.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetEdges(System.Int32)">
+            <summary>
+            Get all the edges of vertex.
+            </summary>
+            <param name="i">The vertex index.</param>
+            <returns>A list of all the edges. Maybe null.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.SetEdges(System.Int32,System.Collections.Generic.List{Common.GraphTheory.AdjacencyGraphs.GraphEdge})">
+            <summary>
+            Set the edges for a vertex.
+            </summary>
+            <param name="i">The vertices index.</param>
+            <param name="edges">The vertices edges</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.IndexOfVertexData``1(``0)">
+            <summary>
+            Find the vertex index belonging to this data.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.HasVertex(System.Int32)">
+            <summary>
+            Does the graph contain a vertex at the index.
+            </summary>
+            <param name="index"></param>
+            <returns>Does the graph contain a vertex at the index.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.HasEdge(System.Int32,System.Int32)">
+            <summary>
+            Does the graph contain a edge going
+            from and to vertices at the indexs.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetDegree(System.Int32)">
+            <summary>
+            Get the number of edges that start from the 
+            vertex at index.
+            </summary>
+            <param name="index">The vertices index.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.AdjacencyGraphs.GraphEdge})">
+            <summary>
+            Get a flattened list of all edges in the graph.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.GetAllEdges">
+            <summary>
+            Get a flattened list of all edges in the graph.
+            </summary>
+            <returns>The edges</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.AddEdge(Common.GraphTheory.AdjacencyGraphs.GraphEdge)">
+            <summary>
+            Add a edge to the graph.
+            Used as a short cut when adding multiple 
+            edges in derived classes.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.AddVertex(Common.GraphTheory.AdjacencyGraphs.GraphVertex)">
+            <summary>
+            Add a vertex to graph
+            </summary>
+            <param name="vert"></param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.AddVertex(System.Object)">
+            <summary>
+            Create and add a vertex to graph.
+            </summary>
+            <returns>The new vertex.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph.DepthFirstOrder(System.Int32)">
+            <summary>
+            Return a list of vertex indices ordered depth first.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <returns>The vertices in depth first order.</returns>
+        </member>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.DirectedGraph">
+            <summary>
+            A directed adjacency graph made op of vertices and edges.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.#ctor(System.Int32)">
+            <summary>
+            Create a graph with a fixed number of vertices.
+            </summary>
+            <param name="size">The number of vertices.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.#ctor(System.Collections.Generic.IEnumerable{Common.GraphTheory.AdjacencyGraphs.GraphVertex})">
+            <summary>
+            Create a graph from a set of vertices.
+            These vertices must have already had there
+            index set correctly.
+            </summary>
+            <param name="vertices">The graphs vertices.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.Copy(System.Func{System.Object,System.Object},System.Func{System.Object,System.Object})">
+            <summary>
+            Create a deep copy of the graph.
+            </summary>
+            <param name="edgeDataCopy">Optonal func to copy edge data.</param>
+            <param name="vertDataCopy">ptonal func to copy vertex data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddDirectedEdge(Common.GraphTheory.AdjacencyGraphs.GraphEdge)">
+            <summary>
+            Add a edge to the graph.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddDirectedEdge(System.Int32,System.Int32)">
+            <summary>
+            Add a directed edge.
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddDirectedWeightedEdge(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Add a directed edge.
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddDirectedEdge(System.Int32,System.Int32,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddDirectedWeightedEdge(System.Int32,System.Int32,System.Single,System.Object)">
+            <summary>
+            Add a directed edge.
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight">The edge weight</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddUndirectedEdge(System.Int32,System.Int32)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight">The edges weight</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single,System.Object)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight">The edges weight</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single,System.Single,System.Object,System.Object)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight0">The edge going from-to weight</param>
+            <param name="weight1">The edge going to-from weigh</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.FromData``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Create a graph of vertices from the enumeration of data.
+            A vertex for each data object will be created.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.ToUndirectedGraph">
+            <summary>
+            Convert to a undirected graph by adding a 
+            edge for any directed edge that does not 
+            have a opposite edge.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.FromMatrix(System.Int32[0:,0:])">
+            <summary>
+            Create a graph from a matrix.
+            Non zero entries represent a edge with the value being the edges weight.
+            </summary>
+            <param name="matrix"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.DijkstrasShortestPathTree(System.Int32)">
+            <summary>
+            Create a graph tree representing the shortest paths
+            between the vertices in the graph.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <returns>The shortest path tree.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.FordFulkersonMaxFlow(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+            <param name="target"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.MaxFlow(Common.GraphTheory.AdjacencyGraphs.DirectedGraph,System.Int32,System.Int32)">
+            <summary>
+            https://tutorialspoint.dev/data-structure/graph-data-structure/ford-fulkerson-algorithm-for-maximum-flow-problem
+            </summary>
+            <param name="rGraph"></param>
+            <param name="source"></param>
+            <param name="target"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.KhansTopologicalSort">
+            <summary>
+            Presuming the edges represent the order the 
+            vertices must be iterated return a list of
+            vertex indices that conform to this order.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.Khans_GetInverseDegree(System.Collections.Generic.List{Common.GraphTheory.AdjacencyGraphs.GraphEdge}[],System.Int32)">
+            <summary>
+            Find the number of vertices that go to this vertex.
+            </summary>
+            <param name="Edges">A list of the edges for each vertex.</param>
+            <param name="i">The vertex index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.DirectedGraph.Khans_CountEdges(System.Collections.Generic.List{Common.GraphTheory.AdjacencyGraphs.GraphEdge}[])">
+            <summary>
+            Count the number of edges in the list of lists.
+            </summary>
+            <param name="Edges">A list of the edges for each vertex.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.GraphEdge">
+            <summary>
+            A adjacency graphs edge.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a edge going from and to these vertex indices.
+            </summary>
+            <param name="from">The from vertex index.</param>
+            <param name="to">The to vertex index.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.#ctor(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Create a edge going from and to these vertex indices
+            with a edge weight.
+            </summary>
+            <param name="from">The from vertex index.</param>
+            <param name="to">The to vertex index.</param>
+            <param name="weight">The weight of the edge.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.#ctor(System.Int32,System.Int32,System.Single,System.Object)">
+            <summary>
+            Create a edge going from and to these vertex indices
+            with a edge weight and data.
+            </summary>
+            <param name="from">The from vertex index.</param>
+            <param name="to">The to vertex index.</param>
+            <param name="weight">The weight of the edge.</param>
+            <param name="data">The edges data</param>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphEdge.From">
+            <summary>
+            The vertex index the edge starts at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphEdge.To">
+            <summary>
+            The vertex index the edge ends at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphEdge.Weight">
+            <summary>
+            The edges weight. Used in some search algorithms.
+            ie spanning trees.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphEdge.Data">
+            <summary>
+            The edges data.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.CompareTo(Common.GraphTheory.AdjacencyGraphs.GraphEdge)">
+            <summary>
+            Used to sort edges by weight.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphEdge.Copy(System.Func{System.Object,System.Object})">
+            <summary>
+            Create deep copy of edge.
+            </summary>
+            <param name="dataCopy">Function to copy data. If null shallow copy will be used.</param>
+            <returns>A copy of the edge.</returns>
+        </member>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.GraphForest">
+            <summary>
+            A list of graph trees.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphForest.Count">
+            <summary>
+            The number of trees in the forest.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphForest.Graph">
+            <summary>
+            The graph the trees were constructed from.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphForest.Roots">
+            <summary>
+            The vertex indices of the tree roots.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphForest.Trees">
+            <summary>
+            The trees in the forest.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphForest.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphForest.ContainsTree(System.Int32)">
+            <summary>
+            Does the forest contain this tree.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphForest.GetTree(System.Int32)">
+            <summary>
+            Get the tree with this root.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphForest.AddTree(Common.GraphTheory.AdjacencyGraphs.GraphTree)">
+            <summary>
+            Add a tree to the forest.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphForest.RemoveTree(System.Int32)">
+            <summary>
+            Remove a tree from the forest.
+            </summary>
+        </member>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.GraphTree">
+            <summary>
+            Represents a tree of a given graph.
+            The tree only holds the indices of
+            the vertices from the graph it was 
+            created from. A tree may not contain 
+            all the vertices in the graph even 
+            if the graph is not completely connected.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.#ctor(Common.GraphTheory.AdjacencyGraphs.AdjacencyGraph,System.Int32)">
+            <summary>
+            Create a new tree. Must be the same
+            size graph and include space for all
+            vertices of the graph even if they are 
+            not in the tree.
+            </summary>
+            <param name="root">The trees root.</param>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphTree.Count">
+            <summary>
+            The number of verices in the graph.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphTree.Root">
+            <summary>
+            The root vertex.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphTree.Parent">
+            <summary>
+            The vertices parents. A vertex that is 
+            not in the tree has -1 as its parent.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphTree.Children">
+            <summary>
+            The children of each vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.TagAll(System.Int32)">
+            <summary>
+            Tag all the vertices in the tree.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetPathToRoot(System.Int32)">
+            <summary>
+            Get a path from the vertex to the root.
+            The path is made up of the vertices index 
+            in the graph the tree was created from.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetPathToRoot(System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Get a path from the vertex to the root.
+            The path is made up of the vertices index 
+            in the graph the tree was created from.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetParent(System.Int32)">
+            <summary>
+            Gets the parent vertex of the child vertex.
+            </summary>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.SetParent(System.Int32,System.Int32)">
+            <summary>
+            Set the parent of a vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.SetChild(System.Int32,System.Int32)">
+            <summary>
+            Set a child of a vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.RemoveBranch(System.Int32)">
+            <summary>
+            Removes the vertex i from the tree 
+            and all other vertices decended
+            from that vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.InTree(System.Int32)">
+            <summary>
+            Is this vert included in the tree.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.IsLeaf(System.Int32)">
+            <summary>
+            Is this vertex a leaf.
+            Leaf vertices have no children.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.TreeSize">
+            <summary>
+            The number of vertices in the graph  
+            that are included in the tree.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetDegree(System.Int32)">
+            <summary>
+            Get the degree of this vertex.
+            The degree represents the number 
+            of children a vertex has.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.CreateChildren">
+            <summary>
+            Presuming each vert has its parent set 
+            then find the children of each vertex.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.DepthFirstOrder">
+            <summary>
+            Returns the vertices of the tree in depth first order.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.BreadthFirstOrder">
+            <summary>
+            Returns the vertices of the tree in breadth first order.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetLeaves(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Get the index of all leaf vertices.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetLeavesData``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Get the data of all leaf vertices.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetData``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Get the data of all vertices.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.AdjacencyGraphs.GraphEdge})">
+            <summary>
+            Get a flattened list of all edges in the tree.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.FindWeightSum">
+            <summary>
+            Find the sum of the weights from this tree.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphTree.FindWeightSum(System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            Find the sum of the weights from this path.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.#ctor(System.Int32)">
+            <summary>
+            Create a vertex with a index.
+            </summary>
+            <param name="index">The index of the vertex in its graph.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.#ctor(System.Int32,System.Object)">
+            <summary>
+            Create a vertex with a index and data.
+            </summary>
+            <param name="index">The index of the vertex in its graph.</param>
+            <param name="data">The vertices data.</param>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphVertex.Index">
+            <summary>
+            The index of this vertex in the graph.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphVertex.Tag">
+             <summary>
+            Use to tempory mark the vertex.
+             </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphVertex.Cost">
+            <summary>
+            The cost of this vertex.
+            Used in some search algorithms.
+            ie shortest paths.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.AdjacencyGraphs.GraphVertex.Data">
+            <summary>
+            The vertices data.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.CompareTo(Common.GraphTheory.AdjacencyGraphs.GraphVertex)">
+            <summary>
+            Used to sort vertices by cost.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.GraphVertex.Copy(System.Func{System.Object,System.Object})">
+            <summary>
+            Create deep copy of vertex.
+            </summary>
+            <param name="dataCopy">Function to copy data. If null shallow copy will be used.</param>
+            <returns>A copy of the vertex.</returns>
+        </member>
+        <member name="T:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph">
+            <summary>
+            A undirected adjacency graph made op of vertices and edges.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.#ctor(System.Int32)">
+            <summary>
+            Create a graph with a fixed number of vertices.
+            </summary>
+            <param name="size">The number of vertices.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.#ctor(System.Collections.Generic.IEnumerable{Common.GraphTheory.AdjacencyGraphs.GraphVertex})">
+            <summary>
+            Create a graph from a set of vertices.
+            These vertices must have already had there
+            index set correctly.
+            </summary>
+            <param name="vertices">The graphs vertices.</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.Copy(System.Func{System.Object,System.Object},System.Func{System.Object,System.Object})">
+            <summary>
+            Create a deep copy of the graph.
+            </summary>
+            <param name="edgeDataCopy">Optonal func to copy edge data.</param>
+            <param name="vertDataCopy">ptonal func to copy vertex data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.AddUndirectedEdge(Common.GraphTheory.AdjacencyGraphs.GraphEdge,Common.GraphTheory.AdjacencyGraphs.GraphEdge)">
+            <summary>
+            Add a edge to the graph.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.AddUndirectedEdge(System.Int32,System.Int32)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single,System.Object)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight">The edges weight</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Single,System.Single,System.Object,System.Object)">
+            <summary>
+            Add a undirected edge.
+            A undirected edge has a edge going both ways
+            </summary>
+            <param name="from">The from vertex index</param>
+            <param name="to">The to vertex index</param>
+            <param name="weight0">The edge going from-to weight</param>
+            <param name="weight1">The edge going to-from weigh</param>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.FromData``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Create a graph of vertices from the enumeration of data.
+            A vertex for each data object will be created.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.ToDirectedGraph">
+            <summary>
+            Convert to a directed graph.
+            No new edges are added.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.KruskalsMinimumSpanningForest">
+            <summary>
+            Create a forest of trees from the graph.
+            Each tree represents connected sets of vertices
+            ordered as a minimum spanning tree.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.AdjacencyGraphs.UndirectedGraph.PrimsMinimumSpanningTree(System.Int32)">
+            <summary>
+            Create a graph tree representing the minimum 
+            spanning tree between the vertices in the graph.
+            </summary>
+            <param name="root">The vertex index to start at.</param>
+            <returns>The minimum  spanning tree.</returns>
+        </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridEdge">
+            <summary>
+            A edge for a grid graph. A grid graph normally
+            use a grid of byte flags to represent edges
+            but if they need to be instantied into objects
+            this class is used.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridEdge.From">
+            <summary>
+            The index of the vertex this edge starts at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridEdge.To">
+            <summary>
+            The index of the vertex this edge ends at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridEdge.Weight">
+            <summary>
+            The weight of this edge.
+            used in algorithms like spanning trees.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridEdge.CompareTo(Common.GraphTheory.GridGraphs.GridEdge)">
+            <summary>
+            Used to sort edges by their weight.
+            </summary>
+        </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridGraph">
+            <summary>
+            A graph were the vertices make up a grid
+            like the pixels in a image. Each vertex
+            has a byte flag where the bits represent 
+            if a edge is present to a neighbouring
+            vertex.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.VertexCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.EdgeCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Edges">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.HasWeights">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Weights">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.InBounds(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Print(System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Print(System.Text.StringBuilder,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Copy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Clear">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Iterate(System.Action{System.Int32,System.Int32})">
+            <summary>
+            Iterate over the graph using a lambda.
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Iterate(System.Action{System.Int32,System.Int32,System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetWeight(System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <param name="w"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetWeight(System.Int32,System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <param name="w"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetWeight(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetWeight(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i)">
+            <summary>
+            
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasUndirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasUndirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Degree(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedWeightedEdge(System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <param name="w"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="to"></param>
+            <param name="w"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveDirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="i"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllVertices(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridVertex})">
+            <summary>
+            
+            </summary>
+            <param name="vertices"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fx"></param>
+            <param name="fy"></param>
+            <param name="tx"></param>
+            <param name="ty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdges(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetEdges(System.Int32,System.Int32,System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="edges"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge})">
+            <summary>
+            
+            </summary>
+            <param name="edges"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge},System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
+            <summary>
+            
+            </summary>
+            <param name="edges"></param>
+            <param name="GetWeightFunc"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdges(System.Int32,System.Int32,System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge},System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="edges"></param>
+            <param name="GetWeightFunc"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.ToDirectedGraph">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.ToUndirectedGraph">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridSearch">
+            <summary>
+            A data structure to store the results 
+            from a search algorithm on a grid graph.
+            </summary>
+        </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridVertex">
+            <summary>
+            A vertex for a grid graph. A grid graph normally
+            use a grid of indices to represent vertices
+            but if they need to be instantied into objects
+            this class is used.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridVertex.Index">
+            <summary>
+            The index in the grid this vertex
+            belongs to.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridVertex.Cost">
+            <summary>
+            The cost of the vertex. used in
+            algorithms such as shortest paths.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridVertex.CompareTo(Common.GraphTheory.GridGraphs.GridVertex)">
+            <summary>
+            Used to sort vertices by their cost.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.MatrixGraphs.MatrixEdge.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.MatrixGraphs.MatrixEdge.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a edge going from and to these vertex indices.
+            </summary>
+            <param name="from">The from vertex index.</param>
+            <param name="to">The to vertex index.</param>
+        </member>
+        <member name="M:Common.GraphTheory.MatrixGraphs.MatrixEdge.#ctor(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Create a edge going from and to these vertex indices
+            with a edge weight.
+            </summary>
+            <param name="from">The from vertex index.</param>
+            <param name="to">The to vertex index.</param>
+            <param name="weight">The weight of the edge.</param>
+        </member>
+        <member name="P:Common.GraphTheory.MatrixGraphs.MatrixEdge.From">
+            <summary>
+            The vertex index the edge starts at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.MatrixGraphs.MatrixEdge.To">
+            <summary>
+            The vertex index the edge ends at.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.MatrixGraphs.MatrixEdge.Weight">
+            <summary>
+            The edges weight. Used in some search algorithms.
+            ie spanning trees.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.MatrixGraphs.MatrixEdge.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

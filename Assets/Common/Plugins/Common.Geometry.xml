@@ -1,0 +1,3250 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common.Geometry</name>
+    </assembly>
+    <members>
+        <member name="T:Common.Geometry.Bezier.Bezier2d">
+            <summary>
+            A bezier curve of arbitrary degree using a Bernstein Polynominal.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier2d.Degree">
+            <summary>
+            The curves degree. 1 is linear, 2 quadratic, etc.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier2d.Control">
+            <summary>
+            The control points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.Point(System.Double)">
+            <summary>
+            The position on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.Tangent(System.Double)">
+            <summary>
+            The tangent on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.Normal(System.Double)">
+            <summary>
+            The normal on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.FirstDerivative(System.Double)">
+            <summary>
+            The first derivative on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.GetPoints(System.Collections.Generic.List{Common.Core.Numerics.Point2d},System.Int32)">
+            <summary>
+            Fills the array with positions on the curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.EstimateLength(System.Int32)">
+            <summary>
+            Length of curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.DeCasteljau(System.Double)">
+            <summary>
+            Returns the position at t using DeCasteljau's algorithm.
+            Same as Position(t) but slower. Used for Testing.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2d.Split(System.Double)">
+            <summary>
+            Splits the bezier at t and returns the two curves.
+            </summary>
+            <param name="t">Position to split (0 to 1).</param>
+            <returns>The curve from 0 to t and from t to 1.</returns>
+        </member>
+        <member name="T:Common.Geometry.Bezier.Bezier2f">
+            <summary>
+            A bezier curve of arbitrary degree using a Bernstein Polynominal.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier2f.Degree">
+            <summary>
+            The curves degree. 1 is linear, 2 quadratic, etc.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier2f.Control">
+            <summary>
+            The control points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.Point(System.Single)">
+            <summary>
+            The position on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.Tangent(System.Single)">
+            <summary>
+            The tangent on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.Normal(System.Single)">
+            <summary>
+            The normal on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.FirstDerivative(System.Single)">
+            <summary>
+            The first derivative on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.GetPoints(System.Collections.Generic.List{Common.Core.Numerics.Point2f},System.Int32)">
+            <summary>
+            Fills the array with positions on the curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.EstimateLength(System.Int32)">
+            <summary>
+            Length of curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.DeCasteljau(System.Single)">
+            <summary>
+            Returns the position at t using DeCasteljau's algorithm.
+            Same as Position(t) but slower. Used for Testing.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier2f.Split(System.Single)">
+            <summary>
+            Splits the bezier at t and returns the two curves.
+            </summary>
+            <param name="t">Position to split (0 to 1).</param>
+            <returns>The curve from 0 to t and from t to 1.</returns>
+        </member>
+        <member name="T:Common.Geometry.Bezier.Bezier3d">
+            <summary>
+            A bezier curve of arbitrary degree using a Bernstein Polynominal.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier3d.Degree">
+            <summary>
+            The curves degree. 1 is linear, 2 quadratic, etc.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier3d.Control">
+            <summary>
+            The control points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.Point(System.Double)">
+            <summary>
+            The position on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.Tangent(System.Double)">
+            <summary>
+            The tangent on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.FirstDerivative(System.Double)">
+            <summary>
+            The first derivative on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.GetPoints(System.Collections.Generic.List{Common.Core.Numerics.Point3d},System.Int32)">
+            <summary>
+            Fills the array with positions on the curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.EstimateLength(System.Int32)">
+            <summary>
+            Length of curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.DeCasteljau(System.Double)">
+            <summary>
+            Returns the position at t using DeCasteljau's algorithm.
+            Same as Position(t) but slower. Used for Testing.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3d.Split(System.Double)">
+            <summary>
+            Splits the bezier at t and returns the two curves.
+            </summary>
+            <param name="t">Position to split (0 to 1).</param>
+            <returns>The curve from 0 to t and from t to 1.</returns>
+        </member>
+        <member name="T:Common.Geometry.Bezier.Bezier3f">
+            <summary>
+            A bezier curve of arbitrary degree using a Bernstein Polynominal.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier3f.Degree">
+            <summary>
+            The curves degree. 1 is linear, 2 quadratic, etc.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.Bezier3f.Control">
+            <summary>
+            The control points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.Point(System.Single)">
+            <summary>
+            The position on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.Tangent(System.Single)">
+            <summary>
+            The tangent on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.FirstDerivative(System.Single)">
+            <summary>
+            The first derivative on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.GetPoints(System.Collections.Generic.List{Common.Core.Numerics.Point3f},System.Int32)">
+            <summary>
+            Fills the array with positions on the curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.EstimateLength(System.Int32)">
+            <summary>
+            Length of curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.DeCasteljau(System.Single)">
+            <summary>
+            Returns the position at t using DeCasteljau's algorithm.
+            Same as Position(t) but slower. Used for Testing.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.Bezier3f.Split(System.Single)">
+            <summary>
+            Splits the bezier at t and returns the two curves.
+            </summary>
+            <param name="t">Position to split (0 to 1).</param>
+            <returns>The curve from 0 to t and from t to 1.</returns>
+        </member>
+        <member name="T:Common.Geometry.Bezier.Polynomial3f">
+            <summary>
+            Cubic polynomial ax^3 + b*x^2 + c*x + d = 0
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Bezier.QuadraticBezier2f">
+            <summary>
+            A bezier curve of quadratic degree using a polynominal.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.QuadraticBezier2f.C0">
+            <summary>
+            The control points.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Bezier.QuadraticBezier2f.Length">
+            <summary>
+            The length of the curve.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.Position(System.Single)">
+            <summary>
+            The position on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.Tangent(System.Single)">
+            <summary>
+            The tangent on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.Normal(System.Single)">
+            <summary>
+            The normal on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.FirstDerivative(System.Single)">
+            <summary>
+            The first derivative on the curve at t.
+            </summary>
+            <param name="t">Number between 0 and 1.</param>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.Closest(Common.Core.Numerics.Point2f)">
+            <summary>
+            The closest point on the curve to the point p.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Bezier.QuadraticBezier2f.Intersects(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f)">
+            <summary>
+            If the segment ab intersects the curve.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.BVHTree2d`1">
+            <summary>
+            A BVH tree using based on the implementation found here.
+            http://allenchou.net/2014/02/game-physics-broadphase-dynamic-aabb-tree/
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2d`1.Count">
+            <summary>
+            The number of shapes in the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2d`1.Depth">
+            <summary>
+            The max depth of the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2d`1.Root">
+            <summary>
+            The root node of the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Clear">
+            <summary>
+            Clear the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Contains(`0)">
+            <summary>
+            Does the tree contain this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.FindNode(`0)">
+            <summary>
+            Find the node that contains this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add a shapes to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Add(`0)">
+            <summary>
+            Add a shape to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Remove(`0)">
+            <summary>
+            Remove the node containing this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Contains(Common.Core.Numerics.Point2d)">
+            <summary>
+            Does a shape contain the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Containing(Common.Core.Numerics.Point2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Intersects(Common.Core.Shapes.Box2d)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Intersecting(Common.Core.Shapes.Box2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            The signed distance to the closest shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.ToList">
+            <summary>
+            Create a list containing all the
+            shapes in the tree.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Add(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Geometry.Collections.BVHTreeNode2d{`0})">
+            <summary>
+            Add a node to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.Remove(Common.Geometry.Collections.BVHTreeNode2d{`0})">
+            <summary>
+            Remove a node from the tree.
+            All its children will be remove as well.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.FindNode(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Shapes.IShape2d,Common.Core.Shapes.Box2d)">
+            <summary>
+            Find the node that holds this shape by iterating
+            throught the nodes if the shapes aabb is contains
+            in the nodes bounds.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeContains(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Numerics.Point2d)">
+            <summary>
+            Find the leaf node that has a shape containing
+            this point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeContaining(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Numerics.Point2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeIntersects(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Shapes.Box2d)">
+            <summary>
+            Find the leaf node that has a shape intersecting
+            this box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeIntersecting(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Shapes.Box2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeSignedDistance(Common.Geometry.Collections.BVHTreeNode2d{`0},Common.Core.Numerics.Point2d,System.Double)">
+            <summary>
+            Find the smallest signed distance to the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2d`1.NodeCenterMost(Common.Geometry.Collections.BVHTreeNode2d{`0},System.Boolean)">
+            <summary>
+            Find the node that is center most in the tree.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.BVHTree2f`1">
+            <summary>
+            A BVH tree using based on the implementation found here.
+            http://allenchou.net/2014/02/game-physics-broadphase-dynamic-aabb-tree/
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2f`1.Count">
+            <summary>
+            The number of shapes in the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2f`1.Depth">
+            <summary>
+            The max depth of the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTree2f`1.Root">
+            <summary>
+            The root node of the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Clear">
+            <summary>
+            Clear the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Contains(`0)">
+            <summary>
+            Does the tree contain this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.FindNode(`0)">
+            <summary>
+            Find the node that contains this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add a shapes to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Add(`0)">
+            <summary>
+            Add a shape to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Remove(`0)">
+            <summary>
+            Remove the node containing this shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Contains(Common.Core.Numerics.Point2f)">
+            <summary>
+            Does a shape contain the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Containing(Common.Core.Numerics.Point2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Intersects(Common.Core.Shapes.Box2f)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Intersecting(Common.Core.Shapes.Box2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            The signed distance to the closest shape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.ToList">
+            <summary>
+            Create a list containing all the
+            shapes in the tree.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Add(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Geometry.Collections.BVHTreeNode2f{`0})">
+            <summary>
+            Add a node to the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.Remove(Common.Geometry.Collections.BVHTreeNode2f{`0})">
+            <summary>
+            Remove a node from the tree.
+            All its children will be remove as well.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.FindNode(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Shapes.IShape2f,Common.Core.Shapes.Box2f)">
+            <summary>
+            Find the node that holds this shape by iterating
+            throught the nodes if the shapes aabb is contains
+            in the nodes bounds.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeContains(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Numerics.Point2f)">
+            <summary>
+            Find the leaf node that has a shape containing
+            this point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeContaining(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Numerics.Point2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeIntersects(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Shapes.Box2f)">
+            <summary>
+            Find the leaf node that has a shape intersecting
+            this box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeIntersecting(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Shapes.Box2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeSignedDistance(Common.Geometry.Collections.BVHTreeNode2f{`0},Common.Core.Numerics.Point2f,System.Single)">
+            <summary>
+            Find the smallest signed distance to the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTree2f`1.NodeCenterMost(Common.Geometry.Collections.BVHTreeNode2f{`0},System.Boolean)">
+            <summary>
+            Find the node that is center most in the tree.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.BVHTreeNode2d`1">
+            <summary>
+            A node in a BVH tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.Left">
+            <summary>
+            The nodes left child.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.Right">
+            <summary>
+            The nodes right child.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.Parent">
+            <summary>
+            The nodes parent.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Collections.BVHTreeNode2d`1.Bounds">
+            <summary>
+            The bounds of the nodes shape if its a leaf 
+            or the bounds of its child if not a leaf.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.Shape">
+            <summary>
+            The nodes shape.
+            Will be null if this node is not a leaf.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.IsLeaf">
+            <summary>
+            If this node in a leaf in the tree.
+            Leaves have no childern.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2d`1.Sibling">
+            <summary>
+            The nodes sibling is its parents other child.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2d`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2d`1.GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2d`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.BVHTreeNode2f`1">
+            <summary>
+            A node in a BVH tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.Left">
+            <summary>
+            The nodes left child.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.Right">
+            <summary>
+            The nodes right child.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.Parent">
+            <summary>
+            The nodes parent.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Collections.BVHTreeNode2f`1.Bounds">
+            <summary>
+            The bounds of the nodes shape if its a leaf 
+            or the bounds of its child if not a leaf.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.Shape">
+            <summary>
+            The nodes shape.
+            Will be null if this node is not a leaf.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.IsLeaf">
+            <summary>
+            If this node in a leaf in the tree.
+            Leaves have no childern.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.BVHTreeNode2f`1.Sibling">
+            <summary>
+            The nodes sibling is its parents other child.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2f`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2f`1.GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.BVHTreeNode2f`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate all leaf nodes.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.IStaticShapeCollection2d`1.Count">
+            <summary>
+            The number of shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.Contains(Common.Core.Numerics.Point2d)">
+            <summary>
+            Does a shape contain point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.Containing(Common.Core.Numerics.Point2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list
+            </summary>
+            <param name="point"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.Intersects(Common.Core.Shapes.Box2d)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+            <param name="box"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.Intersecting(Common.Core.Shapes.Box2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+            <param name="box"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            Return the signed distance field from 
+            the union of all shapes in the collection.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2d`1.ToList">
+            <summary>
+            Return a list of all the shapes in the collection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2d`1.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2d`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add the shapes to the collection.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2d`1.Add(`0)">
+            <summary>
+            Add a shape to the collection.
+            </summary>
+            <param name="shape"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2d`1.Remove(`0)">
+            <summary>
+            Remove a shape from the collection.
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Common.Geometry.Collections.IStaticShapeCollection2f`1.Count">
+            <summary>
+            The number of shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.Contains(Common.Core.Numerics.Point2f)">
+            <summary>
+            Does a shape contain point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.Containing(Common.Core.Numerics.Point2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list
+            </summary>
+            <param name="point"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.Intersects(Common.Core.Shapes.Box2f)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+            <param name="box"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.Intersecting(Common.Core.Shapes.Box2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+            <param name="box"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            Return the signed distance field from 
+            the union of all shapes in the collection.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IStaticShapeCollection2f`1.ToList">
+            <summary>
+            Return a list of all the shapes in the collection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2f`1.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2f`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add the shapes to the collection.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2f`1.Add(`0)">
+            <summary>
+            Add a shape to the collection.
+            </summary>
+            <param name="shape"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.IShapeCollection2f`1.Remove(`0)">
+            <summary>
+            Remove a shape from the collection.
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Common.Geometry.Collections.ShapeCollection2d`1">
+            <summary>
+            A naive implementation of a shape collection
+            where all operations are O(n2).
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2d`1.Count">
+            <summary>
+            The number of shapes in the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2d`1.Capacity">
+            <summary>
+            The capacity of the shape collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2d`1.Item(System.Int32)">
+            <summary>
+            Get or Set the shape at index i.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add all the shapes in the enumerable to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Add(`0)">
+            <summary>
+            Add a shape to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Remove(`0)">
+            <summary>
+            Remove a shape from the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Contains(Common.Core.Numerics.Point2d)">
+            <summary>
+            Does the collection have a shape that contains the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Containing(Common.Core.Numerics.Point2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list
+            </summary>
+            <param name="point"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Intersects(Common.Core.Shapes.Box2d)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+            <param name="box"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.Intersecting(Common.Core.Shapes.Box2d,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+            <param name="box"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            Return the signed distance field from 
+            the union of all shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.ToList">
+            <summary>
+            Create a list of all the shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2d`1.GetEnumerator">
+            <summary>
+            Enumerate all shapes in the collection.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.ShapeCollection2f`1">
+            <summary>
+            A naive implementation of a shape collection
+            where all operations are O(n2).
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2f`1.Count">
+            <summary>
+            The number of shapes in the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2f`1.Capacity">
+            <summary>
+            The capacity of the shape collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection2f`1.Item(System.Int32)">
+            <summary>
+            Get or Set the shape at index i.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add all the shapes in the enumerable to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Add(`0)">
+            <summary>
+            Add a shape to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Remove(`0)">
+            <summary>
+            Remove a shape from the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Contains(Common.Core.Numerics.Point2f)">
+            <summary>
+            Does the collection have a shape that contains the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Containing(Common.Core.Numerics.Point2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that contain the point and 
+            add them to the list
+            </summary>
+            <param name="point"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Intersects(Common.Core.Shapes.Box2f)">
+            <summary>
+            Does a shape intersect the box.
+            </summary>
+            <param name="box"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.Intersecting(Common.Core.Shapes.Box2f,System.Collections.Generic.List{`0})">
+            <summary>
+            Find all the shapes that intersect the box and 
+            add them to the list.
+            </summary>
+            <param name="box"></param>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            Return the signed distance field from 
+            the union of all shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.ToList">
+            <summary>
+            Create a list of all the shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection2f`1.GetEnumerator">
+            <summary>
+            Enumerate all shapes in the collection.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Collections.ShapeCollection3f`1">
+            <summary>
+            A naive implementation of a shape collection
+            where all operations are O(n2).
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection3f`1.Count">
+            <summary>
+            The number of shapes in the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection3f`1.Capacity">
+            <summary>
+            The capacity of the shape collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Collections.ShapeCollection3f`1.Item(System.Int32)">
+            <summary>
+            Get or Set the shape at index i.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.Add(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add all the shapes in the enumerable to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.Add(`0)">
+            <summary>
+            Add a shape to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.Remove(`0)">
+            <summary>
+            Remove a shape from the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.Contains(Common.Core.Numerics.Point3f)">
+            <summary>
+            Does the collection have a shape that contains the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.SignedDistance(Common.Core.Numerics.Point3f)">
+            <summary>
+            Return the signed distance field from 
+            the union of all shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.ToList">
+            <summary>
+            Create a list of all the shapes in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Collections.ShapeCollection3f`1.GetEnumerator">
+            <summary>
+            Enumerate all shapes in the collection.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.DCEL.DCELFace">
+            <summary>
+            A half edge based face. Presumes face is CCW.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELFace.Tag">
+            <summary>
+            Used for temporary making the face.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELFace.Index">
+            <summary>
+            The faces index in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELFace.Edge">
+            <summary>
+            The edge this face connects to. 
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELFace.Data">
+            <summary>
+            The faces optional data.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELFace.ToString">
+            <summary>
+            Convert face to string.
+            </summary>
+            <returns>Face as string</returns>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELFace.EdgeCount">
+            <summary>
+            The number of edges in face.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELFace.Clear">
+            <summary>
+            Clear face of all connections.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Collinear(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Do the 3 points form a striaght line.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Collinear(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
+            <summary>
+            Do the 3 points form a striaght line.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.InCone(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            True if b is within the cone formed by the
+            edges incident at the from vertex of edge.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.InCone(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
+            <summary>
+            True if b is within the cone formed by the
+            edges incident at the from vertex of edge.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Left(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Is c left of the line ab.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Left(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
+            <summary>
+            Is c left of the line ab.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.LeftOn(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Is c left of or on the line ab.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.LeftOn(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
+            <summary>
+            Is c left of or on the line ab.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Area2(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Cross product area of a quadrilateral.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELGeometry.Area2(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
+            <summary>
+            Cross product area of a quadrilateral.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.DCEL.DCELHalfedge">
+            <summary>
+            Half edge. Presumes edges are connected in CCW order.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Tag">
+            <summary>
+            Used for temporary making the edge.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Index">
+            <summary>
+            The edges index in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.From">
+            <summary>
+            The vertex the edge starts from.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.To">
+            <summary>
+            The vertex edge ends at.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Data">
+            <summary>
+            The optional edge data.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Face">
+            <summary>
+            The face the edge is part of.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Previous">
+            <summary>
+            The previous edge.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Next">
+            <summary>
+            The next edge.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Opposite">
+            <summary>
+            This edges other half.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.Set(Common.Geometry.DCEL.DCELVertex,Common.Geometry.DCEL.DCELFace,Common.Geometry.DCEL.DCELHalfedge,Common.Geometry.DCEL.DCELHalfedge,Common.Geometry.DCEL.DCELHalfedge)">
+            <summary>
+            Set the varibles to make a valid connected edge.
+            </summary>
+            <param name="from">The vertex the edge is from.</param>
+            <param name="face">The edges face.</param>
+            <param name="previous">The previous edge.</param>
+            <param name="next">The next edge.</param>
+            <param name="opposite">The opposite edge.</param>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.InsertBetween(Common.Geometry.DCEL.DCELHalfedge,Common.Geometry.DCEL.DCELHalfedge,Common.Geometry.DCEL.DCELHalfedge)">
+            <summary>
+            Insert the edge between the previous an next edges.
+            </summary>
+            <param name="edge">The edge thats in between.</param>
+            <param name="previous">The previous edge. Maybe null.</param>
+            <param name="next">The next edge. Maybe null.</param>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.ToString">
+            <summary>
+            Convert edge to string.
+            </summary>
+            <returns>Edge as string</returns>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.EdgeCount">
+            <summary>
+            The number of edges proceeding this edge, including this edge.
+            If edge is closed this will be the total number of edges in face.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.IsClosed">
+            <summary>
+            Does this edge form a closed face.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.First">
+            <summary>
+            The first edge in the line if edge is part of a
+            unconnected cycle or this edge if edge is part of 
+            a connected cycle.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Last">
+            <summary>
+            The last edge in the line if edge is part of a
+            unconnected cycle or this edge if edge is part of 
+            a connected cycle.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.Length">
+            <summary>
+            The length of the edge.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELHalfedge.SqrLength">
+            <summary>
+            The square length of the edge.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.Clear">
+            <summary>
+            Clear edge of all connections.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.EnumerateEdgesInCycle(System.Boolean)">
+            <summary>
+            Enumerate all edges in the cycle starting from this edge.
+            Presumes that the edge forms a closed cycle and will 
+            throw a exception if the cycle is not closed.
+            </summary>
+            <param name="forwards">enumerate forward or backwards</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.EnumerateEdgesInLine(System.Boolean)">
+            <summary>
+            Enumerate all edges in the line starting from the first or last edge.
+            Presumes that the edge forms a unclosed cycle but will still work if 
+            edge forms a closed cycle.
+            </summary>
+            <param name="forwards">enumerate forward or backwards</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.EnumerateEdgesTo(Common.Geometry.DCEL.DCELHalfedge)">
+            <summary>
+            Enumerate all edges starting at this edge and stopping at target edge.
+            </summary>
+            <param name="target">The edge to stop at.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.EnumerateVerticesInCycle(System.Boolean)">
+            <summary>
+            Enumerate all vertices in the cycle starting from this edge.
+            Presumes that the edge forms a closed cycle.
+            </summary>
+            <param name="forward">enumerate forward or backwards</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELHalfedge.SetFacesInCycle(Common.Geometry.DCEL.DCELFace)">
+            <summary>
+            Sets the tags of all edges in cycle.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.DCEL.DCELMesh">
+            <summary>
+            A half edge based mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.VertexCount">
+            <summary>
+            The number of vertices in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.EdgeCount">
+            <summary>
+            The number of edges in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.FaceCount">
+            <summary>
+            The number of faces in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.VertexCapacity">
+            <summary>
+            The vertex capacity in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.EdgeCapacity">
+            <summary>
+            The edge capacity in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.FaceCapacity">
+            <summary>
+            The face capacity in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.Vertices">
+            <summary>
+            All the vertices in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.Edges">
+            <summary>
+            All the edges in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELMesh.Faces">
+            <summary>
+            All the faces in the mesh.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.ToString">
+            <summary>
+            Convert mesh to string.
+            </summary>
+            <returns>Mesh as string</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.EnumerateVertices">
+            <summary>
+            Enumerate through all the vertices in the mesh.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.EnumerateHalfedges">
+            <summary>
+            Enumerate through all the half edges in the mesh.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.EnumerateEdges">
+            <summary>
+            Enumerate through all the edges in the mesh.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.EnumerateFaces">
+            <summary>
+            Enumerate through all the faces in the mesh.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.GetVertex(System.Int32)">
+            <summary>
+            Get the vertex at the index.
+            </summary>
+            <param name="index">The vertices index.</param>
+            <returns>The vertex at the index.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.GetEdge(System.Int32)">
+            <summary>
+            Get the edge at the index.
+            </summary>
+            <param name="index">The edges index.</param>
+            <returns>The edge at the index.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.GetFace(System.Int32)">
+            <summary>
+            Get the face at the index.
+            </summary>
+            <param name="index">The faces index.</param>
+            <returns>The face at the index.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.Clear">
+            <summary>
+            Clear the mesh.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.NextVertexIndex">
+            <summary>
+            Get the next index to add a new vertex.
+            </summary>
+            <returns>The index in the list to add the vertex.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.NextEdgeIndex">
+            <summary>
+            Get the next index to add a new edge.
+            </summary>
+            <returns>The index in the list to add the edge.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.NextFaceIndex">
+            <summary>
+            Get the next index to add a new face.
+            </summary>
+            <returns>The index in the list to add the face.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagVertices">
+            <summary>
+            Applies the vertex index as a tag.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagVertices(System.Int32)">
+            <summary>
+            Sets all vertex tags.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagEdges">
+            <summary>
+            Applies the edge index as a tag.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagEdges(System.Int32)">
+            <summary>
+            Sets all edge tags.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagFaces">
+            <summary>
+            Applies the face index as a tag.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagFaces(System.Int32)">
+            <summary>
+            Sets all face tags.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagAll">
+            <summary>
+            Sets all vertex, edge and face tags.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.TagAll(System.Int32)">
+            <summary>
+            Sets all vertex, edge and face tags.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.IndexOrDefault(Common.Geometry.DCEL.DCELVertex)">
+            <summary>
+            Return the vertices index or -1 if vertex is null.
+            </summary>
+            <param name="vert">The vertex</param>
+            <returns>The vertices index or -1 if vertex is null.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.IndexOrDefault(Common.Geometry.DCEL.DCELHalfedge)">
+            <summary>
+            Return the edges index or -1 if edge is null.
+            </summary>
+            <param name="edge">The edge</param>
+            <returns>The edges index or -1 if edge is null.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.IndexOrDefault(Common.Geometry.DCEL.DCELFace)">
+            <summary>
+            Return the faces index or -1 if face is null.
+            </summary>
+            <param name="face">The face</param>
+            <returns>The faces index or -1 if face is null.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.ClearVertexData">
+            <summary>
+            Clear all vertex data to null.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.ClearEdgeData">
+            <summary>
+            Clear all edge data to null.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.ClearFaceData">
+            <summary>
+            Clear all face data to null.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.ClearAllData">
+            <summary>
+            Clear all data to null.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.Translate(Common.Core.Numerics.Point2d)">
+            <summary>
+            Translate all vertices.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.Scale(Common.Core.Numerics.Point2d)">
+            <summary>
+            Scale all vertices.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.InsertVertex(Common.Core.Numerics.Point2d)">
+            <summary>
+            Add a new vertex to the mesh.
+            </summary>
+            <param name="point">The vertices point.</param>
+            <returns>The new vertex.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELMesh.InsertEdge(Common.Geometry.DCEL.DCELVertex,Common.Geometry.DCEL.DCELVertex)">
+            <summary>
+            Add a new edge connecting the two vertices.
+            </summary>
+            <returns>The new edge that goes from v0 and to v1.</returns>
+        </member>
+        <member name="T:Common.Geometry.DCEL.DCELVertex">
+            <summary>
+            A half edge vertex. Presumes edges are connected in CCW order.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.DCEL.DCELVertex.Point">
+            <summary>
+            The vertex position.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELVertex.Tag">
+            <summary>
+            Used for temporary making the vertex.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELVertex.Index">
+            <summary>
+            The vertices index in the mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELVertex.Edge">
+            <summary>
+            The vertex edge.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELVertex.Data">
+            <summary>
+            Th vertices optional data.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.ToString">
+            <summary>
+            Convert vertex to string.
+            </summary>
+            <returns>Vertex as string</returns>
+        </member>
+        <member name="P:Common.Geometry.DCEL.DCELVertex.Degree">
+            <summary>
+            The number of edges connecting to this vertex.
+            Edges must have a opposite member.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.Clear">
+            <summary>
+            Clear vertex of all connections.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.EnumerateEdges">
+            <summary>
+            Enumerate all edges connected to this vertex.
+            Edges must have a opposite member.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.EnumerateVertices">
+            <summary>
+            Enumerate all vertices surrounding this vertex.
+            Same as enumeration the edges and return the to vertex.
+            Edges must have a opposite member.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.FindInBetweenEdges(Common.Core.Numerics.Point2d)">
+            <summary>
+            Find which two edges belonging to this vertex
+            the point b is inbetween.
+            </summary>
+            <param name="b">Any position.</param>
+            <returns>The edge where b is between and previous.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.FindConnectingEdge(Common.Geometry.DCEL.DCELVertex)">
+            <summary>
+            Finds the edge that goes from this vert to the 
+            other vert or null if there is no such edge.
+            </summary>
+            <param name="v">The other vert.</param>
+            <returns>The connecting edge if found.</returns>
+        </member>
+        <member name="M:Common.Geometry.DCEL.DCELVertex.AreConnected(Common.Geometry.DCEL.DCELVertex)">
+            <summary>
+            Are these two vertices connected by a edge.
+            </summary>
+            <param name="v">The other vert.</param>
+            <returns>True is are connected by a edge</returns>
+        </member>
+        <member name="T:Common.Geometry.Points.KdTree2f">
+            <summary>
+            A 2f KdTree using T as the point.
+            Does not support points with the same coordinates.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree2f.Count">
+            <summary>
+            The number of points in the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree2f.Depth">
+            <summary>
+            The max depth of the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree2f.Bounds">
+            <summary>
+            The bounding box of the trees points.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree2f.Root">
+            <summary>
+            The root node of the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Clear">
+            <summary>
+            Clear the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Build(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point2f})">
+            <summary>
+            Build the tree from a set of points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Search(Common.Core.Shapes.Circle2f,System.Collections.Generic.List{Common.Core.Numerics.Point2f})">
+            <summary>
+            Return all points contained in the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Closest(Common.Core.Numerics.Point2f)">
+            <summary>
+            Find the nearest point to input point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.CalculateSegments(System.Collections.Generic.List{Common.Core.Shapes.Segment2f},System.Boolean)">
+            <summary>
+            Create a indexed list of the segments that make up the 
+            bounds of the lines of the tree.
+            </summary>
+            <param name="addBounds">should the bounding box be added</param>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.ToList">
+            <summary>
+            Copy the tree into a list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.GetEnumerator">
+            <summary>
+            Gets an enumerator for the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Build(System.Collections.Generic.List{Common.Core.Numerics.Point2f},System.Int32)">
+            <summary>
+            Iteratively builds the tree from a set of points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Search(Common.Geometry.Points.KdTreeNode2f,Common.Core.Shapes.Circle2f,Common.Core.Shapes.Box2f,System.Collections.Generic.List{Common.Core.Numerics.Point2f})">
+            <summary>
+            Iteratively searchs the tree for points 
+            contained in the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.Closest(Common.Geometry.Points.KdTreeNode2f,Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f@,System.Single@)">
+            <summary>
+            Iteratively searchs the tree for the nearest point to input.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.CopyTo(Common.Geometry.Points.KdTreeNode2f,System.Collections.Generic.List{Common.Core.Numerics.Point2f})">
+            <summary>
+            Iteratively adds the points into the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.CalculateSegments(Common.Geometry.Points.KdTreeNode2f,Common.Geometry.Points.KdTreeNode2f,Common.Core.Shapes.Box2f,System.Collections.Generic.List{Common.Core.Shapes.Segment2f})">
+            <summary>
+            Iteratively calculates the segements made from 
+            the intersecting lines.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree2f.MaxDepth(Common.Geometry.Points.KdTreeNode2f)">
+            <summary>
+            Find the max depth of tree.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Points.KdTree2f.m_compareX">
+            <summary>
+            Comparer points on the x axis.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Points.KdTree2f.m_compareY">
+            <summary>
+            Comparer points on the y axis.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Points.KdTree3f">
+            <summary>
+            A 3f KdTree using T as the point.
+            Does not support points with the same coordinates.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree3f.Count">
+            <summary>
+            The number of points in the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree3f.Depth">
+            <summary>
+            The max depth of the tree.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree3f.Bounds">
+            <summary>
+            The bounding box of the trees points.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTree3f.Root">
+            <summary>
+            The root node of the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Clear">
+            <summary>
+            Clear the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Build(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point3f})">
+            <summary>
+            Build the tree from a set of points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Search(Common.Core.Shapes.Sphere3f,System.Collections.Generic.List{Common.Core.Numerics.Point3f})">
+            <summary>
+            Return all points contained in the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Closest(Common.Core.Numerics.Point3f)">
+            <summary>
+            Find the nearest point to input point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.CalculateBoxes(System.Collections.Generic.List{Common.Core.Shapes.Box3f})">
+            <summary>
+            
+            </summary>
+            <param name="boxes"></param>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.ToList">
+            <summary>
+            Copy the tree into a list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.GetEnumerator">
+            <summary>
+            Gets an enumerator for the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Build(System.Collections.Generic.List{Common.Core.Numerics.Point3f},System.Int32)">
+            <summary>
+            Iteratively builds the tree from a set of points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Search(Common.Geometry.Points.KdTreeNode3f,Common.Core.Shapes.Sphere3f,Common.Core.Shapes.Box3f,System.Collections.Generic.List{Common.Core.Numerics.Point3f})">
+            <summary>
+            Iteratively searchs the tree for points contained
+            in the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.Closest(Common.Geometry.Points.KdTreeNode3f,Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f@,System.Single@)">
+            <summary>
+            Iteratively searchs the tree for the nearest point to input.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.CopyTo(Common.Geometry.Points.KdTreeNode3f,System.Collections.Generic.List{Common.Core.Numerics.Point3f})">
+            <summary>
+            Iteratively adds the points into the list.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.CalculateBoxes(Common.Geometry.Points.KdTreeNode3f,Common.Core.Shapes.Box3f,System.Collections.Generic.List{Common.Core.Shapes.Box3f})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTree3f.MaxDepth(Common.Geometry.Points.KdTreeNode3f)">
+            <summary>
+            Find the max depth of tree.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Points.KdTree3f.m_compareX">
+            <summary>
+            Comparer points on the x axis.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Points.KdTree3f.m_compareY">
+            <summary>
+            Comparer points on the y axis.
+            </summary>
+        </member>
+        <member name="F:Common.Geometry.Points.KdTree3f.m_compareZ">
+            <summary>
+            Comparer points on the y axis.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTreeNode2f.Depth">
+            <summary>
+            The depth of this node in the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTreeNode2f.GetEnumerator">
+            <summary>
+            Enumerate all points from this node.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.KdTreeNode3f.Depth">
+            <summary>
+            The depth of this node in the tree.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.KdTreeNode3f.GetEnumerator">
+            <summary>
+            Enumerate all points from this node.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Points.PointCollection2f">
+            <summary>
+            A naive implementation of a point collection
+            where all operations are O(n2).
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection2f.Count">
+            <summary>
+            The number of points in the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection2f.Capacity">
+            <summary>
+            The capacity of the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection2f.Item(System.Int32)">
+            <summary>
+            Get or Set the point at index i.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Add(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point2f})">
+            <summary>
+            Add all the points in the enumerable to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Add(Common.Core.Numerics.Point2f)">
+            <summary>
+            Add a point to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Remove(Common.Core.Numerics.Point2f)">
+            <summary>
+            Remove point from collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Search(Common.Core.Shapes.Circle2f,System.Collections.Generic.List{Common.Core.Numerics.Point2f})">
+            <summary>
+            Fill the points list with all points in the 
+            collection contained within the region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.Closest(Common.Core.Numerics.Point2f)">
+            <summary>
+            Return the closest point in collect to this point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.ToList">
+            <summary>
+            Create a list from all points in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection2f.GetEnumerator">
+            <summary>
+            Enumerate all points in the collection.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Points.PointCollection3f">
+            <summary>
+            A naive implementation of a point collection
+            where all operations are O(n2).
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection3f.Count">
+            <summary>
+            The number of points in the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection3f.Capacity">
+            <summary>
+            The capacity of the collection.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointCollection3f.Item(System.Int32)">
+            <summary>
+            Get or Set the point at index i.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Clear">
+            <summary>
+            Clear the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Add(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point3f})">
+            <summary>
+            Add all the points in the enumerable to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Add(Common.Core.Numerics.Point3f)">
+            <summary>
+            Add a point to the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Remove(Common.Core.Numerics.Point3f)">
+            <summary>
+            Remove point from collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Search(Common.Core.Shapes.Sphere3f,System.Collections.Generic.List{Common.Core.Numerics.Point3f})">
+            <summary>
+            Fill the points list with all points in the 
+            collection contained within the region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.Closest(Common.Core.Numerics.Point3f)">
+            <summary>
+            Return the closest point in collect to this point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.ToList">
+            <summary>
+            Create a list from all points in the collection.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointCollection3f.GetEnumerator">
+            <summary>
+            Enumerate all points in the collection.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Points.PointGrid2f">
+            <summary>
+            A point collection seperated into spatial grids
+            confined to a bounding box.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid2f.Count">
+            <summary>
+            The number of points in the grid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid2f.GridSize">
+            <summary>
+            The number of cells in grid on each axis.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid2f.Bounds">
+            <summary>
+            The are the grid bounds;
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid2f.CellSize">
+            <summary>
+            The size of the cells in the grid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid2f.InvCellSize">
+            <summary>
+            The inverse size of the cells in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.ToString">
+            <summary>
+            The grids as a string.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Clear">
+            <summary>
+            Remove all points from the grid.
+            Retains any allocated lists.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Add(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point2f})">
+            <summary>
+            Adds a enumeration of points to the grid.
+            Returns false if any of the points was 
+            outside the grid bounds.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Add(Common.Core.Numerics.Point2f)">
+            <summary>
+            Add a point to the grid.
+            Retruns false if point out of
+            the grid bounds and will not be added.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Remove(Common.Core.Numerics.Point2f)">
+            <summary>
+            Remove a point from the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.ToList">
+            <summary>
+            Return a list of all points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Search(Common.Core.Shapes.Circle2f,System.Collections.Generic.List{Common.Core.Numerics.Point2f})">
+            <summary>
+            Return a list of all points found 
+            within the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Closest(Common.Core.Numerics.Point2f)">
+            <summary>
+            Returns the closest point in the grid.
+            Grid will only search within a points nearest neighbour cells
+            so this will fail if closest point not in that region.
+            In this case returned point will be zero.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.Closest(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f@)">
+            <summary>
+            Returns the closest point in the grid.
+            Grid will only search within a points nearest neighbour cells
+            and will return false if no point is located in this range.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.GetEnumerator">
+            <summary>
+            Enumerate the points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate the points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.ToCellSpace(Common.Core.Numerics.Point2f)">
+            <summary>
+            Returns the points cell space position.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.ToCellSpace(Common.Core.Shapes.Box2f)">
+            <summary>
+            Returns the boxes cell space position.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid2f.GetGridCell(Common.Core.Numerics.Point2i,System.Boolean)">
+            <summary>
+            Returns the cells point list at this index.
+            If create is true a new empty list will be 
+            added to the grid and returned.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Points.PointGrid3f">
+            <summary>
+            A point collection seperated into spatial grids
+            confined to a bounding box.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid3f.Count">
+            <summary>
+            The number of points in the grid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid3f.GridSize">
+            <summary>
+            The number of cells in grid on each axis.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid3f.Bounds">
+            <summary>
+            The are the grid bounds;
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid3f.CellSize">
+            <summary>
+            The size of the cells in the grid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Points.PointGrid3f.InvCellSize">
+            <summary>
+            The inverse size of the cells in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.ToString">
+            <summary>
+            The grids as a string.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Clear">
+            <summary>
+            Remove all points from the grid.
+            Retains any allocated lists.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Add(System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point3f})">
+            <summary>
+            Adds a enumeration of points to the grid.
+            Returns false if any of the points was 
+            outside the grid bounds.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Add(Common.Core.Numerics.Point3f)">
+            <summary>
+            Add a point to the grid.
+            Retruns false if point out of
+            the grid bounds and will not be added.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Remove(Common.Core.Numerics.Point3f)">
+            <summary>
+            Remove a point from the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.ToList">
+            <summary>
+            Return a list of all points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Search(Common.Core.Shapes.Sphere3f,System.Collections.Generic.List{Common.Core.Numerics.Point3f})">
+            <summary>
+            Return a list of all points found 
+            within the search region.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Closest(Common.Core.Numerics.Point3f)">
+            <summary>
+            Returns the closest point in the grid.
+            Grid will only search within a points nearest neighbour cells
+            so this will fail if closest point not in that region.
+            In this case returned point will be zero.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.Closest(Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f@)">
+            <summary>
+            Returns the closest point in the grid.
+            Grid will only search within a points nearest neighbour cells
+            and will return false if no point is located in this range.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.GetEnumerator">
+            <summary>
+            Enumerate the points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Enumerate the points in the grid.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.ToCellSpace(Common.Core.Numerics.Point3f)">
+            <summary>
+            Returns the points cell space position.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.ToCellSpace(Common.Core.Shapes.Box3f)">
+            <summary>
+            Returns the boxes cell space position.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Points.PointGrid3f.GetGridCell(Common.Core.Numerics.Point3i,System.Boolean)">
+            <summary>
+            Returns the cells point list at this index.
+            If create is true a new empty list will be 
+            added to the grid and returned.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polygon2d">
+            <summary>
+            A simple polygon with no holes.
+            Maybe CCW or CW.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.#ctor(System.Int32)">
+            <summary>
+            Create a polygon.
+            </summary>
+            <param name="count">The number of points in polygon.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point2d})">
+            <summary>
+            Create a polygon.
+            </summary>
+            <param name="positions">The polygons positions.</param>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.SignedArea">
+            <summary>
+            The signed area of the polygon.
+            CCW polygons have a positive area.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.Area">
+            <summary>
+            The polygons area.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.Centroid">
+            <summary>
+            The polygons centroid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.IsCW">
+            <summary>
+            Is the polygon points ordered clockwise.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.IsCCW">
+            <summary>
+            Is the polygon points ordered counter clockwise.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2d.IsDegenerate">
+            <summary>
+            Are the polygon points degenerate.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.GetPosition(System.Int32)">
+            <summary>
+            Get the position with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.GetParam(System.Int32)">
+            <summary>
+            Get the param with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.GetLength(System.Int32)">
+            <summary>
+            Get the length with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.Reverse">
+            <summary>
+            Will reverse the polygon.
+            A CCW polygon will be come a CW polygon.
+            No need to recalculate.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.Copy">
+            <summary>
+            Copy the polygon.
+            No need to recalculate the copy.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.Calculate">
+            <summary>
+            Update the polygons properties.
+            Should be called when polygon
+            created or changes. 
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.CalculateCentroid">
+            <summary>
+            The centroid of the polygon.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.CalculateArea">
+            <summary>
+            The polygons area.
+            https://en.wikipedia.org/wiki/Shoelace_formula
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.CalculateLengths">
+            <summary>
+            Create the lengths array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.Contains(Common.Core.Numerics.Point2d,System.Boolean)">
+            <summary>
+            Does the polygon contain the point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            The sigined distance from the polygon to the point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.FromTriangle(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Create a triangle polygon from the 3 points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.FromBox(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            Create a box polygon from the 4 points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2d.FromCircle(Common.Core.Numerics.Point2d,System.Double,System.Int32)">
+            <summary>
+            Create a circle polygon.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polygon2f">
+            <summary>
+            A simple polygon with no holes.
+            Maybe CCW or CW.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.#ctor(System.Int32)">
+            <summary>
+            Create a polygon.
+            </summary>
+            <param name="count">The number of points in polygon.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            Create a polygon.
+            </summary>
+            <param name="positions">The polygons positions.</param>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.SignedArea">
+            <summary>
+            The signed area of the polygon.
+            CCW polygons have a positive area.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.Area">
+            <summary>
+            The polygons area.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.Centroid">
+            <summary>
+            The polygons centroid.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.IsCW">
+            <summary>
+            Is the polygon points ordered clockwise.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.IsCCW">
+            <summary>
+            Is the polygon points ordered counter clockwise.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polygon2f.IsDegenerate">
+            <summary>
+            Are the polygon points degenerate.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.GetPosition(System.Int32)">
+            <summary>
+            Get the position with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.GetParam(System.Int32)">
+            <summary>
+            Get the param with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.GetLength(System.Int32)">
+            <summary>
+            Get the length with a circular index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.Reverse">
+            <summary>
+            Will reverse the polygon.
+            A CCW polygon will be come a CW polygon.
+            No need to recalculate.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.Copy">
+            <summary>
+            Copy the polygon.
+            No need to recalculate the copy.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.Calculate">
+            <summary>
+            Update the polygons properties.
+            Should be called when polygon
+            created or changes. 
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.CalculateCentroid">
+            <summary>
+            The centroid of the polygon.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.CalculateArea">
+            <summary>
+            The polygons area.
+            https://en.wikipedia.org/wiki/Shoelace_formula
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.CalculateLengths">
+            <summary>
+            Create the lengths array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.Contains(Common.Core.Numerics.Point2f,System.Boolean)">
+            <summary>
+            Does the polygon contain the point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            The sigined distance from the polygon to the point.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.FromTriangle(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f)">
+            <summary>
+            Create a triangle polygon from the 3 points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.FromBox(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f)">
+            <summary>
+            Create a box polygon from the 4 points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polygon2f.FromCircle(Common.Core.Numerics.Point2f,System.Single,System.Int32)">
+            <summary>
+            Create a circle polygon.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polyline2d">
+            <summary>
+            A line made from connected segments.
+            Segment have width and are treated as capsules.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.#ctor(System.Double,System.Int32)">
+            <summary>
+            Create a polyline.
+            </summary>
+            <param name="width">The lines width.</param>
+            <param name="count">The number points in the line.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.#ctor(System.Double,System.Collections.Generic.IList{Common.Core.Numerics.Point2d})">
+            <summary>
+            Create a polyline.
+            </summary>
+            <param name="width">The lines width.</param>
+            <param name="positions">The lines positions.</param>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polyline2d.Width">
+            <summary>
+            The width of the line.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polyline2d.Radius">
+            <summary>
+            The radius of the line segments capsules.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.GetPosition(System.Int32)">
+            <summary>
+            Get the position with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.GetParam(System.Int32)">
+            <summary>
+            Get the param with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.GetLength(System.Int32)">
+            <summary>
+            Get the length with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Reverse">
+            <summary>
+            Will reverse the polyline.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Copy">
+            <summary>
+            Copy the polyline.
+            No need to recalculate the copy.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Calculate">
+            <summary>
+            Update the polylines properties.
+            Should be called when polyline
+            created or changes. 
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.CalculateLengths">
+            <summary>
+            Calculate the total length of the line
+            and the length of each segment in line.
+            Lengths represents the length of line 
+            up to that point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Contains(Common.Core.Numerics.Point2d,System.Boolean)">
+            <summary>
+            Does the line contain the point.
+            The line has some thickness from its width.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Closest(Common.Core.Numerics.Point2d)">
+            <summary>
+            Find the closest point on the line
+            to the other point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.Intersects(Common.Core.Shapes.Box2d,System.Boolean)">
+            <summary>
+            Does the line intersect with the box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2d.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            The signed distance from the line to the point.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polyline2f">
+            <summary>
+            A line made from connected segments.
+            Segment have width and are treated as capsules.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.#ctor(System.Single,System.Int32)">
+            <summary>
+            Create a polyline.
+            </summary>
+            <param name="width">The lines width.</param>
+            <param name="count">The number points in the line.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.#ctor(System.Single,System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            Create a polyline.
+            </summary>
+            <param name="width">The lines width.</param>
+            <param name="positions">The lines positions.</param>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polyline2f.Width">
+            <summary>
+            The width of the line.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Polygons.Polyline2f.Radius">
+            <summary>
+            The radius of the line segments capsules.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.GetPosition(System.Int32)">
+            <summary>
+            Get the position with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.GetParam(System.Int32)">
+            <summary>
+            Get the param with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.GetLength(System.Int32)">
+            <summary>
+            Get the length with a clamped index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Reverse">
+            <summary>
+            Will reverse the polyline.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Copy">
+            <summary>
+            Copy the polyline.
+            No need to recalculate the copy.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Calculate">
+            <summary>
+            Update the polylines properties.
+            Should be called when polyline
+            created or changes. 
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.CalculateLengths">
+            <summary>
+            Calculate the total length of the line
+            and the length of each segment in line.
+            Lengths represents the length of line 
+            up to that point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Contains(Common.Core.Numerics.Point2f,System.Boolean)">
+            <summary>
+            Does the line contain the point.
+            The line has some thickness from its width.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Closest(Common.Core.Numerics.Point2f)">
+            <summary>
+            Find the closest point on the line
+            to the other point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.Intersects(Common.Core.Shapes.Box2f,System.Boolean)">
+            <summary>
+            Does the line intersect with the box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyline2f.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            The signed distance from the line to the point.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polyobject2d">
+            <summary>
+            Base class for polygon and polyline.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.GetPosition(System.Double)">
+            <summary>
+            Get the position with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.GetLength(System.Double)">
+            <summary>
+            Get the length with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.GetParam(System.Double)">
+            <summary>
+            Get the param with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Point2d})">
+            <summary>
+            Create the position array.
+            </summary>
+            <param name="positions">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CreateParams">
+            <summary>
+            Create the param array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.SetParams(System.Collections.Generic.IList{System.Double})">
+            <summary>
+            Create the param array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CreateLengths(System.Int32)">
+            <summary>
+            Create the length array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.SetLengths(System.Collections.Generic.IList{System.Double})">
+            <summary>
+            Create the lengths array.
+            </summary>
+            <param name="lengths">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CreateIndices(System.Int32)">
+            <summary>
+            Create the indices array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CalculateBounds">
+            <summary>
+            Find the shapes bounding box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CalculateLengths">
+            <summary>
+            Create the lengths array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Reverse">
+            <summary>
+            Will reverse the polyshape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Contains(Common.Core.Numerics.Point2d,System.Boolean)">
+            <summary>
+            Does the shape contain the points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.SignedDistance(Common.Core.Numerics.Point2d)">
+            <summary>
+            The signed distance to the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Interpolate(System.Double,System.Collections.Generic.IList{Common.Core.Numerics.Point2d})">
+            <summary>
+            Given the number normalized interpolate 
+            along the object to find the value in the array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Interpolate(System.Double,System.Collections.Generic.IList{System.Double})">
+            <summary>
+            Given the number normalized interpolate 
+            along the object to find the value in the array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Translate(Common.Core.Numerics.Point2d)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Scale(Common.Core.Numerics.Point2d)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Transform(Common.Core.Numerics.Matrix4x4d)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.Transform(Common.Core.Numerics.Matrix2x2d)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2d.FindInterpolationPoint(System.Double,System.Int32@,System.Double@)">
+            <summary>
+            Given the normalized number find this length on the 
+            object and return the index before this point and the 
+            distance from this point to the next.
+            </summary>
+            <param name="t">The normalized param representing length between first and last point.</param>
+            <param name="idx">The index of the point.</param>
+            <param name="s">The normalized param representing length between idx and idx+1.</param>
+        </member>
+        <member name="T:Common.Geometry.Polygons.Polyobject2f">
+            <summary>
+            Base class for polygon and polyline.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.GetPosition(System.Single)">
+            <summary>
+            Get the position with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.GetLength(System.Single)">
+            <summary>
+            Get the length with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.GetParam(System.Single)">
+            <summary>
+            Get the param with a interpolated index.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            Create the position array.
+            </summary>
+            <param name="positions">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CreateParams">
+            <summary>
+            Create the param array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.SetParams(System.Collections.Generic.IList{System.Single})">
+            <summary>
+            Create the param array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CreateLengths(System.Int32)">
+            <summary>
+            Create the length array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.SetLengths(System.Collections.Generic.IList{System.Single})">
+            <summary>
+            Create the lengths array.
+            </summary>
+            <param name="lengths">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CreateIndices(System.Int32)">
+            <summary>
+            Create the indices array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CalculateBounds">
+            <summary>
+            Find the shapes bounding box.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CalculateLengths">
+            <summary>
+            Create the lengths array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Reverse">
+            <summary>
+            Will reverse the polyshape.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.CreateIndices">
+            <summary>
+            Create the index array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Contains(Common.Core.Numerics.Point2f,System.Boolean)">
+            <summary>
+            Does the shape contain the points.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.SignedDistance(Common.Core.Numerics.Point2f)">
+            <summary>
+            The signed distance to the point.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Interpolate(System.Single,System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            Given the number normalized interpolate 
+            along the object to find the value in the array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Interpolate(System.Single,System.Collections.Generic.IList{System.Single})">
+            <summary>
+            Given the number normalized interpolate 
+            along the object to find the value in the array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Translate(Common.Core.Numerics.Point2f)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Scale(Common.Core.Numerics.Point2f)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Transform(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.Transform(Common.Core.Numerics.Matrix2x2f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Polygons.Polyobject2f.FindInterpolationPoint(System.Single,System.Int32@,System.Single@)">
+            <summary>
+            Given the normalized number find this length on the 
+            object and return the index before this point and the 
+            distance from this point to the next.
+            </summary>
+            <param name="t">The normalized param representing length between first and last point.</param>
+            <param name="idx">The index of the point.</param>
+            <param name="s">The normalized param representing length between idx and idx+1.</param>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.HasIndices">
+            <summary>
+            Does the mesh have indices.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.IndexCount">
+            <summary>
+            The number of indices in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.Indices">
+            <summary>
+            The mesh indices.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.HasColors">
+            <summary>
+            The does the mesh have colors..
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.IndexableMesh.Colors">
+            <summary>
+            The mesh colors.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.IndexableMesh.CreateColors">
+            <summary>
+            Creates the color array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.IndexableMesh.SetColors(System.Collections.Generic.IList{Common.Core.Colors.ColorRGBA})">
+            <summary>
+            Create the color array.
+            </summary>
+            <param name="colors">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Meshes.IndexableMesh.CreateIndices(System.Int32)">
+            <summary>
+            Creates the index array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Meshes.IndexableMesh.SetIndices(System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            Create the index array.
+            </summary>
+            <param name="indices">Array to copy from.</param>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.Positions">
+            <summary>
+            The vertex positions.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.HasNormals">
+            <summary>
+            Does the mesh have normals.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.Normals">
+            <summary>
+            The vertex normals.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.HasTexCoords">
+            <summary>
+            Does the mesh have tex coords.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh2f.TexCoords">
+            <summary>
+            The vertex uvs.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.ToString">
+            <summary>
+            Convert mesh to string.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the position array.
+            </summary>
+            <param name="positions">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.CreateNormals">
+            <summary>
+            Creates the normals array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the normal array.
+            </summary>
+            <param name="normals">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.CreateTexCoords">
+            <summary>
+            Creates the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the uv array.
+            </summary>
+            <param name="texCoords">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.Translate(Common.Core.Numerics.Vector2f)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.Scale(Common.Core.Numerics.Vector2f)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix2x2f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.Positions">
+            <summary>
+            The vertex positions.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.HasNormals">
+            <summary>
+            Does the mesh have normals.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.Normals">
+            <summary>
+            The vertex normals.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.HasTexCoords">
+            <summary>
+            Does the mesh have tex coords.
+            </summary>
+        </member>
+        <member name="P:Common.Meshes.Mesh3f.TexCoords">
+            <summary>
+            The vertex uvs.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.ToString">
+            <summary>
+            Convert mesh to string.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
+            <summary>
+            Create the position array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.CreateNormals">
+            <summary>
+            Creates the normals array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
+            <summary>
+            Create the normal array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.CreateTexCoords">
+            <summary>
+            Creates the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.Translate(Common.Core.Numerics.Vector3f)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.Rotate(Common.Core.Numerics.Vector3f)">
+            <summary>
+            Rotate allpositions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.Scale(Common.Core.Numerics.Vector3f)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix3x3f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Meshes.Mesh3f.CreateTriangleNormals">
+            <summary>
+            Create the area weighted normals
+            presuming mesh has triangle faces.
+            </summary>
+        </member>
+    </members>
+</doc>
