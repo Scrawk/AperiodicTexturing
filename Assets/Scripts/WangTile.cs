@@ -26,7 +26,6 @@ namespace AperiodicTexturing
 			TileSize = tileSize;
 			Image = new ColorImage2D(tileSize, tileSize);
 			Map = new GreyScaleImage2D(tileSize, tileSize);
-			Mask = new BinaryImage2D(tileSize, tileSize);
 
 			Edges = new int[]
 			{
@@ -51,8 +50,6 @@ namespace AperiodicTexturing
 		public ColorImage2D Image { get; private set; }
 
 		public GreyScaleImage2D Map { get; private set; }
-
-		public BinaryImage2D Mask { get; private set; }
 
 		private static ColorRGBA[] Colors = new ColorRGBA[]
 		{
@@ -84,7 +81,6 @@ namespace AperiodicTexturing
 			var copy = new WangTile(Index, Left, Bottom, Right, Top, TileSize);
 			copy.Image = Image.Copy();
 			copy.Map = Map.Copy();
-			copy.Mask = Mask.Copy();
 
 			return copy;
 		}
@@ -130,24 +126,6 @@ namespace AperiodicTexturing
 				Map.DrawTriangle(mid, c10, c11, new ColorRGBA(Right, 1), true);
 				Map.DrawTriangle(mid, c01, c11, new ColorRGBA(Top, 1), true);
 			}
-		}
-		public void CreateMask()
-		{
-			if (IsConst) return;
-
-			var mid = new Point2i(TileSize / 2, TileSize / 2);
-
-			if (Left != Bottom)
-				Mask.DrawLine(mid, new Point2i(0, 0), ColorRGBA.White);
-
-			if (Bottom != Right)
-				Mask.DrawLine(mid, new Point2i(TileSize, 0), ColorRGBA.White);
-
-			if (Right != Top)
-				Mask.DrawLine(mid, new Point2i(TileSize, TileSize), ColorRGBA.White);
-
-			if (Top != Left)
-				Mask.DrawLine(mid, new Point2i(0, TileSize), ColorRGBA.White);
 		}
 
 	}

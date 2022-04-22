@@ -13,8 +13,9 @@ namespace AperiodicTexturing
     public class ExemplarSet
     {
 
-        public ExemplarSet(int exemplarSize)
+        public ExemplarSet(ColorImage2D source, int exemplarSize)
         {
+            Source = source.Copy();
             ExemplarSize = exemplarSize;
             Exemplars = new List<Exemplar>();
         }
@@ -25,9 +26,16 @@ namespace AperiodicTexturing
 
         public List<Exemplar> Exemplars { get; private set; }
 
+        public ColorImage2D Source { get; private set; }
+
         public override string ToString()
         {
             return String.Format("[ExemplarSet: Count={0}, Size={1}]", Count, ExemplarSize);
+        }
+
+        public void Clear()
+        {
+            Exemplars.Clear();
         }
 
         public void ResetUsedCount()
@@ -63,110 +71,19 @@ namespace AperiodicTexturing
             return exemplars;
         }
 
-        public (Exemplar, Point2i) FindBestMatch(ColorImage2D image, BinaryImage2D mask, int maxOffset)
+        public void CreateExemplarsFromCrop()
         {
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
-            Point2i bestOffset = new Point2i();
+            Clear();
 
-            foreach (var exemplar in Exemplars)
-            {
-                if (exemplar.Image == image)
-                    continue;
-
-                if (exemplar.Used > 0)
-                    continue;
-
-                float cost = 0;
-                int count = 0;
-                Point2i offset = new Point2i();
-
-                if (maxOffset <= 0)
-                {
-                    for (int x = 0; x < exemplar.Width; x++)
-                    {
-                        for (int y = 0; y < exemplar.Height; y++)
-                        {
-                            if (mask != null && !mask[x, y]) continue;
-
-                            var pixel1 = image[x, y];
-                            var pixel2 = exemplar[x, y];
-
-                            cost += ColorRGB.SqrDistance(pixel1, pixel2);
-                            count++;
-                        }
-                    }
-
-                    if (count == 0) continue;
-                    cost /= count;
-                }
-                else
-                {
-                    var pair = FindBestOffset(image, exemplar.Image, mask, maxOffset);
-                    offset = pair.Item1;
-                    cost = pair.Item2;
-                }
-
-                if (cost < bestCost)
-                {
-                    bestCost = cost;
-                    bestMatch = exemplar;
-                    bestOffset = offset;
-                }
-            }
-
-            return (bestMatch, bestOffset);
-        }
-
-        private (Point2i, float) FindBestOffset(ColorImage2D image, ColorImage2D image2, BinaryImage2D mask, int offset)
-        {
-            Point2i bestOffset = new Point2i();
-            float bestCost = float.PositiveInfinity;
-
-            for (int i = -offset; i < offset; i++)
-            {
-                for (int j = -offset; j < offset; j++)
-                {
-                    float cost = 0;
-                    int count = 0;
-
-                    for (int x = 0; x < image.Width; x++)
-                    {
-                        for (int y = 0; y < image.Height; y++)
-                        {
-                            if (mask != null && !mask[x, y]) continue;
-
-                            var pixel1 = image[x, y];
-                            var pixel2 = image2[x + i, y + j];
-
-                            cost += ColorRGB.SqrDistance(pixel1, pixel2);
-                            count++;
-                        }
-                    }
-
-                    if (count == 0) continue;
-                    cost /= count;
-
-                    if (cost < bestCost)
-                    {
-                        bestCost = cost;
-                        bestOffset = new Point2i(i, j);
-                    }
-                }
-            }
-
-            return (bestOffset, bestCost);
-        }
-
-        public void CreateExemplarFromCrop(ColorImage2D image)
-        {
-            var croppedImages = ColorImage2D.Crop(image, image.Width / ExemplarSize, image.Height / ExemplarSize);
+            var croppedImages = ColorImage2D.Crop(Source, Source.Width / ExemplarSize, Source.Height / ExemplarSize);
             Exemplars = CreateVariants(croppedImages);
         }
 
-        public void CreateExemplarFromRandom(ColorImage2D image, int seed, int count)
+        public void CreateExemplarsFromRandom(int seed, int count)
         {
-            var mask = new BinaryImage2D(image.Width, image.Height);
+            Clear();
+
+            var mask = new BinaryImage2D(Source.Width, Source.Height);
             var exemplars = new List<Exemplar>();
 
             var rnd = new Random(seed);
@@ -174,8 +91,8 @@ namespace AperiodicTexturing
 
             while (exemplars.Count < count && fails < 1000)
             {
-                int x = rnd.Next(0, image.Width - ExemplarSize - 1);
-                int y = rnd.Next(0, image.Height - ExemplarSize - 1);
+                int x = rnd.Next(0, Source.Width - ExemplarSize - 1);
+                int y = rnd.Next(0, Source.Height - ExemplarSize - 1);
 
                 var coverage = GetCoverage(mask, x, y);
 
@@ -187,7 +104,7 @@ namespace AperiodicTexturing
 
                 AddCoverage(mask, x, y);
 
-                var exemplar = ColorImage2D.Crop(image, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize));
+                var exemplar = ColorImage2D.Crop(Source, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize));
                 exemplars.Add(new Exemplar(exemplar));
             }
 

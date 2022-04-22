@@ -42,8 +42,8 @@ namespace AperiodicTexturing
 
 			var source = ToImage(m_sampleTexture);
 
-			var exemplarSet = new ExemplarSet(m_tileSize);
-			exemplarSet.CreateExemplarFromRandom(source, 0, 8);
+			var exemplarSet = new ExemplarSet(source, m_tileSize);
+			exemplarSet.CreateExemplarsFromRandom(0, 8);
 
 			Debug.Log(exemplarSet);
 
@@ -62,13 +62,16 @@ namespace AperiodicTexturing
 				tileable.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/tileable" + i + ".raw");
 			}
 
+			exemplarSet.ResetUsedCount();
+
+			return;
+
 			var tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
 
 			int j = 0;
 			foreach (var tile in tileSet.Tiles)
 			{
 				tile.CreateMap();
-				tile.CreateMask();
 				tile.FillImage(tilables);
 
 				ImageSynthesis.CreateTileImage(tile, exemplarSet);
@@ -106,7 +109,13 @@ namespace AperiodicTexturing
 
 		}
 
-		void OnGUI()
+        private void Update()
+        {
+			m_tileMappingMat.SetTexture("_TilesTexture", m_tileTexture);
+			m_tileMappingMat.SetTexture("_TileMappingTexture", m_tileMappingTexture);
+		}
+
+        void OnGUI()
 		{
 			int size = 384;
 
