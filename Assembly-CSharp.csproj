@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,27 +53,34 @@
     <UnityVersion>2021.2.7f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\TileMapping2.cs" />
-    <Compile Include="Assets\Scripts\WangTileSet.cs" />
-    <Compile Include="Assets\Common\Extensions\ColorExtension.cs" />
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\Common\Drawers\BoxDrawer.cs" />
-    <Compile Include="Assets\Common\Drawers\Point4Drawer.cs" />
-    <Compile Include="Assets\Common\Extensions\VectorExtension3.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension4.cs" />
-    <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
-    <Compile Include="Assets\Common\Drawers\Point3Drawer.cs" />
-    <Compile Include="Assets\Common\Extensions\QuaternionExtension.cs" />
-    <Compile Include="Assets\Common\Drawers\Vector2Drawer.cs" />
-    <Compile Include="Assets\Common\Drawers\PropertyDrawerUtil.cs" />
-    <Compile Include="Assets\Common\Drawers\Vector4Drawer.cs" />
-    <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
-    <Compile Include="Assets\Common\Extensions\PointExtension3.cs" />
-    <Compile Include="Assets\Common\Drawers\Vector3Drawer.cs" />
-    <Compile Include="Assets\Common\Extensions\PointExtension2.cs" />
-    <Compile Include="Assets\Common\Drawers\Point2Drawer.cs" />
-    <Compile Include="Assets\Common\Extensions\VectorExtension2.cs" />
-    <Compile Include="Assets\Common\Extensions\BoundsExtension.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension4.cs" />
+    <Compile Include="Assets\Common\Extensions\VectorExtension3.cs" />
+    <Compile Include="Assets\Common\Extensions\BoundsExtension.cs" />
+    <Compile Include="Assets\Scripts\ImageSynthesis.cs" />
+    <Compile Include="Assets\Common\Extensions\PointExtension2.cs" />
+    <Compile Include="Assets\Common\Drawers\Point3Drawer.cs" />
+    <Compile Include="Assets\Common\Drawers\Point4Drawer.cs" />
+    <Compile Include="Assets\Common\Drawers\Vector4Drawer.cs" />
+    <Compile Include="Assets\Common\Drawers\Vector3Drawer.cs" />
+    <Compile Include="Assets\Common\Extensions\ColorExtension.cs" />
+    <Compile Include="Assets\Common\Extensions\VectorExtension2.cs" />
+    <Compile Include="Assets\Scripts\WangTile.cs" />
+    <Compile Include="Assets\Scripts\ExemplarSet.cs" />
+    <Compile Include="Assets\Common\Extensions\QuaternionExtension.cs" />
+    <Compile Include="Assets\Scripts\TileMapping2.cs" />
+    <Compile Include="Assets\Common\Drawers\PropertyDrawerUtil.cs" />
+    <Compile Include="Assets\Scripts\WangTileSet.cs" />
+    <Compile Include="Assets\Common\Extensions\PointExtension3.cs" />
+    <Compile Include="Assets\Common\Drawers\Point2Drawer.cs" />
+    <Compile Include="Assets\Scripts\Exemplar.cs" />
+    <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
+    <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
+    <Compile Include="Assets\Common\Drawers\Vector2Drawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Common\Plugins\Common.Core.dll" />
@@ -332,26 +339,26 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>F:\Apps\Unity\Unity 2021\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.6\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageProcessing">
-      <HintPath>Assets\Common\Plugins\ImageProcessing.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Core">
-      <HintPath>Assets\Common\Plugins\Common.Core.dll</HintPath>
+    <Reference Include="Common.Collections">
+      <HintPath>Assets\Common\Plugins\Common.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Common.Geometry">
       <HintPath>Assets\Common\Plugins\Common.Geometry.dll</HintPath>
     </Reference>
+    <Reference Include="ImageProcessing">
+      <HintPath>Assets\Common\Plugins\ImageProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.6\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Core">
+      <HintPath>Assets\Common\Plugins\Common.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Common.GraphTheory">
       <HintPath>Assets\Common\Plugins\Common.GraphTheory.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Collections">
-      <HintPath>Assets\Common\Plugins\Common.Collections.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>F:\Apps\Unity\Unity 2021\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
