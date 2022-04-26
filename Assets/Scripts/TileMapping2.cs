@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using UnityEngine;
 
@@ -45,39 +46,44 @@ namespace AperiodicTexturing
 			var exemplarSet = new ExemplarSet(source, m_tileSize);
 			exemplarSet.CreateExemplarsFromRandom(0, 8);
 
-			Debug.Log(exemplarSet);
-
 			var exemplars = exemplarSet.GetRandomExemplars(Math.Max(m_numHColors, m_numVColors), 0);
 
-			var tilables = new List<ColorImage2D>();
+			var tilables = new ColorImage2D[exemplars.Count];
 
-			for (int i = 0; i < exemplars.Count; i++)
+			float startTime = Time.realtimeSinceStartup;
+
+			for (int i = 0; i < 1; i++)
 			{
 				var exemplar = exemplars[i];
 
-				var tileable = ImageSynthesis.MakeTileable(exemplar.Image, exemplarSet);
+				var tileable = Tileable.MakeImageTileable(exemplar.Image, exemplarSet);
 
-				tilables.Add(tileable);
+				tilables[i] = tileable;
 
 				tileable.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/tileable" + i + ".raw");
 			}
 
-			exemplarSet.ResetUsedCount();
+			float endTime = Time.realtimeSinceStartup;
+			Debug.Log("Created tilables in " + (endTime - startTime) + " seconds");
 
 			return;
 
+			exemplarSet.ResetUsedCount();
+
 			var tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
 
-			int j = 0;
+			startTime = Time.realtimeSinceStartup;
+
 			foreach (var tile in tileSet.Tiles)
 			{
 				tile.CreateMap();
 				tile.FillImage(tilables);
 
 				ImageSynthesis.CreateTileImage(tile, exemplarSet);
-
-				j++;
 			}
+
+			endTime = Time.realtimeSinceStartup;
+			Debug.Log("Created tiles in " + (endTime - startTime) + " seconds");
 
 			var tileMapping = tileSet.CreateTileMap(m_mappingHeight, m_mappingWidth, m_mappingSeed);
 
@@ -111,8 +117,17 @@ namespace AperiodicTexturing
 
         private void Update()
         {
+			return;
+
+			float tileTexWidth = m_tileTexture.width / m_tileSize;
+			float tileTexHeight = m_tileTexture.height / m_tileSize;
+			Vector2 tileScale = new Vector2(tileTexWidth, tileTexHeight);
+			Vector2 tileMappingScale = new Vector2(m_tileMappingTexture.width, m_tileMappingTexture.height);
+
 			m_tileMappingMat.SetTexture("_TilesTexture", m_tileTexture);
 			m_tileMappingMat.SetTexture("_TileMappingTexture", m_tileMappingTexture);
+			m_tileMappingMat.SetVector("_TileScale", tileScale);
+			m_tileMappingMat.SetVector("_TileMappingScale", tileMappingScale);
 		}
 
         void OnGUI()

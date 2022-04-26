@@ -32,7 +32,7 @@ Shader "WangTiles/TileMappingShader"
 			float2 mappingAddress = uv * _TileMappingScale;
 			float2 tileScaledTex = uv * _TileMappingScale * (1.0 / _TileScale);
         	float4 result = tex2D(_TilesTexture, (whichTile.xy + frac(mappingAddress)) / _TileScale, ddx(tileScaledTex), ddy(tileScaledTex));
-        	
+
 			o.Albedo = result.rgb;
 			o.Alpha = result.a;
 			

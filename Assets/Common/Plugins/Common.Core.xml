@@ -223,7 +223,33 @@
         <member name="M:Common.Core.Colors.ColorRGB.FromBytes(System.Int32,System.Int32,System.Int32)">
             <summary>
             color from bytes.
+            The values will be converted from a 0-255 range to a 0-1 range.
             </summary>
+            <returns>A color will values in the 0-1 range.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGB.FromInteger(System.Int32,System.Boolean)">
+            <summary>
+            Create a color from a integer where each byte in the 
+            integer represents a channl in the color.
+            </summary>
+            <param name="i">The integer.</param>
+            <param name="bgr">are the channels packed bgr or rgb.</param>
+            <returns>The color.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGB.ToInteger(System.Boolean)">
+            <summary>
+            Convert the color to a integer where each byte 
+            represents a channel in the color.
+            </summary>
+            <param name="bgr">are the channels packed bgr or rgb.</param>
+            <returns>A integer where each byte represents a channel in the color.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGB.Gamma(System.Single,System.Single)">
+            <summary>
+            Apply the gamma function to the color.
+            </summary>
+            <param name="lambda">The power to raise each channel to.</param>
+            <param name="A">The constant the result is multiplied by. Defaults to 1.</param>
         </member>
         <member name="M:Common.Core.Colors.ColorRGB.Distance(Common.Core.Colors.ColorRGB,Common.Core.Colors.ColorRGB)">
             <summary>
@@ -376,10 +402,37 @@
             color as a string.
             </summary>
         </member>
-        <member name="M:Common.Core.Colors.ColorRGBA.FromBytes(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Common.Core.Colors.ColorRGBA.FromBytes(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             color from bytes.
+            The values will be converted from a 0-255 range to a 0-1 range.
             </summary>
+            <returns>A color will values in the 0-1 range.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.FromInteger(System.Int32,System.Boolean)">
+            <summary>
+            Create a color from a integer where each byte in the 
+            integer represents a channl in the color.
+            </summary>
+            <param name="i">The integer.</param>
+            <param name="abgr">are the channels packed bgr or rgb.</param>
+            <returns>The color.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.ToInteger(System.Boolean)">
+            <summary>
+            Convert the color to a integer where each byte 
+            represents a channel in the color.
+            </summary>
+            <param name="abgr">are the channels packed bgr or rgb.</param>
+            <returns>A integer where each byte represents a channel in the color.</returns>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.Gamma(System.Single,System.Single)">
+            <summary>
+            Apply the gamma function to the color.
+            Gamma is not applied to the alpha channel.
+            </summary>
+            <param name="lambda">The power to raise each channel to.</param>
+            <param name="A">The constant the result is multiplied by. Defaults to 1.</param>
         </member>
         <member name="M:Common.Core.Colors.ColorRGBA.Distance(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA)">
             <summary>
@@ -389,11 +442,6 @@
         <member name="M:Common.Core.Colors.ColorRGBA.SqrDistance(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA)">
             <summary>
             The square distance between two colors.
-            </summary>
-        </member>
-        <member name="M:Common.Core.Colors.ColorRGBA.FromBytes(System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            color from ints.
             </summary>
         </member>
         <member name="M:Common.Core.Colors.ColorRGBA.Min(Common.Core.Colors.ColorRGBA,System.Single)">
@@ -3480,21 +3528,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point2d.Vector2d">
-            <summary>
-            Point as a vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2d.Point2f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2d.Point2i">
-            <summary>
-            Convert to int point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point2d.Homogenous">
             <summary>
             Point as a homogenous point.
@@ -3614,6 +3647,18 @@
         <member name="M:Common.Core.Numerics.Point2d.op_Implicit(Common.Core.Numerics.Point2i)~Common.Core.Numerics.Point2d">
             <summary>
             Cast from Point2i to Point2d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.op_Implicit(Common.Core.Numerics.Vector2f)~Common.Core.Numerics.Point2d">
+            <summary>
+            Cast from Vector2f to Point2d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.op_Implicit(Common.Core.Numerics.Vector2d)~Common.Core.Numerics.Point2d">
+            <summary>
+            Cast from Vector2d to Point2d.
             </summary>
             <param name="v"></param>
         </member>
@@ -3858,11 +3903,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point2f.Vector2f">
-            <summary>
-            Point as a vector.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point2f.Sum">
             <summary>
             The sum of the points components.
@@ -3972,6 +4012,18 @@
         <member name="M:Common.Core.Numerics.Point2f.op_Implicit(Common.Core.Numerics.Point2i)~Common.Core.Numerics.Point2f">
             <summary>
             Cast from Point2i to Point2f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.op_Explicit(Common.Core.Numerics.Vector2d)~Common.Core.Numerics.Point2f">
+            <summary>
+            Cast from Vector2d to Point2f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.op_Implicit(Common.Core.Numerics.Vector2f)~Common.Core.Numerics.Point2f">
+            <summary>
+            Cast from Vector2f to Point2f.
             </summary>
             <param name="v"></param>
         </member>
@@ -4179,32 +4231,22 @@
             A point from the varibles.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point2i.#ctor(System.Single,System.Single)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.#ctor(System.Double,System.Double)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
         <member name="P:Common.Core.Numerics.Point2i.Item(System.Int32)">
             <summary>
             Array accessor for variables. 
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2i.Vector2f">
-            <summary>
-            Convert to float vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2i.Vector2d">
-            <summary>
-            Convert to double vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2i.Point2f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point2i.Point2d">
-            <summary>
-            Convert to double point.
-            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point2i.Sum">
             <summary>
@@ -4303,6 +4345,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Point2i.op_Explicit(Common.Core.Numerics.Vector2f)~Common.Core.Numerics.Point2i">
+            <summary>
+            Cast from Vector2f to Point2i.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.op_Explicit(Common.Core.Numerics.Vector2d)~Common.Core.Numerics.Point2i">
+            <summary>
+            Cast from Vector2d to Point2i.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Point2i.op_Equality(Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i)">
             <summary>
             Are these points equal.
@@ -4346,11 +4400,6 @@
         <member name="M:Common.Core.Numerics.Point2i.SqrDistance(Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i)">
             <summary>
             Square distance between two points.
-            </summary>
-        </member>
-        <member name="M:Common.Core.Numerics.Point2i.Direction(Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i)">
-            <summary>
-            Direction between two points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Point2i.Min(Common.Core.Numerics.Point2i,System.Int32)">
@@ -4490,26 +4539,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point3d.Vector3d">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3d.Vector4d">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3d.Point3f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3d.Point3i">
-            <summary>
-            Convert to int point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point3d.Homogenous">
             <summary>
             Point as a homogenous point.
@@ -4622,13 +4651,25 @@
         </member>
         <member name="M:Common.Core.Numerics.Point3d.op_Implicit(Common.Core.Numerics.Point3f)~Common.Core.Numerics.Point3d">
             <summary>
-            Cast from Point43f to Point3d.
+            Cast from Point3f to Point3d.
             </summary>
             <param name="v"></param>
         </member>
         <member name="M:Common.Core.Numerics.Point3d.op_Implicit(Common.Core.Numerics.Point3i)~Common.Core.Numerics.Point3d">
             <summary>
             Cast from Point3i to Point3d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.op_Implicit(Common.Core.Numerics.Vector3f)~Common.Core.Numerics.Point3d">
+            <summary>
+            Cast from Vector3f to Point3d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.op_Implicit(Common.Core.Numerics.Vector3d)~Common.Core.Numerics.Point3d">
+            <summary>
+            Cast from Vector3d to Point3d.
             </summary>
             <param name="v"></param>
         </member>
@@ -4870,16 +4911,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point3f.Vector3f">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3f.Vector4d">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point3f.Sum">
             <summary>
             The sum of the points components.
@@ -4989,6 +5020,18 @@
         <member name="M:Common.Core.Numerics.Point3f.op_Implicit(Common.Core.Numerics.Point3i)~Common.Core.Numerics.Point3f">
             <summary>
             Cast from Point3i to Point3f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.op_Explicit(Common.Core.Numerics.Vector3d)~Common.Core.Numerics.Point3f">
+            <summary>
+            Cast from Vector3d to Point3f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.op_Implicit(Common.Core.Numerics.Vector3f)~Common.Core.Numerics.Point3f">
+            <summary>
+            Cast from Vector3f to Point3f.
             </summary>
             <param name="v"></param>
         </member>
@@ -5188,32 +5231,22 @@
             A point from the varibles.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point3i.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
         <member name="P:Common.Core.Numerics.Point3i.Item(System.Int32)">
             <summary>
             Array accessor for variables. 
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3i.Vector3f">
-            <summary>
-            Convert to float vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3i.Vector3d">
-            <summary>
-            Convert to double vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3i.Point3f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point3i.Point3d">
-            <summary>
-            Convert to double point.
-            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point3i.Sum">
             <summary>
@@ -5312,6 +5345,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Point3i.op_Explicit(Common.Core.Numerics.Vector3f)~Common.Core.Numerics.Point3i">
+            <summary>
+            Cast from Vector3f to Point3i.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.op_Explicit(Common.Core.Numerics.Vector3d)~Common.Core.Numerics.Point3i">
+            <summary>
+            Cast from Vector3d to Point3i.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Point3i.op_Equality(Common.Core.Numerics.Point3i,Common.Core.Numerics.Point3i)">
             <summary>
             Are these points equal.
@@ -5355,11 +5400,6 @@
         <member name="M:Common.Core.Numerics.Point3i.SqrDistance(Common.Core.Numerics.Point3i,Common.Core.Numerics.Point3i)">
             <summary>
             Square distance between two points.
-            </summary>
-        </member>
-        <member name="M:Common.Core.Numerics.Point3i.Direction(Common.Core.Numerics.Point3i,Common.Core.Numerics.Point3i)">
-            <summary>
-            Direction between two points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Point3i.Min(Common.Core.Numerics.Point3i,System.Int32)">
@@ -5484,26 +5524,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point4d.Vector3d">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4d.Vector4d">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4d.Point4f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4d.Point4i">
-            <summary>
-            Convert to int point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point4d.Sum">
             <summary>
             The sum of the points components.
@@ -5613,6 +5633,18 @@
         <member name="M:Common.Core.Numerics.Point4d.op_Implicit(Common.Core.Numerics.Point4i)~Common.Core.Numerics.Point4d">
             <summary>
             Cast from Point4i to Point4d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.op_Implicit(Common.Core.Numerics.Vector4f)~Common.Core.Numerics.Point4d">
+            <summary>
+            Cast from Vector4f to Point4d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.op_Implicit(Common.Core.Numerics.Vector4d)~Common.Core.Numerics.Point4d">
+            <summary>
+            Cast from Vector4d to Point4d.
             </summary>
             <param name="v"></param>
         </member>
@@ -5830,16 +5862,6 @@
             Make a point with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Point4f.Vector3f">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4f.Vector4f">
-            <summary>
-            Point as vector.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Point4f.Sum">
             <summary>
             The sum of the points components.
@@ -5949,6 +5971,18 @@
         <member name="M:Common.Core.Numerics.Point4f.op_Implicit(Common.Core.Numerics.Point4i)~Common.Core.Numerics.Point4f">
             <summary>
             Cast from Point4i to Point4f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.op_Implicit(Common.Core.Numerics.Vector4f)~Common.Core.Numerics.Point4f">
+            <summary>
+            Cast from Vector4f to Point4f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.op_Explicit(Common.Core.Numerics.Vector4d)~Common.Core.Numerics.Point4f">
+            <summary>
+            Cast from Vector4d to Point4f.
             </summary>
             <param name="v"></param>
         </member>
@@ -6129,32 +6163,22 @@
             A point from the varibles.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point4i.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            A point from the varibles.
+            </summary>
+        </member>
         <member name="P:Common.Core.Numerics.Point4i.Item(System.Int32)">
             <summary>
             Array accessor for variables. 
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4i.Vector4f">
-            <summary>
-            Convert to float vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4i.Vector4d">
-            <summary>
-            Convert to double vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4i.Point4f">
-            <summary>
-            Convert to float point.
-            </summary>
-        </member>
-        <member name="P:Common.Core.Numerics.Point4i.Point4d">
-            <summary>
-            Convert to double point.
-            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point4i.Sum">
             <summary>
@@ -6250,6 +6274,18 @@
         <member name="M:Common.Core.Numerics.Point4i.op_Explicit(Common.Core.Numerics.Point4d)~Common.Core.Numerics.Point4i">
             <summary>
             Cast from Point4d to Point4i.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.op_Explicit(Common.Core.Numerics.Vector4f)~Common.Core.Numerics.Point4i">
+            <summary>
+            Cast from Vector4f to Point4i.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.op_Explicit(Common.Core.Numerics.Vector4d)~Common.Core.Numerics.Point4i">
+            <summary>
+            Cast from Vector4d to Point4i.
             </summary>
             <param name="v"></param>
         </member>
@@ -6966,11 +7002,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector2d.Point2d">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector2d.Sum">
             <summary>
             The sum of the vectors components.
@@ -7082,6 +7113,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector2d.op_Implicit(Common.Core.Numerics.Point2f)~Common.Core.Numerics.Vector2d">
+            <summary>
+            Cast from Point2f to Vector2f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.op_Implicit(Common.Core.Numerics.Point2d)~Common.Core.Numerics.Vector2d">
+            <summary>
+            Cast from Point2d to Vector2f.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector2d.op_Equality(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
             <summary>
             Are these vectors equal.
@@ -7135,6 +7178,11 @@
         <member name="M:Common.Core.Numerics.Vector2d.Dot(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Point2d)">
             <summary>
             The dot product of vector and point.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.Dot(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d)">
+            <summary>
+            The dot product of two pointss.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Vector2d.AbsDot(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d)">
@@ -7333,11 +7381,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector2f.Point2f">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector2f.Sum">
             <summary>
             The sum of the vectors components.
@@ -7449,6 +7492,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector2f.op_Explicit(Common.Core.Numerics.Point2d)~Common.Core.Numerics.Vector2f">
+            <summary>
+            Cast from Point2d to Vector2f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.op_Implicit(Common.Core.Numerics.Point2f)~Common.Core.Numerics.Vector2f">
+            <summary>
+            Cast from Point2f to Vector2f.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector2f.op_Equality(Common.Core.Numerics.Vector2f,Common.Core.Numerics.Vector2f)">
             <summary>
             Are these vectors equal.
@@ -7502,6 +7557,11 @@
         <member name="M:Common.Core.Numerics.Vector2f.Dot(Common.Core.Numerics.Vector2f,Common.Core.Numerics.Point2f)">
             <summary>
             The dot product of vector and point.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.Dot(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f)">
+            <summary>
+            The dot product of two pointss.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Vector2f.AbsDot(Common.Core.Numerics.Vector2f,Common.Core.Numerics.Vector2f)">
@@ -7715,11 +7775,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector3d.Point3d">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector3d.Sum">
             <summary>
             The sum of the vectors components.
@@ -7826,6 +7881,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3d.op_Implicit(Common.Core.Numerics.Point3f)~Common.Core.Numerics.Vector3d">
+            <summary>
+            Cast from Point3f to Vector3d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3d.op_Implicit(Common.Core.Numerics.Point3d)~Common.Core.Numerics.Vector3d">
+            <summary>
+            Cast from Point3d to Vector3d.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector3d.op_Equality(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d)">
             <summary>
             Are these vectors equal.
@@ -7881,6 +7948,11 @@
             The dot product of vector and point.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3d.Dot(Common.Core.Numerics.Point3d,Common.Core.Numerics.Point3d)">
+            <summary>
+            The dot product of two points.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Vector3d.AbsDot(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d)">
             <summary>
             The abs dot product of two vectors.
@@ -7927,11 +7999,16 @@
             Given an incident vector i and a normal vector n.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector3d.Refract(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector3d.Refract(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Double,Common.Core.Numerics.Vector3d@)">
             <summary>
             Returns the refraction vector given the incident vector i, 
             the normal vector n and the refraction index eta.
             </summary>
+            <param name="i">The incident vector</param>
+            <param name="n">The normal vector</param>
+            <param name="eta">The refraction index</param>
+            <param name="r">The reflected ray.</param>
+            <returns>True if there is a solution.</returns>
         </member>
         <member name="M:Common.Core.Numerics.Vector3d.Orthonormal(Common.Core.Numerics.Vector3d@,Common.Core.Numerics.Vector3d@,Common.Core.Numerics.Vector3d@)">
             <summary>
@@ -8110,11 +8187,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector3f.Point3f">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector3f.Sum">
             <summary>
             The sum of the vectors components.
@@ -8221,6 +8293,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3f.op_Explicit(Common.Core.Numerics.Point3d)~Common.Core.Numerics.Vector3f">
+            <summary>
+            Cast from Point3d to Vector3f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3f.op_Implicit(Common.Core.Numerics.Point3f)~Common.Core.Numerics.Vector3f">
+            <summary>
+            Cast from Point3f to Vector3f.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector3f.op_Equality(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f)">
             <summary>
             Are these vectors equal.
@@ -8276,6 +8360,11 @@
             The dot product of vector and point.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3f.Dot(Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f)">
+            <summary>
+            The dot product of two points.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Vector3f.AbsDot(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f)">
             <summary>
             The abs dot product of two vectors.
@@ -8322,11 +8411,16 @@
             Given an incident vector i and a normal vector n.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector3f.Refract(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector3f.Refract(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f,System.Single,Common.Core.Numerics.Vector3f@)">
             <summary>
             Returns the refraction vector given the incident vector i, 
             the normal vector n and the refraction index eta.
             </summary>
+            <param name="i">The incident vector</param>
+            <param name="n">The normal vector</param>
+            <param name="eta">The refraction index</param>
+            <param name="r">The reflected ray.</param>
+            <returns>True if there is a solution.</returns>
         </member>
         <member name="M:Common.Core.Numerics.Vector3f.Orthonormal(Common.Core.Numerics.Vector3f@,Common.Core.Numerics.Vector3f@,Common.Core.Numerics.Vector3f@)">
             <summary>
@@ -8500,11 +8594,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector4d.Point4d">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector4d.Sum">
             <summary>
             The sum of the vectors components.
@@ -8606,6 +8695,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector4d.op_Implicit(Common.Core.Numerics.Point4f)~Common.Core.Numerics.Vector4d">
+            <summary>
+            Cast from Point4f to Vector4d.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.op_Implicit(Common.Core.Numerics.Point4d)~Common.Core.Numerics.Vector4d">
+            <summary>
+            Cast from Point4d to Vector4d.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector4d.op_Equality(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d)">
             <summary>
             Are these vectors equal.
@@ -8654,6 +8755,11 @@
         <member name="M:Common.Core.Numerics.Vector4d.Dot(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d)">
             <summary>
             The dot product of two vectors.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.Dot(Common.Core.Numerics.Point4d,Common.Core.Numerics.Point4d)">
+            <summary>
+            The dot product of two points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Vector4d.Dot(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Point4d)">
@@ -8838,11 +8944,6 @@
             Make a vector with no nan conponents.
             </summary>
         </member>
-        <member name="P:Common.Core.Numerics.Vector4f.Point4f">
-            <summary>
-            Convert the vector to a point.
-            </summary>
-        </member>
         <member name="P:Common.Core.Numerics.Vector4f.Sum">
             <summary>
             The sum of the vectors components.
@@ -8944,6 +9045,18 @@
             </summary>
             <param name="v"></param>
         </member>
+        <member name="M:Common.Core.Numerics.Vector4f.op_Explicit(Common.Core.Numerics.Point4d)~Common.Core.Numerics.Vector4f">
+            <summary>
+            Cast from Point4d to Vector4f.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.op_Implicit(Common.Core.Numerics.Point4f)~Common.Core.Numerics.Vector4f">
+            <summary>
+            Cast from Point4f to Vector4f.
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:Common.Core.Numerics.Vector4f.op_Equality(Common.Core.Numerics.Vector4f,Common.Core.Numerics.Vector4f)">
             <summary>
             Are these vectors equal.
@@ -8997,6 +9110,11 @@
         <member name="M:Common.Core.Numerics.Vector4f.Dot(Common.Core.Numerics.Vector4f,Common.Core.Numerics.Point4f)">
             <summary>
             The dot product of vector and point.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.Dot(Common.Core.Numerics.Point4f,Common.Core.Numerics.Point4f)">
+            <summary>
+            The dot product of two points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Vector4f.AbsDot(Common.Core.Numerics.Vector4f,Common.Core.Numerics.Vector4f)">
@@ -9064,47 +9182,6 @@
         <member name="M:Common.Core.Numerics.Vector4f.Ceilling">
             <summary>
             Ceilling each component of vector.
-            </summary>
-        </member>
-        <member name="P:Common.Core.RandomNum.IRandomGenerator.Value">
-            <summary>
-            A random double greater than or equal to 0 and less than 1.
-            </summary>
-        </member>
-        <member name="P:Common.Core.RandomNum.IRandomGenerator.Seed">
-            <summary>
-            The seed for the random generator.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.UpdateSeed(System.Int32)">
-            <summary>
-            Update seed.
-            Called when seed changes.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.Next">
-            <summary>
-            A random int greater than or equal to 0 and less than MaxInt.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.Next(System.Int32)">
-            <summary>
-            A random int greater than or equal to 0 and less than max.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.Next(System.Int32,System.Int32)">
-            <summary>
-            A random int greater than or equal to min and less than max.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.NextDouble(System.Double,System.Double)">
-            <summary>
-            A random double greater than or equal to min and less than max.
-            </summary>
-        </member>
-        <member name="M:Common.Core.RandomNum.IRandomGenerator.NextDouble">
-            <summary>
-            A random double greater than or equal to 0 and less than 1.
             </summary>
         </member>
         <member name="T:Common.Core.RandomNum.LCHGenerator">
@@ -9286,6 +9363,12 @@
             </summary>
             <param name="min">The boxes min point.</param>
             <param name="max">The boxes max point.</param>
+        </member>
+        <member name="P:Common.Core.Shapes.Box2d.Bounds">
+            <summary>
+            The boxes bounding box is just itself.
+            Needed for the IShape interface.
+            </summary>
         </member>
         <member name="P:Common.Core.Shapes.Box2d.IsFinite">
             <summary>
@@ -9495,6 +9578,12 @@
             </summary>
             <param name="min">The boxes min point.</param>
             <param name="max">The boxes max point.</param>
+        </member>
+        <member name="P:Common.Core.Shapes.Box2f.Bounds">
+            <summary>
+            The boxes bounding box is just itself.
+            Needed for the IShape interface.
+            </summary>
         </member>
         <member name="P:Common.Core.Shapes.Box2f.IsFinite">
             <summary>
@@ -9901,6 +9990,12 @@
             <param name="min">The boxes min point.</param>
             <param name="max">The boxes max point.</param>
         </member>
+        <member name="P:Common.Core.Shapes.Box3d.Bounds">
+            <summary>
+            The boxes bounding box is just itself.
+            Needed for the IShape interface.
+            </summary>
+        </member>
         <member name="P:Common.Core.Shapes.Box3d.IsFinite">
             <summary>
             Does the shape contain no non finite points.
@@ -10096,6 +10191,12 @@
             </summary>
             <param name="min">The boxes min point.</param>
             <param name="max">The boxes max point.</param>
+        </member>
+        <member name="P:Common.Core.Shapes.Box3f.Bounds">
+            <summary>
+            The boxes bounding box is just itself.
+            Needed for the IShape interface.
+            </summary>
         </member>
         <member name="P:Common.Core.Shapes.Box3f.IsFinite">
             <summary>
@@ -11425,6 +11526,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Common.Core.Shapes.Ray2d.Normalize">
+            <summary>
+            Normalize the lines direction.
+            </summary>
+        </member>
         <member name="M:Common.Core.Shapes.Ray2d.Round(System.Int32)">
             <summary>
             Round the rays components.
@@ -11537,6 +11643,11 @@
             
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Ray2f.Normalize">
+            <summary>
+            Normalize the lines direction.
+            </summary>
         </member>
         <member name="M:Common.Core.Shapes.Ray2f.GetPosition(System.Single)">
             <summary>
@@ -11930,15 +12041,30 @@
             <summary>
             Does the point line on the segemnts.
             </summary>
-            <param name="p"></param>
-            <param name="eps"></param>
-            <returns></returns>
+            <param name="p">The point</param>
+            <param name="eps">A small value to give the segment some width.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment2d.Contains(Common.Core.Numerics.Point2d,System.Boolean)">
+            <summary>
+            Does the point line on the segemnts.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder">NA here. Needed for IShape interface.</param>
+            <returns>Does the point line on the segemnts.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment2d.SignedDistance(Common.Core.Numerics.Point2d)">
             <summary>
             Return the signed distance to the point. 
             Always positive.
             </summary>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment2d.Intersects(Common.Core.Shapes.Box2d,System.Boolean)">
+            <summary>
+            Does the shape intersect the box.
+            </summary>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment2d.Intersects(Common.Core.Shapes.Segment2d)">
             <summary>
@@ -12132,15 +12258,30 @@
             <summary>
             Does the point line on the segemnts.
             </summary>
-            <param name="p"></param>
-            <param name="eps"></param>
-            <returns></returns>
+            <param name="p">The point</param>
+            <param name="eps">A small value to give the segment some width.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment2f.Contains(Common.Core.Numerics.Point2f,System.Boolean)">
+            <summary>
+            Does the point line on the segemnts.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder">NA here. Needed for IShape interface.</param>
+            <returns>Does the point line on the segemnts.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment2f.SignedDistance(Common.Core.Numerics.Point2f)">
             <summary>
             Return the signed distance to the point. 
             Always positive.
             </summary>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment2f.Intersects(Common.Core.Shapes.Box2f,System.Boolean)">
+            <summary>
+            Does the shape intersect the box.
+            </summary>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment2f.Intersects(Common.Core.Shapes.Segment2f)">
             <summary>
@@ -12299,9 +12440,24 @@
             <summary>
             Does the point line on the segemnts.
             </summary>
-            <param name="point"></param>
-            <param name="eps"></param>
-            <returns></returns>
+            <param name="p">The point</param>
+            <param name="eps">A small value to give the segment some width.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment3d.Contains(Common.Core.Numerics.Point3d,System.Boolean)">
+            <summary>
+            Does the point line on the segemnts.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder">NA here. Needed for IShape interface.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment3d.Intersects(Common.Core.Shapes.Box3d,System.Boolean)">
+            <summary>
+            Does the shape intersect the box.
+            </summary>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment3d.SignedDistance(Common.Core.Numerics.Point3d)">
             <summary>
@@ -12438,9 +12594,24 @@
             <summary>
             Does the point line on the segemnts.
             </summary>
-            <param name="point"></param>
-            <param name="eps"></param>
-            <returns></returns>
+            <param name="p">The point</param>
+            <param name="eps">A small value to give the segment some width.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment3f.Contains(Common.Core.Numerics.Point3f,System.Boolean)">
+            <summary>
+            Does the point line on the segemnts.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder">NA here. Needed for IShape interface.</param>
+            <returns>Does the point line on the segemnts.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Segment3f.Intersects(Common.Core.Shapes.Box3f,System.Boolean)">
+            <summary>
+            Does the shape intersect the box.
+            </summary>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Segment3f.SignedDistance(Common.Core.Numerics.Point3f)">
             <summary>
@@ -12617,29 +12788,29 @@
             Points on the shapes surface count as 
             being contained in the shape.
             </summary>
-            <param name="p"></param>
-            <returns></returns>
+            <param name="p">The point.</param>
+            <returns>Does the shape contain the point.</returns>
         </member>
         <member name="M:Common.Core.Shapes.IShape2f.Intersects(Common.Core.Shapes.Box2f,System.Boolean)">
             <summary>
             Does the shape intersect the box.
             </summary>
-            <param name="box"></param>
-            <returns></returns>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.IShape2f.Closest(Common.Core.Numerics.Point2f)">
             <summary>
             The closest point to the shape.
             If point inside shape return the same point.
             </summary>
-            <param name="p"></param>
-            <returns></returns>
+            <param name="p">The point.</param>
+            <returns>The closest point to the shape.</returns>
         </member>
         <member name="M:Common.Core.Shapes.IShape2f.SignedDistance(Common.Core.Numerics.Point2f)">
             <summary>
             The signed distance between the shapes surface and the point.
             </summary>
-            <param name="p"></param>
+            <param name="p">The point.</param>
             <returns>Positive if outside shape, negative if inside and 0 on boundary</returns>
         </member>
         <member name="P:Common.Core.Shapes.Shape2f.Bounds">
@@ -12653,29 +12824,29 @@
             Points on the shapes surface count as 
             being contained in the shape.
             </summary>
-            <param name="p"></param>
-            <returns></returns>
+            <param name="p">The point.</param>
+            <returns>Does the shape contain the point.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Shape2f.Intersects(Common.Core.Shapes.Box2f,System.Boolean)">
             <summary>
             Does the shape intersect the box.
             </summary>
-            <param name="box"></param>
-            <returns></returns>
+            <param name="box">The box.</param>
+            <returns>Does the shape intersect the box.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Shape2f.Closest(Common.Core.Numerics.Point2f)">
             <summary>
             The closest point to the shape.
             If point inside shape return the same point.
             </summary>
-            <param name="p"></param>
-            <returns></returns>
+            <param name="p">The point.</param>
+            <returns>The closest point to the shape.</returns>
         </member>
         <member name="M:Common.Core.Shapes.Shape2f.SignedDistance(Common.Core.Numerics.Point2f)">
             <summary>
             The signed distance between the shapes surface and the point.
             </summary>
-            <param name="p"></param>
+            <param name="p">The point.</param>
             <returns>Positive if outside shape, negative if inside and 0 on boundary</returns>
         </member>
         <member name="T:Common.Core.Shapes.Sphere3d">
@@ -13350,8 +13521,16 @@
             <summary>
             Does triangle contain point.
             </summary>
-            <param name="p">point</param>
+            <param name="p">The point</param>
             <returns>true if triangle contains point</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Triangle2d.Contains(Common.Core.Numerics.Point2d,System.Boolean)">
+            <summary>
+            Does triangle contain point.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.Shapes.Triangle2d.ContainsCCW(Common.Core.Numerics.Point2d)">
             <summary>
@@ -13361,10 +13540,14 @@
             <param name="p">point</param>
             <returns>true if triangle contains point</returns>
         </member>
-        <member name="M:Common.Core.Shapes.Triangle2d.Intersects(Common.Core.Shapes.Box2d)">
+        <member name="M:Common.Core.Shapes.Triangle2d.Intersects(Common.Core.Shapes.Box2d,System.Boolean)">
             <summary>
             Does the triangle intersect this box.
             </summary>
+            <param name="box"></param>
+            <param name="includeBorder"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Common.Core.Shapes.Triangle2f">
             <summary>
@@ -13556,10 +13739,18 @@
             <summary>
             Does triangle contain point.
             </summary>
-            <param name="p">point</param>
+            <param name="p">The point</param>
             <returns>true if triangle contains point</returns>
         </member>
-        <member name="M:Common.Core.Shapes.Triangle2f.ContainsCCW(Common.Core.Numerics.Point2f)">
+        <member name="M:Common.Core.Shapes.Triangle2f.Contains(Common.Core.Numerics.Point2f,System.Boolean)">
+            <summary>
+            Does triangle contain point.
+            </summary>
+            <param name="p">The point</param>
+            <param name="includeBorder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Triangle2f.ContainsCCW(Common.Core.Numerics.Point2f,System.Boolean)">
             <summary>
             Does triangle contain point.
             Asumes triangle is CCW;
@@ -13567,10 +13758,14 @@
             <param name="p">point</param>
             <returns>true if triangle contains point</returns>
         </member>
-        <member name="M:Common.Core.Shapes.Triangle2f.Intersects(Common.Core.Shapes.Box2f)">
+        <member name="M:Common.Core.Shapes.Triangle2f.Intersects(Common.Core.Shapes.Box2f,System.Boolean)">
             <summary>
             Does the triangle intersect this box.
             </summary>
+            <param name="box"></param>
+            <param name="includeBorder"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Common.Core.Shapes.Triangle3d">
             <summary>
