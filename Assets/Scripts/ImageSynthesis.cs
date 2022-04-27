@@ -12,34 +12,51 @@ using Common.Core.Extensions;
 using Common.GraphTheory.GridGraphs;
 
 using ImageProcessing.Images;
-using ImageProcessing.Pixels;
 
 namespace AperiodicTexturing
 {
     public static class ImageSynthesis
     {
 
-        public static void CreateTileImage(WangTile tile, IList<ColorImage2D> tilables)
+        public static void CreateTileImage(WangTile tile, IList<ColorImage2D> tileables)
         {
-            if(tile.IsConst)
+            var map = CreateMap(tile);
+
+            var colors = new List<int>();
+
+            foreach(var color in tile.Edges)
             {
-                int color = tile.Left;
-                tile.Image.Fill(tilables[color]);
-                return;
+                if (!colors.Contains(color))
+                    colors.Add(color);
             }
 
-            var map = CreateMap(tile);
-            var mask = CreateMask(map, 0, 1);
+            colors.Sort();
 
-            var graph = CreateGraph(tilables[0], tilables[1]);
+            for(int i = 0; i < colors.Count; i++)
+            {
+                if(i == 0)
+                {
+                    int color = colors[i];
+                    tile.Image.Fill(tileables[color]);
+                }
+                else
+                {
+                    int color = colors[i];
 
-            MarkSourceAndSink(graph, 0, 1, map, mask);
+                    var tileable = tileables[color];
 
-            PerformGraphCut(graph, tile.Image, tilables[0], tilables[1]);
+                    var mask = CreateMask(map, color);
 
-            var m = CreateImageFromGraph(graph, true, false);
-            m.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask.raw");
-            tile.Image.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/tile.raw");
+                    var graph = CreateGraph(map, mask, tile.Image, tileable);
+
+                    MarkSourceAndSink(graph, color, map, mask);
+
+                    PerformGraphCut(graph, tile.Image, tileable);
+
+                    BlurGraphCutSeams(tile, graph, 0.75f);
+                }
+            }
+
         }
 
         private static GreyScaleImage2D CreateMap(WangTile tile)
@@ -68,30 +85,27 @@ namespace AperiodicTexturing
             return map;
         }
 
-        private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color1, int color2)
+        private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color)
         {
             var mask = new BinaryImage2D(map.Size);
 
             mask.Iterate((x, y) =>
             {
-                if(map[x, y] == color1)
+                if (map[x, y] != color) return;
+
+                for (int i = 0; i < 8; i++)
                 {
-                    for (int i = 0; i < 8; i++)
+                    int xi = x + D8.OFFSETS[i, 0];
+                    int yi = y + D8.OFFSETS[i, 1];
+
+                    if (mask.NotInBounds(xi, yi)) continue;
+
+                    if (map[xi, yi] != color)
                     {
-                        int xi = x + D8.OFFSETS[i, 0];
-                        int yi = y + D8.OFFSETS[i, 1];
-
-                        if (mask.NotInBounds(xi, yi)) continue;
-
-                        if(map[xi, yi] == color2)
-                        {
-                            mask[x, y] = true;
-                            break;
-                        }
-
+                        mask[x, y] = true;
+                        break;
                     }
                 }
-
             });
 
             mask = BinaryImage2D.Dilate(mask, 5);
@@ -108,23 +122,14 @@ namespace AperiodicTexturing
             return mask;
         }
 
-        private static void FillImage(ColorImage2D image, GreyScaleImage2D map, IList<ColorImage2D> tileables)
+        private static GridFlowGraph CreateGraph(GreyScaleImage2D map, BinaryImage2D mask, ColorImage2D image1, ColorImage2D image2)
         {
-            image.Fill((x, y) =>
-            {
-                var index = (int)map[x, y];
-                var pixel = tileables[index][x, y];
-
-                return pixel;
-            });
-        }
-
-        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2)
-        {
-            var graph = new GridFlowGraph(image1.Width, image1.Height);
+            var graph = new GridFlowGraph(map.Width, map.Height);
 
             graph.Iterate((x, y) =>
             {
+                if (mask != null && !mask[x, y]) return;
+
                 var col1 = image1[x, y];
                 var col2 = image2[x, y];
 
@@ -153,267 +158,45 @@ namespace AperiodicTexturing
             return graph;
         }
 
-        private static void MarkSourceAndSink(GridFlowGraph graph, int color1, int color2, GreyScaleImage2D map, BinaryImage2D mask)
+        private static void MarkSourceAndSink(GridFlowGraph graph, int color, GreyScaleImage2D map, BinaryImage2D mask)
         {
             graph.Iterate((x, y) =>
             {
                 if (mask[x, y]) return;
 
-                if (map[x, y] != color1)
-                    graph.SetSource(x, y, 255);
-                else if(map[x, y] != color2)
+                if (map[x, y] == color)
                     graph.SetSink(x, y, 255);
+                else
+                    graph.SetSource(x, y, 255);
             });
         }
 
-        private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image, ColorImage2D image1, ColorImage2D image2)
+        private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image1, ColorImage2D image2)
         {
             graph.Calculate();
 
-            image.Fill((x, y) =>
+            image1.Iterate((x, y) =>
             {
-                if (graph.IsSource(x, y))
-                    return image1[x, y];
-                else
-                    return image2[x, y];
+                if (graph.IsSink(x, y))
+                    image1[x,y] = image2[x, y];
             });
         }
 
-        private static GreyScaleImage2D CreateImageFromGraph(GridFlowGraph graph, bool source, bool sink)
-        {
-            var mask = new GreyScaleImage2D(graph.Width, graph.Height);
-
-            graph.Iterate((x, y) =>
-            {
-                if (source && graph.IsSink(x, y))
-                    mask[x, y] = 1.0f;
-
-                if (sink && graph.IsSource(x, y))
-                    mask[x, y] = 1.0f;
-            });
-
-            return mask;
-        }
-
-
-        /*
-
-        public static void CreateTileImage(WangTile tile, ExemplarSet set)
-        {
-
-            if (tile.IsConst)
-                return;
-
-            int width = tile.TileSize;
-            int height = tile.TileSize;
-            int sinkOffset = 20;
-
-            var sourceBounds = new Box2i(0, 0, width - 1, height - 1);
-            var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
-
-            var mask = CreateColorEdgeMask(tile, 5);
-
-            foreach (var p in sourceBounds.EnumeratePerimeter())
-                mask[p.x, p.y] = true;
-
-            foreach (var p in sinkBounds.EnumerateBounds())
-                mask[p.x, p.y] = true;
-
-            mask.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask.raw");
-
-            var match = FindBestMatch(tile.Image, set, mask);
-            var image = tile.Image;
-
-            var graph = CreateGraph(image, match.Image, sourceBounds, sinkBounds);
-            PerformGraphCut(graph, image, match.Image);
-
-            BlurSeamsAndEdgeLines(tile, graph, 0.5f);
-
-            tile.Image.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/tile.raw");
-
-        }
-
-        private static BinaryImage2D CreateColorEdgeMask(WangTile tile,  int thickness)
-        {
-            int size = tile.TileSize;
-            var mask = new BinaryImage2D(size, size);
-
-            var mid = new Point2i(size / 2, size / 2);
-
-            if (tile.Left != tile.Bottom)
-                mask.DrawLine(mid, new Point2i(0, 0), ColorRGBA.White);
-
-            if (tile.Bottom != tile.Right)
-                mask.DrawLine(mid, new Point2i(size, 0), ColorRGBA.White);
-
-            if (tile.Right != tile.Top)
-                mask.DrawLine(mid, new Point2i(size, size), ColorRGBA.White);
-
-            if (tile.Top != tile.Left)
-                mask.DrawLine(mid, new Point2i(0, size), ColorRGBA.White);
-
-            return BinaryImage2D.Dilate(mask, thickness);
-        }
-
-        private static Exemplar FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
-        {
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
-
-            foreach (var exemplar in set.Exemplars)
-            {
-                if (exemplar.Image == image)
-                    continue;
-
-                float cost = 0;
-                int count = 0;
-
-                for (int x = 0; x < exemplar.Width; x++)
-                {
-                    for (int y = 0; y < exemplar.Height; y++)
-                    {
-                        if (mask != null && !mask[x, y]) continue;
-
-                        var pixel1 = image[x, y];
-                        var pixel2 = exemplar[x, y];
-
-                        cost += ColorRGB.SqrDistance(pixel1, pixel2);
-                        count++;
-                    }
-                }
-
-                if (count == 0) continue;
-                    cost /= count;
-
-                if (cost < bestCost)
-                {
-                    bestCost = cost;
-                    bestMatch = exemplar;
-                }
-            }
-
-            return bestMatch;
-        }
-
-        private static void BlurSeamsAndEdgeLines(WangTile tile, GridFlowGraph graph, float strength)
+        private static void BlurGraphCutSeams(WangTile tile, GridFlowGraph graph, float strength)
         {
             var image = tile.Image;
             int width = image.Width;
             int height = image.Height;
             var binary = new BinaryImage2D(width, height);
 
-            var points = graph.FindBoundaryPoints(true, false);
+            var points = graph.FindBoundaryPoints(true, true);
             binary.Fill(points, true);
-
-            DrawEdgeLines(tile, binary, graph);
-
             binary = BinaryImage2D.Dilate(binary, 2);
 
             var mask = binary.ToGreyScaleImage();
-            //mask = GreyScaleImage2D.GaussianBlur(mask2, 0.5f, null, null, WRAP_MODE.WRAP);
-
             var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
             image.Fill(blurred);
-
-            mask.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask2.raw");
         }
-
-        private static void DrawEdgeLines(WangTile tile, BinaryImage2D binary, GridFlowGraph graph)
-        {
-            int Size = tile.TileSize;
-
-            var mask = CreateMaskFromSink(graph);
-
-            var mid = new Point2i(Size / 2, Size / 2);
-
-            if (tile.Left != tile.Bottom)
-                binary.DrawLine(mid, new Point2i(0, 0), ColorRGBA.White, mask);
-
-            if (tile.Bottom != tile.Right)
-                binary.DrawLine(mid, new Point2i(Size, 0), ColorRGBA.White, mask);
-
-            if (tile.Right != tile.Top)
-                binary.DrawLine(mid, new Point2i(Size, Size), ColorRGBA.White, mask);
-
-            if (tile.Top != tile.Left)
-                binary.DrawLine(mid, new Point2i(0, Size), ColorRGBA.White, mask);
-
-        }
-
-        private static GreyScaleImage2D CreateMaskFromSink(GridFlowGraph graph)
-        {
-            var mask = new GreyScaleImage2D(graph.Width, graph.Height);
-
-            graph.Iterate((x, y) =>
-            {
-                if (!graph.IsSink(x, y))
-                    mask[x, y] = 1.0f;
-            });
-
-            return mask;
-        }
-
-        private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image, ColorImage2D match)
-        {
-            graph.Calculate();
-
-            graph.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                {
-                    image[x, y] = match[x, y];
-                }
-            });
-        }
-
-        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, Box2i sourceBounds, Box2i sinkBounds)
-        {
-            var graph = new GridFlowGraph(image1.Width, image1.Height);
-
-            graph.Iterate((x, y) =>
-            {
-                var col1 = image1[x, y];
-                var col2 = image2[x, y];
-
-                var w1 = ColorRGB.SqrDistance(col1, col2) * 255;
-
-                for (int i = 0; i < 8; i++)
-                {
-                    int xi = x + D8.OFFSETS[i, 0];
-                    int yi = y + D8.OFFSETS[i, 1];
-
-                    if (xi < 0 || xi >= graph.Width) continue;
-                    if (yi < 0 || yi >= graph.Height) continue;
-
-                    var col1i = image1[xi, yi];
-                    var col2i = image2[xi, yi];
-
-                    var w2 = ColorRGB.SqrDistance(col1i, col2i) * 255;
-
-                    var w = MathUtil.Max(1, w1, w2);
-
-                    graph.SetCapacity(x, y, i, w);
-                }
-
-            });
-
-            foreach (var p in sourceBounds.EnumeratePerimeter())
-            {
-                graph.SetSource(p.x, p.y, 255);
-            }
-
-            foreach (var p in sinkBounds.EnumerateBounds())
-            {
-                graph.SetSink(p.x, p.y, 255);
-            }
-
-            var sink = CreateMaskFromSink(graph);
-            sink.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/sink.raw");
-
-            return graph;
-        }
-
-        */
 
     }
 }

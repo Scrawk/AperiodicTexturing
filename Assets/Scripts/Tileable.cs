@@ -98,8 +98,6 @@ namespace AperiodicTexturing
             binary = BinaryImage2D.Dilate(binary, 5);
 
             var mask = binary.ToGreyScaleImage();
-            //mask = GreyScaleImage2D.GaussianBlur(mask, 0.5f, null, null, WRAP_MODE.WRAP);
-
             var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
             image.Fill(blurred);
         }
@@ -110,13 +108,11 @@ namespace AperiodicTexturing
             int height = image.Height;
             var binary = new BinaryImage2D(width, height);
 
-            var points = graph.FindBoundaryPoints(false, true);
+            var points = graph.FindBoundaryPoints(true, true);
             binary.Fill(points, true);
-            binary = BinaryImage2D.Dilate(binary, 3);
+            binary = BinaryImage2D.Dilate(binary, 2);
 
             var mask = binary.ToGreyScaleImage();
-            //mask = GreyScaleImage2D.GaussianBlur(mask, 0.5f, null, null, WRAP_MODE.WRAP);
-
             var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
             image.Fill(blurred);
         }

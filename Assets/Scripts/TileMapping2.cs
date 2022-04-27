@@ -75,9 +75,6 @@ namespace AperiodicTexturing
 			foreach (var tile in tileSet.Tiles)
 			{
 				ImageSynthesis.CreateTileImage(tile, tileables);
-
-				if(!tile.IsConst)
-					break;
 			}
 
 			endTime = Time.realtimeSinceStartup;
@@ -115,7 +112,6 @@ namespace AperiodicTexturing
 
         private void Update()
         {
-			return;
 			float tileTexWidth = m_tileTexture.width / m_tileSize;
 			float tileTexHeight = m_tileTexture.height / m_tileSize;
 			Vector2 tileScale = new Vector2(tileTexWidth, tileTexHeight);
