@@ -13,19 +13,18 @@ namespace AperiodicTexturing
 
 		public WangTile()
 		{
-			Index = new Index2(-1, -1);
+			Index = new Point2i(-1, -1);
 			Edges = new int[]
 			{
 				-1,-1,-1,-1
 			};
 		}
 
-		public WangTile(Index2 index, int left, int bottom, int right, int top, int tileSize)
+		public WangTile(Point2i index, int left, int bottom, int right, int top, int tileSize)
 		{
 			Index = index;
 			TileSize = tileSize;
 			Image = new ColorImage2D(tileSize, tileSize);
-			Map = new GreyScaleImage2D(tileSize, tileSize);
 
 			Edges = new int[]
 			{
@@ -33,7 +32,7 @@ namespace AperiodicTexturing
 			};
 		}
 
-		public Index2 Index { get; private set; }
+		public Point2i Index { get; private set; }
 
 		public int Left => Edges[0];
 
@@ -48,8 +47,6 @@ namespace AperiodicTexturing
 		public int TileSize { get; private set; }
 
 		public ColorImage2D Image { get; private set; }
-
-		public GreyScaleImage2D Map { get; private set; }
 
 		private static ColorRGBA[] Colors = new ColorRGBA[]
 		{
@@ -80,20 +77,8 @@ namespace AperiodicTexturing
 		{
 			var copy = new WangTile(Index, Left, Bottom, Right, Top, TileSize);
 			copy.Image = Image.Copy();
-			copy.Map = Map.Copy();
 
 			return copy;
-		}
-
-		public void FillImage(IList<ColorImage2D> images)
-        {
-			Image.Fill((x, y) =>
-			{
-				var index = (int)Map[x, y];
-				var pixel = images[index][x, y];
-
-				return pixel;
-			});
 		}
 
 		public void AddEdgeColor(int thickness, float alpha)
@@ -105,27 +90,6 @@ namespace AperiodicTexturing
 			Image.DrawBox(thickness, 0, size - thickness, thickness, Colors[Bottom] * a, true);
 			Image.DrawBox(size - thickness, thickness, size, size - thickness, Colors[Right] * a, true);
 			Image.DrawBox(thickness, size - thickness, size - thickness, size, Colors[Top] * a, true);
-		}
-
-		public void CreateMap()
-		{
-			if (IsConst)
-			{
-				Map.Fill(Left);
-			}
-			else
-			{
-				var c00 = new Point2i(0, 0);
-				var c01 = new Point2i(0, TileSize);
-				var c10 = new Point2i(TileSize, 0);
-				var c11 = new Point2i(TileSize, TileSize);
-				var mid = new Point2i(TileSize / 2, TileSize / 2);
-
-				Map.DrawTriangle(mid, c00, c01, new ColorRGBA(Left, 1), true);
-				Map.DrawTriangle(mid, c00, c10, new ColorRGBA(Bottom, 1), true); 
-				Map.DrawTriangle(mid, c10, c11, new ColorRGBA(Right, 1), true);
-				Map.DrawTriangle(mid, c01, c11, new ColorRGBA(Top, 1), true);
-			}
 		}
 
 	}

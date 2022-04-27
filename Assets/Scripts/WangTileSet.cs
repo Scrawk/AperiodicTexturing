@@ -45,7 +45,7 @@ namespace AperiodicTexturing
 					int right = HEdges[i + 1];
 					int top = VEdges[j + 1];
 
-					var index = new Index2(i, j);
+					var index = new Point2i(i, j);
 					var tile = new WangTile(index, left, bottom, right, top, tileSize);
 
 					Tiles[i, j] = tile;
@@ -58,42 +58,76 @@ namespace AperiodicTexturing
 		{
 			var tiles = new WangTile[numHTiles, numVTiles];
 
-			for (int i = 0; i < numHTiles; i++)
-			{
-				for (int j = 0; j < numVTiles; j++)
-				{
-					tiles[i, j] = new WangTile();
-				}
-			}
-
-			var rnd = new System.Random(seed);
+			var rnd = new Random(seed);
 
 			for (int j = 0; j < numVTiles; j++)
 			{
 				for (int i = 0; i < numHTiles; i++)
 				{
-					int im1 = MathUtil.Wrap(i - 1, numHTiles);
-					int ip1 = MathUtil.Wrap(i + 1, numHTiles);
-					int jm1 = MathUtil.Wrap(j - 1, numVTiles);
-					int jp1 = MathUtil.Wrap(j + 1, numVTiles);
+					WangTile tile = null;
+					int count = 0;
 
-					int left = tiles[im1, j].Right;
-					int bottom = tiles[i, jm1].Top;
-					int right = tiles[ip1, j].Left;
-					int top = tiles[i, jp1].Bottom;
+					do
+					{
+						tile = GetNextTile(i, j, tiles, rnd);
+					}
+					while (IsNeighbourTile(i, j, tiles, tile) && count++ < 10);
 
-					if (left < 0) left = rnd.Next(0, NumHColors);
-					if (bottom < 0) bottom = rnd.Next(0, NumVColors);
-					if (right < 0) right = rnd.Next(0, NumHColors);
-					if (top < 0) top = rnd.Next(0, NumVColors);
-
-					var index = TileIndex2D(left, bottom, right, top);
-
-					tiles[i, j] = Tiles[index.x, index.y].Copy();
+					tiles[i, j] = tile.Copy();
 				}
 			}
 
 			return tiles;
+		}
+
+		private WangTile GetNextTile(int i, int j, WangTile[,] tiles, Random rnd)
+        {
+			int numHTiles = tiles.GetLength(0);
+			int numVTiles = tiles.GetLength(1);
+
+			int im1 = MathUtil.Wrap(i - 1, numHTiles);
+			int ip1 = MathUtil.Wrap(i + 1, numHTiles);
+			int jm1 = MathUtil.Wrap(j - 1, numVTiles);
+			int jp1 = MathUtil.Wrap(j + 1, numVTiles);
+
+			int left = tiles[im1, j] != null ? tiles[im1, j].Right : -1;
+			int bottom = tiles[i, jm1] != null ? tiles[i, jm1].Top : -1;
+			int right = tiles[ip1, j] != null ? tiles[ip1, j].Left : -1;
+			int top = tiles[i, jp1] != null ? tiles[i, jp1].Bottom : -1;
+
+			if (left < 0) left = rnd.Next(0, NumHColors);
+			if (bottom < 0) bottom = rnd.Next(0, NumVColors);
+			if (right < 0) right = rnd.Next(0, NumHColors);
+			if (top < 0) top = rnd.Next(0, NumVColors);
+
+			var index = TileIndex2D(left, bottom, right, top);
+
+			return Tiles[index.x, index.y];
+		}
+
+		private bool IsNeighbourTile(int i, int j, WangTile[,] tiles, WangTile tile)
+        {
+			int numHTiles = tiles.GetLength(0);
+			int numVTiles = tiles.GetLength(1);
+
+			for (int x = -1; x <= 1; x++)
+            {
+				for (int y = -1; y <= 1; y++)
+				{
+					if (x == 0 && y == 0) continue;
+
+					int ix = MathUtil.Wrap(i - x, numHTiles);
+					int jy = MathUtil.Wrap(j - y, numVTiles);
+
+					if (tiles[ix, jy] == null)
+						continue;
+
+					if (tiles[ix, jy].Index == tile.Index)
+						return true;
+				}
+			}
+
+			return false;
 		}
 
 		private static int[] TravelEdges(int numColors)
@@ -140,9 +174,9 @@ namespace AperiodicTexturing
 			return index;
 		}
 
-		private static Index2 TileIndex2D(int left, int bottom, int right, int top)
+		private static Point2i TileIndex2D(int left, int bottom, int right, int top)
 		{
-			Index2 index;
+			Point2i index;
 			index.x = TileIndex1D(left, right);
 			index.y = TileIndex1D(bottom, top);
 

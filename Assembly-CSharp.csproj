@@ -56,6 +56,7 @@
     <Compile Include="Assets\Common\Drawers\BoxDrawer.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension4.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension4.cs" />
+    <Compile Include="Assets\Scripts\Tileable.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension3.cs" />
     <Compile Include="Assets\Common\Extensions\BoundsExtension.cs" />
     <Compile Include="Assets\Scripts\ImageSynthesis.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
     <Compile Include="Assets\Common\Drawers\Vector2Drawer.cs" />
-    <Compile Include="Assets\Scripts\MakeImageTileable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\AperiodicTexturingShader.shader" />

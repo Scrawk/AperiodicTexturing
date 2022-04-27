@@ -48,25 +48,23 @@ namespace AperiodicTexturing
 
 			var exemplars = exemplarSet.GetRandomExemplars(Math.Max(m_numHColors, m_numVColors), 0);
 
-			var tilables = new ColorImage2D[exemplars.Count];
+			var tileables = new ColorImage2D[exemplars.Count];
 
 			float startTime = Time.realtimeSinceStartup;
 
-			for (int i = 0; i < 1; i++)
+			for (int i = 0; i < tileables.Length; i++)
 			{
 				var exemplar = exemplars[i];
 
 				var tileable = Tileable.MakeImageTileable(exemplar.Image, exemplarSet);
 
-				tilables[i] = tileable;
+				tileables[i] = tileable;
 
 				tileable.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/tileable" + i + ".raw");
 			}
 
 			float endTime = Time.realtimeSinceStartup;
 			Debug.Log("Created tilables in " + (endTime - startTime) + " seconds");
-
-			return;
 
 			exemplarSet.ResetUsedCount();
 
@@ -76,10 +74,10 @@ namespace AperiodicTexturing
 
 			foreach (var tile in tileSet.Tiles)
 			{
-				tile.CreateMap();
-				tile.FillImage(tilables);
+				ImageSynthesis.CreateTileImage(tile, tileables);
 
-				ImageSynthesis.CreateTileImage(tile, exemplarSet);
+				if(!tile.IsConst)
+					break;
 			}
 
 			endTime = Time.realtimeSinceStartup;
@@ -118,7 +116,6 @@ namespace AperiodicTexturing
         private void Update()
         {
 			return;
-
 			float tileTexWidth = m_tileTexture.width / m_tileSize;
 			float tileTexHeight = m_tileTexture.height / m_tileSize;
 			Vector2 tileScale = new Vector2(tileTexWidth, tileTexHeight);

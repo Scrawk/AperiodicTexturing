@@ -32,8 +32,9 @@ namespace AperiodicTexturing
             var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - sinkOffset, height - sinkOffset);
 
             var exemplar = FindBestMatch(tileable, set, null);
-            var match = exemplar.Image;
+            exemplar.IncrementUsed();
 
+            var match = exemplar.Image;
             var graph = CreateGraph(tileable, match, sourceOffset, sinkBounds);
             PerformGraphCut(graph, tileable, match);
 
@@ -49,7 +50,7 @@ namespace AperiodicTexturing
 
             foreach (var exemplar in set.Exemplars)
             {
-                if (exemplar.Image == image)
+                if (exemplar.Image == image || exemplar.Used > 0)
                     continue;
 
                 float cost = 0;
@@ -118,8 +119,6 @@ namespace AperiodicTexturing
 
             var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
             image.Fill(blurred);
-
-            mask.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask2.raw");
         }
 
         private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image, ColorImage2D match)
@@ -181,16 +180,6 @@ namespace AperiodicTexturing
             {
                 graph.SetSink(p.x, p.y, 255);
             }
-
-            var map = new GreyScaleImage2D(graph.Width, graph.Height);
-
-            graph.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y) || graph.IsSource(x, y))
-                    map[x, y] = 1.0f;
-            });
-
-            map.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/map.raw");
 
             return graph;
         }
