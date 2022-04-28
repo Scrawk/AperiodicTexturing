@@ -44,7 +44,7 @@ namespace AperiodicTexturing
 			var source = ToImage(m_sampleTexture);
 
 			var exemplarSet = new ExemplarSet(source, m_tileSize);
-			exemplarSet.CreateExemplarsFromRandom(0, 8);
+			exemplarSet.CreateExemplarsFromRandom(0, 8, 0.5f);
 
 			var exemplars = exemplarSet.GetRandomExemplars(Math.Max(m_numHColors, m_numVColors), 0);
 
@@ -56,7 +56,7 @@ namespace AperiodicTexturing
 			{
 				var exemplar = exemplars[i];
 
-				var tileable = Tileable.MakeImageTileable(exemplar.Image, exemplarSet);
+				var tileable = ImageSynthesis.CreateTileableImage(exemplar.Image, exemplarSet);
 
 				tileables[i] = tileable;
 
@@ -74,7 +74,7 @@ namespace AperiodicTexturing
 
 			foreach (var tile in tileSet.Tiles)
 			{
-				ImageSynthesis.CreateTileImage(tile, tileables);
+				ImageSynthesis.CreateWangTileImage(tile, tileables);
 			}
 
 			endTime = Time.realtimeSinceStartup;

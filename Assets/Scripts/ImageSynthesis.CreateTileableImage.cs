@@ -15,10 +15,10 @@ using ImageProcessing.Pixels;
 
 namespace AperiodicTexturing
 {
-    public static class Tileable
+    public static partial class ImageSynthesis
     {
 
-        public static ColorImage2D MakeImageTileable(ColorImage2D image, ExemplarSet set)
+        public static ColorImage2D CreateTileableImage(ColorImage2D image, ExemplarSet set)
         {
             int width = image.Width;
             int height = image.Height;
@@ -36,7 +36,14 @@ namespace AperiodicTexturing
 
             var match = exemplar.Image;
             var graph = CreateGraph(tileable, match, sourceOffset, sinkBounds);
-            PerformGraphCut(graph, tileable, match);
+
+            graph.Calculate();
+
+            graph.Iterate((x, y) =>
+            {
+                if (graph.IsSink(x, y))
+                    tileable[x, y] = match[x, y];
+            });
 
             BlurGraphCutSeams(tileable, graph, 0.5f);
 
@@ -115,19 +122,6 @@ namespace AperiodicTexturing
             var mask = binary.ToGreyScaleImage();
             var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
             image.Fill(blurred);
-        }
-
-        private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image, ColorImage2D match)
-        {
-            graph.Calculate();
-
-            graph.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                {
-                    image[x, y] = match[x, y];
-                }
-            });
         }
 
         private static GridFlowGraph CreateGraph(ColorImage2D image, ColorImage2D match, int sourceArea, Box2i sinkArea)

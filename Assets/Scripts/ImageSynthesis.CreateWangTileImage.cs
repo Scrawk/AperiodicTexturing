@@ -15,10 +15,10 @@ using ImageProcessing.Images;
 
 namespace AperiodicTexturing
 {
-    public static class ImageSynthesis
+    public static partial class ImageSynthesis
     {
 
-        public static void CreateTileImage(WangTile tile, IList<ColorImage2D> tileables)
+        public static void CreateWangTileImage(WangTile tile, IList<ColorImage2D> tileables)
         {
             var map = CreateMap(tile);
 
@@ -51,7 +51,13 @@ namespace AperiodicTexturing
 
                     MarkSourceAndSink(graph, color, map, mask);
 
-                    PerformGraphCut(graph, tile.Image, tileable);
+                    graph.Calculate();
+
+                    tile.Image.Iterate((x, y) =>
+                    {
+                        if (graph.IsSink(x, y))
+                            tile.Image[x, y] = tileable[x, y];
+                    });
 
                     BlurGraphCutSeams(tile, graph, 0.75f);
                 }
@@ -168,17 +174,6 @@ namespace AperiodicTexturing
                     graph.SetSink(x, y, 255);
                 else
                     graph.SetSource(x, y, 255);
-            });
-        }
-
-        private static void PerformGraphCut(GridFlowGraph graph, ColorImage2D image1, ColorImage2D image2)
-        {
-            graph.Calculate();
-
-            image1.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                    image1[x,y] = image2[x, y];
             });
         }
 

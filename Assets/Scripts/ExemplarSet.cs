@@ -44,6 +44,19 @@ namespace AperiodicTexturing
                 exemplar.ResetUsed();
         }
 
+        public void CreateVariants()
+        {
+            var variants = new List<Exemplar>();
+
+            foreach (var exemplar in Exemplars)
+            {
+                var v = exemplar.CreateVariants();
+                variants.AddRange(v);
+            }
+
+            Exemplars.AddRange(variants);
+        }
+
         public List<Exemplar> GetRandomExemplars(int count, int seed)
         {
             count = Math.Max(count, 0);
@@ -79,24 +92,23 @@ namespace AperiodicTexturing
             Exemplars = CreateVariants(croppedImages);
         }
 
-        public void CreateExemplarsFromRandom(int seed, int count)
+        public void CreateExemplarsFromRandom(int seed, int count, float maxCoverage)
         {
             Clear();
 
             var mask = new BinaryImage2D(Source.Width, Source.Height);
-            var exemplars = new List<Exemplar>();
-
+ 
             var rnd = new Random(seed);
             int fails = 0;
 
-            while (exemplars.Count < count && fails < 1000)
+            while (Exemplars.Count < count && fails < 1000)
             {
                 int x = rnd.Next(0, Source.Width - ExemplarSize - 1);
                 int y = rnd.Next(0, Source.Height - ExemplarSize - 1);
 
                 var coverage = GetCoverage(mask, x, y);
 
-                if (coverage > 0.5f)
+                if (coverage > maxCoverage)
                 {
                     fails++;
                     continue;
@@ -105,10 +117,8 @@ namespace AperiodicTexturing
                 AddCoverage(mask, x, y);
 
                 var exemplar = ColorImage2D.Crop(Source, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize));
-                exemplars.Add(new Exemplar(exemplar));
+                Exemplars.Add(new Exemplar(exemplar));
             }
-
-            Exemplars = CreateVariants(exemplars);
         }
 
         private float GetCoverage(BinaryImage2D mask, int x, int y)
@@ -154,19 +164,5 @@ namespace AperiodicTexturing
             return variants;
         }
 
-        private List<Exemplar> CreateVariants(List<Exemplar> exemplars)
-        {
-            var variants = new List<Exemplar>();
-
-            foreach (var exemplar in exemplars)
-            {
-                var v = exemplar.CreateVariants();
-
-                variants.Add(exemplar);
-                variants.AddRange(v);
-            }
-
-            return variants;
-        }
     }
 }
