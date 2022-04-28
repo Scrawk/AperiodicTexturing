@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 using UnityEngine;
 using UnityEditor;
@@ -16,15 +17,15 @@ namespace AperiodicTexturing
 
         private static Texture2D m_source;
 
-        private static int m_numTiles = 1;
+        private static int m_numTiles = 2;
 
         private static int m_tileSize = 128;
 
         private static int m_seed = 0;
 
-        private static string m_folderName = "Results";
+        private static string m_folderName = "Textures Results";
 
-        private static string m_fileName = "Tile";
+        private static string m_fileName = "Tileable";
 
         private ColorImage2D[] m_tiles;
 
@@ -32,7 +33,7 @@ namespace AperiodicTexturing
 
         private ExemplarSet m_set;
 
-        private bool m_isRunning, m_outputSaved;
+        private bool m_isRunning;
 
         [MenuItem("Window/Aperiodic Texturing/Create Tileable Images")]
         public static void ShowWindow()
@@ -44,6 +45,10 @@ namespace AperiodicTexturing
         {
             EditorGUILayout.LabelField("Create a number of tileable textures from the source texture.");
 
+            EditorGUILayout.Space();
+
+            EditorGUI.BeginDisabledGroup(m_isRunning);
+
             m_numTiles = EditorGUILayout.IntField("Number of tiles", m_numTiles);
             m_tileSize = EditorGUILayout.IntField("Tile Size", m_tileSize);
             m_seed = EditorGUILayout.IntField("Seed", m_seed);
@@ -51,9 +56,11 @@ namespace AperiodicTexturing
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
             m_fileName = EditorGUILayout.TextField("File name", m_fileName);
 
+            EditorGUILayout.Space();
+
             m_source = (Texture2D)EditorGUILayout.ObjectField("Source", m_source, typeof(Texture2D), false);
 
-            EditorGUI.BeginDisabledGroup(m_isRunning);
+            EditorGUILayout.Space();
 
             if (GUILayout.Button(GetButtonText()))
             {
@@ -64,26 +71,25 @@ namespace AperiodicTexturing
                     m_set = new ExemplarSet(m_image, m_tileSize);
                     m_set.CreateExemplarsFromRandom(m_seed, m_numTiles, 0.5f);
                     m_tiles = new ColorImage2D[m_set.Count];
+                    m_isRunning = true;
 
                     Run();
+
+                    //EditorUtility.DisplayProgressBar("Creating tiles", "Running (This could take awhile)", 0);
                 }
             }
 
             EditorGUI.EndDisabledGroup();
 
-            if(!m_isRunning && !m_outputSaved && m_tiles != null)
-            {
-                SaveTiles();
-                m_outputSaved = true;
-                m_tiles = null;
-            }
+            //if(!m_isRunning)
+            //    EditorUtility.ClearProgressBar();
 
         }
 
         private string GetButtonText()
         {
             if (!m_isRunning)
-                return "Create tiles";
+                return "Create";
             else
                 return "Running (This could take awhile)";
         }
@@ -116,10 +122,9 @@ namespace AperiodicTexturing
 
         private async void Run()
         {
+
             await Task.Run(() =>
             {
-                m_isRunning = true;
-
                 if (m_set.Count < m_numTiles)
                 {
                     Debug.Log("Failed to find the required number of tiles in sources texture.");
@@ -132,9 +137,14 @@ namespace AperiodicTexturing
                     m_tiles[i] = ImageSynthesis.CreateTileableImage(exemplar.Image, m_set);
                 }
 
+            }).ContinueWith((task) =>
+            {
+                SaveTiles();
                 m_isRunning = false;
-            });
-         }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+        }
 
         private void SaveTiles()
         {
@@ -151,7 +161,7 @@ namespace AperiodicTexturing
 
                 System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
 
-                Debug.Log("Saved tile " + fileName);
+                Debug.Log("Saved texture " + fileName);
             }
 
             AssetDatabase.Refresh();

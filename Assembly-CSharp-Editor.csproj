@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CreateTileablesWindow.cs" />
+    <Compile Include="Assets\Editor\CreateAperiodicTilesWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
