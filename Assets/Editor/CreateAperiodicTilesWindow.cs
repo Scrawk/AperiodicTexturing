@@ -27,7 +27,7 @@ namespace AperiodicTexturing
 
         private static int m_tileSize = 128;
 
-        private static int m_samples = 16;
+        private static int m_samples = 100;
 
         private static int m_seed = 0;
 

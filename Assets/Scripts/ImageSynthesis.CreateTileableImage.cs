@@ -41,6 +41,8 @@ namespace AperiodicTexturing
             var mask = CreateMaskFromGraph(graph, 5, 0.75f);
             BlendImages(graph, tileable, match, mask);
 
+            tileable = ColorImage2D.Offset(tileable, width / 2, height / 2);
+
             return tileable;
         }
 
