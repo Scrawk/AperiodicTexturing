@@ -14,6 +14,7 @@ namespace AperiodicTexturing
 {
     class CreateAperiodicTilesWidow : EditorWindow
     {
+        private static Texture2D m_source;
 
         private static Texture2D[] m_tileables;
 
@@ -39,11 +40,17 @@ namespace AperiodicTexturing
 
         private bool m_isRunning;
 
-        private static ColorImage2D[] m_images;
+        private ColorImage2D[] m_tileableImages;
 
-        private static WangTile[,] m_mapping;
+        private ColorImage2D m_sourceImage;
 
-        private static WangTileSet m_tileSet;
+        private WangTile[,] m_mapping;
+
+        private WangTileSet m_tileSet;
+
+        private ExemplarSet m_exemplarSet;
+
+        private Exception m_exception;
 
         private int NumTileables => Math.Max(m_numHColors, m_numVColors);
 
@@ -55,25 +62,34 @@ namespace AperiodicTexturing
 
         private void OnGUI()
         {
-            EditorGUILayout.LabelField("Create the aperoidic tile and mappinp texture.");
+            EditorGUILayout.LabelField("Create the aperoidic tile and mapping texture.");
 
             EditorGUILayout.Space();
 
             EditorGUI.BeginDisabledGroup(m_isRunning);
 
-            m_numHColors = EditorGUILayout.IntField("Number of horizonal colors", m_numHColors);
-            m_numVColors = EditorGUILayout.IntField("Number of vertical colors", m_numVColors);
-            m_mappingWidth = EditorGUILayout.IntField("Mapping texture width", m_mappingWidth);
-            m_mappingHeight = EditorGUILayout.IntField("Mapping texture height", m_mappingHeight);
-            m_tileSize = EditorGUILayout.IntField("Tile size", m_tileSize);
-            m_seed = EditorGUILayout.IntField("Seed", m_seed);
+            m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 4);
+            m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
+            m_mappingWidth = Mathf.Max(EditorGUILayout.IntField("Mapping texture width", m_mappingWidth), 2);
+            m_mappingHeight = Mathf.Max(EditorGUILayout.IntField("Mapping texture height", m_mappingHeight), 2);
+            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile size", m_tileSize), 64);
             m_addEdgeColors = EditorGUILayout.Toggle("Create edge color tile", m_addEdgeColors);
+
+            EditorGUILayout.Space();
+
+            m_seed = EditorGUILayout.IntField("Seed", m_seed);
+            if (GUILayout.Button("Generate seed"))
+                m_seed = GUID.Generate().GetHashCode();
+
+           EditorGUILayout.Space();
 
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
             m_tileFileName = EditorGUILayout.TextField("Tile file name", m_tileFileName);
             m_mappingFileName = EditorGUILayout.TextField("Mapping file name", m_mappingFileName);
 
             EditorGUILayout.Space();
+
+            m_source = (Texture2D)EditorGUILayout.ObjectField("Source", m_source, typeof(Texture2D), false);
 
             if (m_tileables == null)
                 m_tileables = new Texture2D[4];
@@ -89,24 +105,25 @@ namespace AperiodicTexturing
             {
                 if (Validate())
                 {
-                    m_images = new ColorImage2D[NumTileables];
+                    m_sourceImage = ToImage(m_source);
+
+                    m_exemplarSet = new ExemplarSet(m_sourceImage, m_tileSize);
+                    m_exemplarSet.CreateExemplarsFromRandom(m_seed, 32, 0.5f);
+
+                    m_tileableImages = new ColorImage2D[NumTileables];
                     for (int i = 0; i < NumTileables; i++)
-                        m_images[i] = ToImage(m_tileables[i]);
+                        m_tileableImages[i] = ToImage(m_tileables[i]);
 
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
 
                     m_isRunning = true;
+                    m_exception = null;
 
                     Run();
-
-                    //EditorUtility.DisplayProgressBar("Creating tiles", "Running (This could take awhile)", 0);
                 }
             }
 
             EditorGUI.EndDisabledGroup();
-
-            //if(!m_isRunning)
-            //    EditorUtility.ClearProgressBar();
 
         }
 
@@ -152,27 +169,43 @@ namespace AperiodicTexturing
 
             await Task.Run(() =>
             {
-                foreach (var tile in m_tileSet.Tiles)
+                try
                 {
-                    ImageSynthesis.CreateWangTileImage(tile, m_images);
-                }
 
-                m_mapping = m_tileSet.CreateTileMap(m_mappingHeight, m_mappingWidth, m_seed);
+                    foreach (var tile in m_tileSet.Tiles)
+                    {
+                        ImageSynthesis.CreateWangTileImage(tile, m_tileableImages, m_exemplarSet);
+                    }
+
+                    m_mapping = m_tileSet.CreateTileMap(m_mappingHeight, m_mappingWidth, m_seed);
+                }
+                catch(Exception e)
+                {
+                    m_exception = e;
+                }
 
             }).ContinueWith((task) =>
             {
-                SaveTiles(false);
-
-                if(m_addEdgeColors)
+                if (m_exception != null)
                 {
-                    foreach (var tile in m_tileSet.Tiles)
-                        tile.AddEdgeColor(4, 0.5f);
-
-                    SaveTiles(true);
+                    Debug.Log("Failed to create textures due to a exception.");
+                    Debug.Log(m_exception);
                 }
+                else
+                {
+                    SaveTiles(false);
 
-                SaveMapping();
-                m_isRunning = false;
+                    if (m_addEdgeColors)
+                    {
+                        foreach (var tile in m_tileSet.Tiles)
+                            tile.AddEdgeColor(4, 0.5f);
+
+                        SaveTiles(true);
+                    }
+
+                    SaveMapping();
+                    m_isRunning = false;
+                }
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
 

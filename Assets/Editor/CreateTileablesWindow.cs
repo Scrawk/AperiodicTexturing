@@ -35,6 +35,8 @@ namespace AperiodicTexturing
 
         private bool m_isRunning;
 
+        private Exception m_exception;
+
         [MenuItem("Window/Aperiodic Texturing/Create Tileable Images")]
         public static void ShowWindow()
         {
@@ -49,9 +51,16 @@ namespace AperiodicTexturing
 
             EditorGUI.BeginDisabledGroup(m_isRunning);
 
-            m_numTiles = EditorGUILayout.IntField("Number of tiles", m_numTiles);
-            m_tileSize = EditorGUILayout.IntField("Tile Size", m_tileSize);
+            m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
+            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 64);
+
+            EditorGUILayout.Space();
+
             m_seed = EditorGUILayout.IntField("Seed", m_seed);
+            if (GUILayout.Button("Generate seed"))
+                m_seed = GUID.Generate().GetHashCode();
+
+            EditorGUILayout.Space();
 
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
             m_fileName = EditorGUILayout.TextField("File name", m_fileName);
@@ -62,7 +71,7 @@ namespace AperiodicTexturing
 
             EditorGUILayout.Space();
 
-            if (GUILayout.Button(GetButtonText()))
+            if (GUILayout.Button(GetRunButtonText()))
             {
                 if(Validate())
                 {
@@ -70,23 +79,26 @@ namespace AperiodicTexturing
 
                     m_set = new ExemplarSet(m_image, m_tileSize);
                     m_set.CreateExemplarsFromRandom(m_seed, m_numTiles, 0.5f);
+
+                    if (m_set.Count < m_numTiles)
+                    {
+                        Debug.Log("Failed to find the required number of tiles in sources texture. Use a larger source texture or a smaller tile size.");
+                        return;
+                    }
+
                     m_tiles = new ColorImage2D[m_set.Count];
                     m_isRunning = true;
+                    m_exception = null;
 
                     Run();
-
-                    //EditorUtility.DisplayProgressBar("Creating tiles", "Running (This could take awhile)", 0);
                 }
             }
 
             EditorGUI.EndDisabledGroup();
 
-            //if(!m_isRunning)
-            //    EditorUtility.ClearProgressBar();
-
         }
 
-        private string GetButtonText()
+        private string GetRunButtonText()
         {
             if (!m_isRunning)
                 return "Create";
@@ -125,21 +137,32 @@ namespace AperiodicTexturing
 
             await Task.Run(() =>
             {
-                if (m_set.Count < m_numTiles)
+                try
                 {
-                    Debug.Log("Failed to find the required number of tiles in sources texture.");
-                    return;
-                }
+                    for (int i = 0; i < m_set.Count; i++)
+                    {
+                        var exemplar = m_set.Exemplars[i];
+                        m_tiles[i] = ImageSynthesis.CreateTileableImage(exemplar.Image, m_set);
+                    }
 
-                for (int i = 0; i < m_set.Count; i++)
+                }
+                catch(Exception e)
                 {
-                    var exemplar = m_set.Exemplars[i];
-                    m_tiles[i] = ImageSynthesis.CreateTileableImage(exemplar.Image, m_set);
+                    m_exception = e;
                 }
 
             }).ContinueWith((task) =>
             {
-                SaveTiles();
+                if(m_exception != null)
+                {
+                    Debug.Log("Failed to create textures due to a exception.");
+                    Debug.Log(m_exception);
+                }
+                else
+                {
+                    SaveTiles();
+                }
+
                 m_isRunning = false;
 
             }, TaskScheduler.FromCurrentSynchronizationContext());

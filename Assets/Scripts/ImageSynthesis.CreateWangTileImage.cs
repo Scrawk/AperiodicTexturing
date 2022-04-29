@@ -18,7 +18,7 @@ namespace AperiodicTexturing
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTile tile, IList<ColorImage2D> tileables)
+        public static void CreateWangTileImage(WangTile tile, IList<ColorImage2D> tileables, ExemplarSet set)
         {
             var map = CreateMap(tile);
 
@@ -42,24 +42,34 @@ namespace AperiodicTexturing
                 else
                 {
                     int color = colors[i];
-
                     var tileable = tileables[color];
 
                     var mask = CreateMask(map, color);
-
-                    var graph = CreateGraph(map, mask, tile.Image, tileable);
+                    var graph = CreateGraph(tile.Image, tileable, mask);
 
                     MarkSourceAndSink(graph, color, map, mask);
 
                     graph.Calculate();
+                    BlendImages(graph, tile.Image, tileable, null);
 
-                    tile.Image.Iterate((x, y) =>
-                    {
-                        if (graph.IsSink(x, y))
-                            tile.Image[x, y] = tileable[x, y];
-                    });
+                    BlurGraphCutSeams(tile.Image, graph, 2, 0.75f);
 
-                    BlurGraphCutSeams(tile, graph, 0.75f);
+                    int size = tile.TileSize;
+                    int sourceOffset = 2;
+                    int sinkOffset = 16;
+
+                    var exemplar = FindBestMatch(tile.Image, set, null);
+                    exemplar.IncrementUsed();
+
+                    var match = exemplar.Image;
+                    var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - sinkOffset, size - sinkOffset);
+
+                    graph = CreateGraph(tile.Image, match, null);
+                    MarkSourceAndSink(graph, sourceOffset, sinkBounds);
+
+                    graph.Calculate();
+                    var blend2 = CreateMaskFromGraph(graph, 5, 0.75f);
+                    BlendImages(graph, tile.Image, match, blend2);
                 }
             }
 
@@ -126,42 +136,6 @@ namespace AperiodicTexturing
             }
 
             return mask;
-        }
-
-        private static GridFlowGraph CreateGraph(GreyScaleImage2D map, BinaryImage2D mask, ColorImage2D image1, ColorImage2D image2)
-        {
-            var graph = new GridFlowGraph(map.Width, map.Height);
-
-            graph.Iterate((x, y) =>
-            {
-                if (mask != null && !mask[x, y]) return;
-
-                var col1 = image1[x, y];
-                var col2 = image2[x, y];
-
-                var w1 = ColorRGB.SqrDistance(col1, col2) * 255;
-
-                for (int i = 0; i < 8; i++)
-                {
-                    int xi = x + D8.OFFSETS[i, 0];
-                    int yi = y + D8.OFFSETS[i, 1];
-
-                    if (xi < 0 || xi >= graph.Width) continue;
-                    if (yi < 0 || yi >= graph.Height) continue;
-
-                    var col1i = image1[xi, yi];
-                    var col2i = image2[xi, yi];
-
-                    var w2 = ColorRGB.SqrDistance(col1i, col2i) * 255;
-
-                    var w = MathUtil.Max(1, w1, w2);
-
-                    graph.SetCapacity(x, y, i, w);
-                }
-
-            });
-
-            return graph;
         }
 
         private static void MarkSourceAndSink(GridFlowGraph graph, int color, GreyScaleImage2D map, BinaryImage2D mask)
