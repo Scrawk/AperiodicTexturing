@@ -11,18 +11,8 @@ namespace AperiodicTexturing
 	public class WangTile
 	{
 
-		public WangTile()
+		public WangTile(int left, int bottom, int right, int top, int tileSize)
 		{
-			Index = new Point2i(-1, -1);
-			Edges = new int[]
-			{
-				-1,-1,-1,-1
-			};
-		}
-
-		public WangTile(Point2i index, int left, int bottom, int right, int top, int tileSize)
-		{
-			Index = index;
 			TileSize = tileSize;
 			Image = new ColorImage2D(tileSize, tileSize);
 
@@ -32,7 +22,9 @@ namespace AperiodicTexturing
 			};
 		}
 
-		public Point2i Index { get; private set; }
+		public int Index1 { get; set; }
+
+		public Point2i Index2 { get; set; }
 
 		public int Left => Edges[0];
 
@@ -70,12 +62,14 @@ namespace AperiodicTexturing
 		public override string ToString()
 		{
 			return string.Format("[WangTile: Index={0}, left={1}, bottom={2}, right={3}, top={4}]",
-				Index, Left, Bottom, Right, Top);
+				Index2, Left, Bottom, Right, Top);
 		}
 
 		public WangTile Copy()
 		{
-			var copy = new WangTile(Index, Left, Bottom, Right, Top, TileSize);
+			var copy = new WangTile(Left, Bottom, Right, Top, TileSize);
+			copy.Index1 = Index1;
+			copy.Index2 = Index2;
 			copy.Image = Image.Copy();
 
 			return copy;
@@ -86,10 +80,10 @@ namespace AperiodicTexturing
 			int size = TileSize;
 			ColorRGBA a = new ColorRGBA(1, 1, 1, alpha);
 
-			Image.DrawBox(0, thickness, thickness, size - thickness, Colors[Left] * a, true);
-			Image.DrawBox(thickness, 0, size - thickness, thickness, Colors[Bottom] * a, true);
-			Image.DrawBox(size - thickness, thickness, size, size - thickness, Colors[Right] * a, true);
-			Image.DrawBox(thickness, size - thickness, size - thickness, size, Colors[Top] * a, true);
+			Image.DrawBox(0, thickness+1, thickness, size - thickness - 1, Colors[Left] * a, true);
+			Image.DrawBox(thickness+1, 0, size - thickness - 1, thickness, Colors[Bottom] * a, true);
+			Image.DrawBox(size - thickness, thickness+1, size, size - thickness - 1, Colors[Right] * a, true);
+			Image.DrawBox(thickness+1, size - thickness, size - thickness - 1, size, Colors[Top] * a, true);
 		}
 
 	}

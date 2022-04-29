@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 
 using UnityEngine;
 
@@ -18,19 +20,53 @@ namespace AperiodicTexturing
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTile tile, IList<ColorImage2D> tileables, ExemplarSet set)
+        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, bool parellel)
         {
-            var map = CreateMap(tile);
 
-            var colors = new List<int>();
-
-            foreach(var color in tile.Edges)
+            if(parellel)
             {
-                if (!colors.Contains(color))
-                    colors.Add(color);
+                var tiles = new List<WangTile>(tileSet.Tiles.Length);
+                foreach (var tile in tileSet.Tiles)
+                    tiles.Add(tile);
+
+                Parallel.ForEach(tiles, tile =>
+                {
+                    CreateWangTileImageStage1(tile, tileables);
+                });
+
+                var exemplars = FindBestMatches(tileSet, exemplarSet);
+
+                Parallel.ForEach(tiles, tile =>
+                {
+                    int index = tile.Index1;
+                    var exemplar = exemplars[index];
+                    CreateWangTileImageStage2(tile, exemplar.Image);
+                });
+            }
+            else
+            {
+                foreach (var tile in tileSet.Tiles)
+                {
+                    CreateWangTileImageStage1(tile, tileables);
+                }
+
+                var exemplars = FindBestMatches(tileSet, exemplarSet);
+
+                foreach (var tile in tileSet.Tiles)
+                {
+                    int index = tile.Index1;
+                    var exemplar = exemplars[index];
+                    CreateWangTileImageStage2(tile, exemplar.Image);
+                }
             }
 
-            colors.Sort();
+            exemplarSet.ResetUsedCount();
+        }
+
+        private static void CreateWangTileImageStage1(WangTile tile, IList<ColorImage2D> tileables)
+        {
+            
+            var colors = GetSortedColors(tile);
 
             for(int i = 0; i < colors.Count; i++)
             {
@@ -43,6 +79,7 @@ namespace AperiodicTexturing
                 {
                     int color = colors[i];
                     var tileable = tileables[color];
+                    var map = CreateMap(tile);
 
                     var mask = CreateMask(map, color);
                     var graph = CreateGraph(tile.Image, tileable, mask);
@@ -53,26 +90,58 @@ namespace AperiodicTexturing
                     BlendImages(graph, tile.Image, tileable, null);
 
                     BlurGraphCutSeams(tile.Image, graph, 2, 0.75f);
-
-                    int size = tile.TileSize;
-                    int sourceOffset = 2;
-                    int sinkOffset = 16;
-
-                    var exemplar = FindBestMatch(tile.Image, set, null);
-                    exemplar.IncrementUsed();
-
-                    var match = exemplar.Image;
-                    var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - sinkOffset, size - sinkOffset);
-
-                    graph = CreateGraph(tile.Image, match, null);
-                    MarkSourceAndSink(graph, sourceOffset, sinkBounds);
-
-                    graph.Calculate();
-                    var blend2 = CreateMaskFromGraph(graph, 5, 0.75f);
-                    BlendImages(graph, tile.Image, match, blend2);
                 }
             }
 
+        }
+
+        private static void CreateWangTileImageStage2(WangTile tile, ColorImage2D match)
+        {
+            int size = tile.TileSize;
+            int sourceOffset = 2;
+            int sinkOffset = 16;
+
+            var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - sinkOffset, size - sinkOffset);
+
+            var graph = CreateGraph(tile.Image, match, null);
+            MarkSourceAndSink(graph, sourceOffset, sinkBounds);
+
+            graph.Calculate();
+            var blend = CreateMaskFromGraph(graph, 5, 0.75f);
+            BlendImages(graph, tile.Image, match, blend);
+
+            blend.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask.raw");
+        }
+
+        private static List<int> GetSortedColors(WangTile tile)
+        {
+            var colors = new List<int>();
+
+            foreach (var color in tile.Edges)
+            {
+                if (!colors.Contains(color))
+                    colors.Add(color);
+            }
+
+            colors.Sort();
+
+            return colors;
+        }
+
+        private static Exemplar[] FindBestMatches(WangTileSet tileSet, ExemplarSet set)
+        {
+            var exemplars = new Exemplar[tileSet.NumTiles];
+
+            foreach(var tile in tileSet.Tiles)
+            {
+                Exemplar exemplar = FindBestMatch(tile.Image, set, null);
+                exemplar.IncrementUsed();
+
+                var index = tile.Index1;
+                exemplars[index] = exemplar;
+            }
+
+            return exemplars;
         }
 
         private static GreyScaleImage2D CreateMap(WangTile tile)

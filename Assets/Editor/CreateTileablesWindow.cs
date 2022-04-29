@@ -45,6 +45,7 @@ namespace AperiodicTexturing
 
         private void OnGUI()
         {
+            titleContent.text = "Tileable texture creator";
             EditorGUILayout.LabelField("Create a number of tileable textures from the source texture.");
 
             EditorGUILayout.Space();
@@ -78,7 +79,8 @@ namespace AperiodicTexturing
                     m_image = ToImage(m_source);
 
                     m_set = new ExemplarSet(m_image, m_tileSize);
-                    m_set.CreateExemplarsFromRandom(m_seed, m_numTiles, 0.5f);
+                    m_set.CreateExemplarsFromRandom(m_seed, m_numTiles, 0.25f);
+                    //m_set.CreateVariants();
 
                     if (m_set.Count < m_numTiles)
                     {

@@ -63,6 +63,7 @@
     <Compile Include="Assets\Common\Extensions\BoundsExtension.cs" />
     <Compile Include="Assets\Scripts\ImageSynthesis.CreateWangTileImage.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension2.cs" />
+    <Compile Include="Assets\Scripts\ImageSynthesis.Utility.cs" />
     <Compile Include="Assets\Common\Extensions\ColorExtension.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension2.cs" />
     <Compile Include="Assets\Scripts\WangTile.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Assets\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
-    <Compile Include="Assets\Scripts\ImageSynthesis.Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\AperiodicTexturingShader.shader" />

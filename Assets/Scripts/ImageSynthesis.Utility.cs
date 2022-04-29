@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 using UnityEngine;
 
@@ -58,11 +60,13 @@ namespace AperiodicTexturing
 
         private static Exemplar FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
         {
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
+            var costs = new float[set.Count];
 
-            foreach (var exemplar in set.Exemplars)
+            for(int i = 0; i < set.Count; i++)
             {
+                costs[i] = float.PositiveInfinity;
+
+                var exemplar = set.Exemplars[i];
                 if (exemplar.Image == image || exemplar.Used > 0)
                     continue;
 
@@ -83,13 +87,67 @@ namespace AperiodicTexturing
                     }
                 }
 
-                if (count == 0) continue;
-                cost /= count;
+                if (count != 0)
+                    costs[i] = cost / count;
+            }
 
-                if (cost < bestCost)
+            Exemplar bestMatch = null;
+            float bestCost = float.PositiveInfinity;
+
+            for (int i = 0; i < set.Count; i++)
+            {
+                if(costs[i] < bestCost)
                 {
-                    bestCost = cost;
-                    bestMatch = exemplar;
+                    bestCost = costs[i];
+                    bestMatch = set.Exemplars[i];
+                }
+            }
+
+            return bestMatch;
+        }
+
+        private static Exemplar FindBestMatchParallel(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
+        {
+            var costs = new float[set.Count];
+
+            Parallel.For(0, set.Count, (i) =>
+            {
+                costs[i] = float.PositiveInfinity;
+
+                var exemplar = set.Exemplars[i];
+                if (exemplar.Image == image || exemplar.Used > 0)
+                    return;
+
+                float cost = 0;
+                int count = 0;
+
+                for (int x = 0; x < exemplar.Width; x++)
+                {
+                    for (int y = 0; y < exemplar.Height; y++)
+                    {
+                        if (mask != null && !mask[x, y]) continue;
+
+                        var pixel1 = image[x, y];
+                        var pixel2 = exemplar[x, y];
+
+                        cost += ColorRGB.SqrDistance(pixel1, pixel2);
+                        count++;
+                    }
+                }
+
+                if (count != 0)
+                    costs[i] = cost / count;
+            });
+
+            Exemplar bestMatch = null;
+            float bestCost = float.PositiveInfinity;
+
+            for (int i = 0; i < set.Count; i++)
+            {
+                if (costs[i] < bestCost)
+                {
+                    bestCost = costs[i];
+                    bestMatch = set.Exemplars[i];
                 }
             }
 

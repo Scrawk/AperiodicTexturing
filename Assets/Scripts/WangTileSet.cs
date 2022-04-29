@@ -45,14 +45,21 @@ namespace AperiodicTexturing
 					int right = HEdges[i + 1];
 					int top = VEdges[j + 1];
 
-					var index = new Point2i(i, j);
-					var tile = new WangTile(index, left, bottom, right, top, tileSize);
+					var tile = new WangTile(left, bottom, right, top, tileSize);
+					tile.Index1 = i + j * NumHTiles;
+					tile.Index2 = new Point2i(i, j);
 
 					Tiles[i, j] = tile;
 				}
 			}
 
 		}
+
+		public void AddEdgeColor(int thickness, float alpha)
+        {
+			foreach (var tile in Tiles)
+				tile.AddEdgeColor(thickness, alpha);
+        }
 
 		public WangTile[,] CreateTileMap(int numHTiles, int numVTiles, int seed)
 		{
@@ -122,7 +129,7 @@ namespace AperiodicTexturing
 					if (tiles[ix, jy] == null)
 						continue;
 
-					if (tiles[ix, jy].Index == tile.Index)
+					if (tiles[ix, jy].Index2 == tile.Index2)
 						return true;
 				}
 			}
@@ -130,7 +137,7 @@ namespace AperiodicTexturing
 			return false;
 		}
 
-		private static int[] TravelEdges(int numColors)
+		private int[] TravelEdges(int numColors)
 		{
 			var edges = new int[numColors * numColors + 1];
 
@@ -153,7 +160,7 @@ namespace AperiodicTexturing
 			return (left * (NumVColors * NumHColors * NumVColors) + bottom * (NumHColors * NumVColors) + right * (NumVColors) + top);
 		}
 
-		private static int TileIndex1D(int x, int y)
+		private int TileIndex1D(int x, int y)
 		{
 			int index;
 
@@ -174,7 +181,7 @@ namespace AperiodicTexturing
 			return index;
 		}
 
-		private static Point2i TileIndex2D(int left, int bottom, int right, int top)
+		private Point2i TileIndex2D(int left, int bottom, int right, int top)
 		{
 			Point2i index;
 			index.x = TileIndex1D(left, right);
