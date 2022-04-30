@@ -16,6 +16,14 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
+        public static void CreateTileableImages(IList<ColorImage2D> tiles, ExemplarSet set)
+        {
+            for (int i = 0; i < set.Count; i++)
+            {
+                var exemplar = set[i];
+                tiles[i] = CreateTileableImage(exemplar.Image, set);
+            }
+        }
 
         public static ColorImage2D CreateTileableImage(ColorImage2D image, ExemplarSet set)
         {

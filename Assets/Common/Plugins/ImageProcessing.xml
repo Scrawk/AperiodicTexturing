@@ -1204,6 +1204,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.HashCode">
+            <summary>
+            Create a hashcode by hasing all pixels in the image together.
+            </summary>
+            <returns>The hashcode.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Get a pixel from the image at index x,y.

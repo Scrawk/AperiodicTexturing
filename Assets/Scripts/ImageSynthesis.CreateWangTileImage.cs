@@ -109,8 +109,6 @@ namespace AperiodicTexturing
             graph.Calculate();
             var blend = CreateMaskFromGraph(graph, 5, 0.75f);
             BlendImages(graph, tile.Image, match, blend);
-
-            blend.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask.raw");
         }
 
         private static List<int> GetSortedColors(WangTile tile)

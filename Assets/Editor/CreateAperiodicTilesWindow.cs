@@ -7,8 +7,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEditor;
 
-using Common.Core.Colors;
-using Common.Core.Time;
 using ImageProcessing.Images;
 
 using TIMER = Common.Core.Time.Timer;
@@ -28,6 +26,8 @@ namespace AperiodicTexturing
         private static int m_tileSize = 128;
 
         private static int m_samples = 100;
+
+        private static EXEMPLAR_VARIANT m_varients;
 
         private static int m_seed = 0;
 
@@ -68,6 +68,7 @@ namespace AperiodicTexturing
             m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile size", m_tileSize), 64);
             m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 1);
+            m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
 
             EditorGUILayout.Space();
 
@@ -101,8 +102,8 @@ namespace AperiodicTexturing
                     m_sourceImage = ToImage(m_source);
 
                     m_exemplarSet = new ExemplarSet(m_sourceImage, m_tileSize);
-                    m_exemplarSet.CreateExemplarsFromRandom(m_seed, m_samples, 0.25f);
-                    //m_exemplarSet.CreateVariants();
+                    m_exemplarSet.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
+                    m_exemplarSet.CreateVariants(m_varients);
                     Debug.Log(m_exemplarSet);
 
                     m_tileableImages = new ColorImage2D[NumTileables];

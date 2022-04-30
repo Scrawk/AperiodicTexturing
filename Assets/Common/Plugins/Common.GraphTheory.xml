@@ -951,6 +951,19 @@
             has a byte flag where the bits represent 
             if a edge is present to a neighbouring
             vertex.
+            
+            The edge directions are in the folling order.
+            See Common.Core.Directions.D8 script.
+            
+            LEFT = 0;
+            LEFT_TOP = 1;
+            TOP = 2;
+            RIGHT_TOP = 3;
+            RIGHT = 4;
+            RIGHT_BOTTOM = 5;
+            BOTTOM = 6;
+            LEFT_BOTTOM = 7;
+            
             </summary>
         </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridGraph.VertexCount">
@@ -975,17 +988,22 @@
         </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Edges">
             <summary>
-            
+            The graphs vertices edge connections.
+            A vertex can only connect to any of its 8 neighbours.
+            A connection is represented by a bit in the edges byte
+            being set to 1.
             </summary>
         </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridGraph.HasWeights">
             <summary>
-            
+            Does the graph have weights for the edges.
+            The weights are optional and are only created if needed.
             </summary>
         </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridGraph.Weights">
             <summary>
-            
+            The edges weights.
+            The weights are optional and are only created if needed.
             </summary>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.#ctor(System.Int32,System.Int32)">
@@ -1003,7 +1021,7 @@
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.InBounds(System.Int32,System.Int32)">
             <summary>
-            
+            Are the x and y indices within the bounds of the graph.
             </summary>
             <param name="x"></param>
             <param name="y"></param>
@@ -1011,241 +1029,218 @@
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Print(System.Boolean)">
             <summary>
-            
+            Prints each vertices edge connections.
             </summary>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Print(System.Text.StringBuilder,System.Boolean)">
             <summary>
-            
+            Prints each vertices edge connections.
             </summary>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Copy">
             <summary>
-            
+            Create a deep copy of the graph.
             </summary>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Clear">
             <summary>
+            Clears the graph.
+            All vertices connections and weights are removed.
             
             </summary>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Iterate(System.Action{System.Int32,System.Int32})">
             <summary>
-            Iterate over the graph using a lambda.
+            Iterate over the graphs vertices using a lambda.
             </summary>
             <param name="func"></param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Iterate(System.Action{System.Int32,System.Int32,System.Int32})">
             <summary>
-            
+            Iterate over the graphs vertices edge connection using a lambda.
             </summary>
             <param name="func"></param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetWeight(System.Int32,System.Int32,System.Int32,System.Single)">
             <summary>
-            
+            Set a edges weight.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
-            <param name="w"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <param name="w">The edges weight.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetWeight(System.Int32,System.Int32,System.Int32,System.Int32,System.Single)">
             <summary>
-            
+            Set a edges weight.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
-            <param name="w"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
+            <param name="w">The edges weight.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetWeight(System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Get a edges weight.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetWeight(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Get a edges weight.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Is there a edge from the vertex at x,y to the 
+            neighbour vertex in direction i.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Is the there a edge from the the vertex at fx,fy
+            to a neighbour vertex at tx,ty.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasDirectedEdge(Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i)">
-            <summary>
-            
-            </summary>
-            <param name="from"></param>
-            <param name="to"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasUndirectedEdge(System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Is there a edge from the vertex at x,y to the 
+            neighbour vertex in direction i is either direction. 
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.HasUndirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Is the there a edge from the the vertex at fx,fy
+            to a neighbour vertex at tx,ty in either direction.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.Degree(System.Int32,System.Int32)">
             <summary>
-            
+            Get the number of edges the vertex at x,y has.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedWeightedEdge(System.Int32,System.Int32,System.Int32,System.Single)">
             <summary>
-            
+            Add a edge from the vertex at x,y to the vertices
+            neighbour i.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
-            <param name="w"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <param name="w">The edges weight.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedWeightedEdge(System.Int32,System.Int32,System.Int32,System.Single)">
             <summary>
-            
+            Add a edge to and from the vertex at x,y to the vertices
+            neighbour i.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="to"></param>
-            <param name="w"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <param name="w">The edges weight.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedEdge(System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Add a edge from the vertex at x,y to the vertices
+            neighbour i.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddDirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Add a edge from the vertex at x,y to the vertices
+            neighbour tx,ty.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveDirectedEdge(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.RemoveDirectedEdge(System.Int32,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Add a edge to and from the vertex at fx,fy to the vertices
+            neighbour tx,ty.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="i"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllVertices(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridVertex})">
             <summary>
-            
+            For each vertex in the graph create a GraphVertex object
+            and add them to the provided list.
             </summary>
             <param name="vertices"></param>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            
+            Create a GrapEdge object for the edge
+            from the vertex at fx,fy to the neighbour
+            vertex at tx,ty.
             </summary>
-            <param name="fx"></param>
-            <param name="fy"></param>
-            <param name="tx"></param>
-            <param name="ty"></param>
-            <returns></returns>
+            <param name="fx">The x index the edge is from.</param>
+            <param name="fy">The y index the edge is from.</param>
+            <param name="tx">The x index the edge goes to.</param>
+            <param name="ty">The y index the edge goes to.</param>
+            <returns>The edge object or null if there is no edge between the vertices.</returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdges(System.Int32,System.Int32)">
             <summary>
-            
+            Get the vertex at x,y edge connections value.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.SetEdges(System.Int32,System.Int32,System.Byte)">
             <summary>
-            
+            Set the vertex at x,y edge connections value.
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="edges"></param>
-        </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge})">
-            <summary>
-            
-            </summary>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
             <param name="edges"></param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge},System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
@@ -1259,8 +1254,8 @@
             <summary>
             
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
             <param name="edges"></param>
             <param name="GetWeightFunc"></param>
         </member>

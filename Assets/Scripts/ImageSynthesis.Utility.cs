@@ -66,8 +66,8 @@ namespace AperiodicTexturing
             {
                 costs[i] = float.PositiveInfinity;
 
-                var exemplar = set.Exemplars[i];
-                if (exemplar.Image == image || exemplar.Used > 0)
+                var exemplar = set[i];
+                if (exemplar.Used > 0)
                     continue;
 
                 float cost = 0;
@@ -99,7 +99,7 @@ namespace AperiodicTexturing
                 if(costs[i] < bestCost)
                 {
                     bestCost = costs[i];
-                    bestMatch = set.Exemplars[i];
+                    bestMatch = set[i];
                 }
             }
 
@@ -114,8 +114,8 @@ namespace AperiodicTexturing
             {
                 costs[i] = float.PositiveInfinity;
 
-                var exemplar = set.Exemplars[i];
-                if (exemplar.Image == image || exemplar.Used > 0)
+                var exemplar = set[i];
+                if (exemplar.Used > 0)
                     return;
 
                 float cost = 0;
@@ -147,7 +147,7 @@ namespace AperiodicTexturing
                 if (costs[i] < bestCost)
                 {
                     bestCost = costs[i];
-                    bestMatch = set.Exemplars[i];
+                    bestMatch = set[i];
                 }
             }
 

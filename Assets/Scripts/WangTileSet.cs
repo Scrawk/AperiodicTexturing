@@ -6,35 +6,32 @@ using ImageProcessing.Images;
 
 namespace AperiodicTexturing
 {
-
+	/// <summary>
+	/// A set of wang tiles.
+	/// </summary>
 	public class WangTileSet
 	{
-
-		public int NumHColors { get; private set; }
-
-		public int NumVColors { get; private set; }
-
-		public int NumHTiles => NumHColors * NumHColors;
-
-		public int NumVTiles => NumVColors * NumVColors;
-
-		public int NumTiles { get; private set; }
-
-		public int TileSize { get; private set; }
-
-		public WangTile[,] Tiles { get; private set; }
-
+		/// <summary>
+		/// Create a new set of wang tiles.
+		/// </summary>
+		/// <param name="numHColors">The number of colors on the x axis (must be 2-4)</param>
+		/// <param name="numVColors">The number of colors on the y axis (must be 2-4)</param>
+		/// <param name="tileSize">The tiles image data size.</param>
 		public WangTileSet(int numHColors, int numVColors, int tileSize)
 		{
-			NumHColors = numHColors;
-			NumVColors = numVColors;
+			NumHColors = Math.Clamp(numHColors, 2, 4);
+			NumVColors = Math.Clamp(numVColors, 2, 4);
 			NumTiles = numHColors * numHColors * numVColors * numVColors;
 			TileSize = tileSize;
 
 			Tiles = new WangTile[NumHTiles, NumVTiles];
 
-			var HEdges = TravelEdges(NumHColors);
-			var VEdges = TravelEdges(NumVColors);
+			//Get the order the tiles need to be on the each axis
+			//so each tiles edge color matchs is neighour tiles.
+			var HEdges = GetEdgeOrder(NumHColors);
+			var VEdges = GetEdgeOrder(NumVColors);
+
+			//Create the 2D array of tiles where each tiles edge colors match its 4 surrounding neighbours.
 
 			for (int j = 0; j < NumVTiles; j++)
 			{
@@ -55,12 +52,61 @@ namespace AperiodicTexturing
 
 		}
 
+		/// <summary>
+		/// The number of colors on the horizontal xaxis.
+		/// </summary>
+		public int NumHColors { get; private set; }
+
+		/// <summary>
+		/// The number of colors on the vertical yaxis.
+		/// </summary>
+		public int NumVColors { get; private set; }
+
+		/// <summary>
+		/// The number of tiles on the horizontal xaxis.
+		/// </summary>
+		public int NumHTiles => NumHColors * NumHColors;
+
+		/// <summary>
+		/// The number of tiles on the vertical yaxis.
+		/// </summary>
+		public int NumVTiles => NumVColors * NumVColors;
+
+		/// <summary>
+		/// The total number of tiles in the set.
+		/// </summary>
+		public int NumTiles { get; private set; }
+
+		/// <summary>
+		/// The size of a tiles image data.
+		/// </summary>
+		public int TileSize { get; private set; }
+
+		/// <summary>
+		/// The 2D array of the tiles.
+		/// </summary>
+		public WangTile[,] Tiles { get; private set; }
+
+		/// <summary>
+		/// Add the edge colors to all the tiles in the set.
+		/// </summary>
+		/// <param name="thickness">The thickness of the border.</param>
+		/// <param name="alpha">The colors alpha.</param>
 		public void AddEdgeColor(int thickness, float alpha)
         {
 			foreach (var tile in Tiles)
 				tile.AddEdgeColor(thickness, alpha);
         }
 
+		/// <summary>
+		/// Create a new tile mapping where the mapping is a 2D array of 
+		/// randomly selected tiles with the constraint that each tiles 
+		/// edge colors must match is 4 neighbours colors.
+		/// </summary>
+		/// <param name="numHTiles">The number of tiles on the horizontal xaxis.</param>
+		/// <param name="numVTiles">The number of tiles on the vertical yaxis.</param>
+		/// <param name="seed">The random generators seed.</param>
+		/// <returns></returns>
 		public WangTile[,] CreateTileMap(int numHTiles, int numVTiles, int seed)
 		{
 			var tiles = new WangTile[numHTiles, numVTiles];
@@ -72,11 +118,20 @@ namespace AperiodicTexturing
 				for (int i = 0; i < numHTiles; i++)
 				{
 					WangTile tile = null;
+
+					//Safty break in case a new tile can not be found
+					//that is not the same as one of its neigbours.
 					int count = 0;
 
 					do
 					{
+						//Get a new tile with randomly selected edge colors.
 						tile = GetNextTile(i, j, tiles, rnd);
+
+						//If the same tile is the same as one of its neighbours 
+						//then try again. This will help break up repeating patterns.
+						//Might fail (will ty 10 times) to find a different tile if this is the only
+						//tile that can match up its edge colors with its neighbours.
 					}
 					while (IsNeighbourTile(i, j, tiles, tile) && count++ < 10);
 
@@ -87,31 +142,57 @@ namespace AperiodicTexturing
 			return tiles;
 		}
 
+		/// <summary>
+		/// Get a new tile with random edge colors with the constraint that the edges colors
+		/// match its 4 neighbours edge colors.
+		/// </summary>
+		/// <param name="i">The first index of the tile in the tiles array.</param>
+		/// <param name="j">The second index of the tile in the tiles array.</param>
+		/// <param name="tiles"></param>
+		/// <param name="rnd"></param>
+		/// <returns></returns>
 		private WangTile GetNextTile(int i, int j, WangTile[,] tiles, Random rnd)
         {
 			int numHTiles = tiles.GetLength(0);
 			int numVTiles = tiles.GetLength(1);
 
+			//Get the tiles 4 neighbours indices. 
+			//The indices are wrapped around the tile array.
 			int im1 = MathUtil.Wrap(i - 1, numHTiles);
 			int ip1 = MathUtil.Wrap(i + 1, numHTiles);
 			int jm1 = MathUtil.Wrap(j - 1, numVTiles);
 			int jp1 = MathUtil.Wrap(j + 1, numVTiles);
 
+			//Get the tiles neighbours edge color. ie the tile to the left
+			//must have the same color on its right edge.
+			//Tiles might be null if they have not been created yet and get a -1.
 			int left = tiles[im1, j] != null ? tiles[im1, j].Right : -1;
 			int bottom = tiles[i, jm1] != null ? tiles[i, jm1].Top : -1;
 			int right = tiles[ip1, j] != null ? tiles[ip1, j].Left : -1;
 			int top = tiles[i, jp1] != null ? tiles[i, jp1].Bottom : -1;
 
+			//For each edge if the color is -1 any random color can be assigned.
 			if (left < 0) left = rnd.Next(0, NumHColors);
 			if (bottom < 0) bottom = rnd.Next(0, NumVColors);
 			if (right < 0) right = rnd.Next(0, NumHColors);
 			if (top < 0) top = rnd.Next(0, NumVColors);
 
+			//Create that index the edge colors make up and return the tile at that index.
 			var index = TileIndex2D(left, bottom, right, top);
 
 			return Tiles[index.x, index.y];
 		}
 
+		/// <summary>
+		/// Determine if any of a tiles neighbours are the same.
+		/// A tile counts as being the same if all the edge colors
+		/// are the same and can be determined by comparing the tiles index.
+		/// </summary>
+		/// <param name="i"></param>
+		/// <param name="j"></param>
+		/// <param name="tiles"></param>
+		/// <param name="tile"></param>
+		/// <returns></returns>
 		private bool IsNeighbourTile(int i, int j, WangTile[,] tiles, WangTile tile)
         {
 			int numHTiles = tiles.GetLength(0);
@@ -137,7 +218,13 @@ namespace AperiodicTexturing
 			return false;
 		}
 
-		private int[] TravelEdges(int numColors)
+		/// <summary>
+		/// Given a number of edge colors then create a array
+		/// where each edge color is used and matched its neighbours edges.
+		/// </summary>
+		/// <param name="numColors"></param>
+		/// <returns></returns>
+		private int[] GetEdgeOrder(int numColors)
 		{
 			var edges = new int[numColors * numColors + 1];
 
@@ -147,6 +234,8 @@ namespace AperiodicTexturing
 				{
 					int index = TileIndex1D(i, j);
 
+					//The first number represents the tiles color
+					//on the left side and the second on the right side.
 					edges[index] = i;
 					edges[index + 1] = j;
 				}
@@ -155,11 +244,40 @@ namespace AperiodicTexturing
 			return edges;
 		}
 
+		/// <summary>
+		/// Given the 4 edges colors get the index the tile 
+		/// should be in a 2D array where its colors will match its neighbour tiles.
+		/// </summary>
+		private Point2i TileIndex2D(int left, int bottom, int right, int top)
+		{
+			Point2i index;
+			index.x = TileIndex1D(left, right);
+			index.y = TileIndex1D(bottom, top);
+
+			return index;
+		}
+
+		/// <summary>
+		/// Given the 4 edges colors get the index the tile 
+		/// should be in a 1D array where its colors will match its neighbour tiles.
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="bottom"></param>
+		/// <param name="right"></param>
+		/// <param name="top"></param>
+		/// <returns></returns>
 		public int TileIndex1D(int left, int bottom, int right, int top)
 		{
 			return (left * (NumVColors * NumHColors * NumVColors) + bottom * (NumHColors * NumVColors) + right * (NumVColors) + top);
 		}
 
+		/// <summary>
+		/// Given the 2 edges colors get the index the tile 
+		/// should be in a 1D array where its colors will match its neighbour tiles.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		private int TileIndex1D(int x, int y)
 		{
 			int index;
@@ -177,15 +295,6 @@ namespace AperiodicTexturing
 				index = (x * x + 2 * y - 1);
 			else
 				index = ((x + 1) * (x + 1) - 1);
-
-			return index;
-		}
-
-		private Point2i TileIndex2D(int left, int bottom, int right, int top)
-		{
-			Point2i index;
-			index.x = TileIndex1D(left, right);
-			index.y = TileIndex1D(bottom, top);
 
 			return index;
 		}

@@ -7,8 +7,9 @@ using System.Threading;
 using UnityEngine;
 using UnityEditor;
 
-using Common.Core.Colors;
 using ImageProcessing.Images;
+
+using TIMER = Common.Core.Time.Timer;
 
 namespace AperiodicTexturing
 {
@@ -22,6 +23,8 @@ namespace AperiodicTexturing
         private static int m_tileSize = 128;
 
         private static int m_seed = 0;
+
+        private static EXEMPLAR_VARIANT m_varients;
 
         private static string m_folderName = "Textures Results";
 
@@ -54,6 +57,7 @@ namespace AperiodicTexturing
 
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 64);
+            m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
 
             EditorGUILayout.Space();
 
@@ -79,8 +83,8 @@ namespace AperiodicTexturing
                     m_image = ToImage(m_source);
 
                     m_set = new ExemplarSet(m_image, m_tileSize);
-                    m_set.CreateExemplarsFromRandom(m_seed, m_numTiles, 0.25f);
-                    //m_set.CreateVariants();
+                    m_set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.25f);
+                    m_set.CreateVariants(m_varients);
 
                     if (m_set.Count < m_numTiles)
                     {
@@ -141,11 +145,13 @@ namespace AperiodicTexturing
             {
                 try
                 {
-                    for (int i = 0; i < m_set.Count; i++)
-                    {
-                        var exemplar = m_set.Exemplars[i];
-                        m_tiles[i] = ImageSynthesis.CreateTileableImage(exemplar.Image, m_set);
-                    }
+                    var timer = new TIMER();
+                    timer.Start();
+
+                    ImageSynthesis.CreateTileableImages(m_tiles, m_set);
+
+                    timer.Stop();
+                    Debug.Log("Tile creation time: " + timer.ElapsedSeconds + "s");
 
                 }
                 catch(Exception e)
