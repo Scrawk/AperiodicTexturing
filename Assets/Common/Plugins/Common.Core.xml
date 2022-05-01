@@ -14016,10 +14016,266 @@
             </summary>
             <returns>The triangle as a string.</returns>
         </member>
+        <member name="T:Common.Core.Threading.ThreadingBlock1D">
+            <summary>
+            A helper object to break a iteration into smaller 
+            blocks that can be run on seperate tasks. 
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingBlock1D.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a new block.
+            </summary>
+            <param name="start">The blocks start index in the iteration.</param>
+            <param name="end">The blocks end index in the iteration.</param>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingBlock1D.Start">
+            <summary>
+            The blocks start index in the iteration.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingBlock1D.End">
+            <summary>
+            The blocks end index in the iteration.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingBlock1D.BlockSize(System.Int32,System.Int32)">
+            <summary>
+            Calculate what the block size should be given the iterations 
+            count and how many division its to be divided into.
+            </summary>
+            <param name="count"></param>
+            <param name="divisions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingBlock1D.CreateBlocks(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="count"></param>
+            <param name="blockSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingBlock1D.ParallelAction(System.Int32,System.Int32,System.Action{System.Int32},Common.Core.Threading.ThreadingToken)">
+            <summary>
+            
+            </summary>
+            <param name="count"></param>
+            <param name="blockSize"></param>
+            <param name="action"></param>
+            <param name="token"></param>
+        </member>
+        <member name="T:Common.Core.Threading.ThreadingToken">
+            <summary>
+            A token that can be passed to threaded tasks as a helper
+            for cancelling the task and keeping track of the tasks progress.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.timer">
+            <summary>
+            A timer that can be used to 
+            determine the tasks estimate completion time.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.lockObject">
+            <summary>
+            Object that can be used as a lock.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.timePerIncrement">
+            <summary>
+            The time period between steps in milliseconds.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.progress">
+            <summary>
+            The current number of steps that have elapsed.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.steps">
+            <summary>
+            The total number of steps that need to be performed.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.cancelled">
+            <summary>
+            Ifg the task should be cancelled.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Threading.ThreadingToken.messages">
+            <summary>
+            A queue of messages sent by the task.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.#ctor">
+            <summary>
+            Create a new token. Defaults to 100 steps.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.#ctor(System.Int32)">
+            <summary>
+            Create a new token.
+            </summary>
+            <param name="steps">The number of steps the tasks will perform.</param>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.Steps">
+            <summary>
+            THe number of steps the task will perform to be complete.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.Cancelled">
+            <summary>
+            Tell the task it should be cancelled.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.IsComplete">
+            <summary>
+            Has the task completed all its steps.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.UseThreading">
+            <summary>
+            Should threading be used. 
+            Need to disable for debugging/testing sometimes.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.TimePeriodFormat">
+            <summary>
+            What format should the timer use.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.TimePeriodUnit">
+            <summary>
+            The time periods units.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Threading.ThreadingToken.NumMessages">
+            <summary>
+            How many messages have been left by the task.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.Reset">
+            <summary>
+            Reset the token to a state it can be reused.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.PercentageProgress">
+            <summary>
+            The percentage (0-1) of steps the task has completed.
+            </summary>
+            <returns>The percentage (0-1) of steps the task has completed.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.IncrementProgess">
+            <summary>
+            Increment the tasks progress.
+            </summary>
+            <returns>The estimated completion time if a timer is being used.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.ElapsedTime">
+            <summary>
+            Get the ellapsed time that has passed since timer was called.
+            </summary>
+            <returns>Get the ellapsed time that has passed since timer was called.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.EstimatedCompletionTime">
+            <summary>
+            The estimated completion time if a timer is being used.
+            </summary>
+            <returns>The estimated completion time if a timer is being used.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.StartTimer">
+            <summary>
+            Starts the time which will be used to calculate the completion time.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.StopTimer">
+            <summary>
+            Stops the time which will be used to calculate the completion time.
+            </summary>
+            <returns>The elapsed time.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.EnqueueMessage(System.String)">
+            <summary>
+            Add a new message.
+            </summary>
+            <param name="msg">The message.</param>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.DequeueMessage">
+            <summary>
+            Get and remove the next message.
+            </summary>
+            <returns>The next message.</returns>
+        </member>
+        <member name="M:Common.Core.Threading.ThreadingToken.ClearMessages">
+            <summary>
+            Clear the queue of all messages.
+            </summary>
+        </member>
+        <member name="T:Common.Core.Time.Timer">
+            <summary>
+            Helper timer class wrapping the Stopwatch class.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Time.Timer.s_timer">
+            <summary>
+            A static instance of the timer.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Time.Timer.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Common.Core.Time.Timer.ToString">
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Time.Timer.ElapsedTime(Common.Core.Time.TIME_PERIOD)">
+            <summary>
+            Get the ellapsed time that has passed since timer was called.
+            </summary>
+            <param name="period">The time period.</param>
+            <returns>Get the ellapsed time that has passed since timer was called.</returns>
+        </member>
+        <member name="M:Common.Core.Time.Timer.Start">
+            <summary>
+            Start the timer.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Time.Timer.Stop(Common.Core.Time.TIME_PERIOD)">
+            <summary>
+            Stop the timer.
+            </summary>
+            <returns>The number of milliseconds that have passsed.</returns>
+        </member>
+        <member name="M:Common.Core.Time.Timer.Reset">
+            <summary>
+            Reset the timer.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Time.Timer.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Core.Time.Timer.StartTimer">
+            <summary>
+            Start the static instance timer.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Time.Timer.StopTimer(Common.Core.Time.TIME_PERIOD)">
+            <summary>
+            Stop the static instance timer.
+            </summary>
+            <returns>The number of milliseconds that have passsed.</returns>
+        </member>
+        <member name="M:Common.Core.Time.Timer.TimePeriodUnits(Common.Core.Time.TIME_PERIOD)">
+            <summary>
+            Get the time period enum as its string units.
+            </summary>
+            <param name="period"></param>
             <returns></returns>
         </member>
     </members>

@@ -67,11 +67,10 @@ namespace AperiodicTexturing
                 costs[i] = float.PositiveInfinity;
 
                 var exemplar = set[i];
-                if (exemplar.Used > 0)
-                    continue;
 
                 float cost = 0;
                 int count = 0;
+                float costModifier = (exemplar.Used + 1.0f) * 1.5f;
 
                 for (int x = 0; x < exemplar.Width; x++)
                 {
@@ -88,7 +87,7 @@ namespace AperiodicTexturing
                 }
 
                 if (count != 0)
-                    costs[i] = cost / count;
+                    costs[i] = (cost / count) * costModifier;
             }
 
             Exemplar bestMatch = null;
@@ -115,11 +114,10 @@ namespace AperiodicTexturing
                 costs[i] = float.PositiveInfinity;
 
                 var exemplar = set[i];
-                if (exemplar.Used > 0)
-                    return;
 
                 float cost = 0;
                 int count = 0;
+                float costModifier = (exemplar.Used + 1.0f) * 1.5f;
 
                 for (int x = 0; x < exemplar.Width; x++)
                 {
@@ -136,7 +134,7 @@ namespace AperiodicTexturing
                 }
 
                 if (count != 0)
-                    costs[i] = cost / count;
+                    costs[i] = (cost / count) * costModifier;
             });
 
             Exemplar bestMatch = null;

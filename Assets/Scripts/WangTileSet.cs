@@ -88,6 +88,16 @@ namespace AperiodicTexturing
 		public WangTile[,] Tiles { get; private set; }
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return String.Format("[WangTileSet: NumHColors={0}, NumVColors={1}, NumHTiles={2}, NumVTiles={3}, TileSize={4}]", 
+				NumHColors, NumVColors, NumHTiles, NumVTiles, TileSize);
+		}
+
+		/// <summary>
 		/// Add the edge colors to all the tiles in the set.
 		/// </summary>
 		/// <param name="thickness">The thickness of the border.</param>

@@ -24,7 +24,7 @@ namespace AperiodicTexturing
 
         private static int m_seed = 0;
 
-        private static string m_folderName = "Textures Results";
+        private static string m_folderName = "Textures Mapping";
 
         private static string m_mappingFileName = "AperiodicMapping";
 
@@ -33,7 +33,7 @@ namespace AperiodicTexturing
         [MenuItem("Window/Aperiodic Texturing/Create Tile Mapping")]
         public static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(CreateAperiodicTilesWidow));
+            EditorWindow.GetWindow(typeof(CreateTileMappingWidow));
         }
 
         private void OnGUI()
@@ -41,6 +41,10 @@ namespace AperiodicTexturing
             titleContent.text = "Tile mapping creator";
             EditorGUILayout.LabelField("Create the mapping texture.");
 
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("The mapping texture must be linear, no mipmaps, no compression, and use point sampling.");
+  
             EditorGUILayout.Space();
 
             m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 4);
@@ -112,24 +116,15 @@ namespace AperiodicTexturing
 
             string folderName = Application.dataPath + "/" + m_folderName;
             string hv = m_numHColors + "x" + m_numVColors;
-            string fileName = folderName + "/" + m_mappingFileName + hv + ".png";
+            string size = m_mappingWidth + "x" + m_mappingHeight;
+            string fileName = folderName + "/" + m_mappingFileName + hv + "_" + size + ".png";
 
             System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
 
             Debug.Log("Saved texture " + fileName);
 
-        }
+            AssetDatabase.Refresh();
 
-        private ColorImage2D ToImage(Texture2D tex)
-        {
-            var image = new ColorImage2D(tex.width, tex.height);
-
-            image.Fill((x, y) =>
-            {
-                return tex.GetPixel(x, y).ToColorRGB();
-            });
-
-            return image;
         }
 
     }

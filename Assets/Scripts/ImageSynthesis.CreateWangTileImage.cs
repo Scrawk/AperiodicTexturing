@@ -11,19 +11,24 @@ using Common.Core.Colors;
 using Common.Core.Shapes;
 using Common.Core.Directions;
 using Common.Core.Extensions;
+using Common.Core.Threading;
 using Common.GraphTheory.GridGraphs;
 
 using ImageProcessing.Images;
 
 namespace AperiodicTexturing
 {
+
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, bool parellel)
+        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, ThreadingToken token = null)
         {
 
-            if(parellel)
+            if(token != null)
+                token.Steps = tileSet.NumTiles * 2;
+
+            if (token != null && token.UseThreading)
             {
                 var tiles = new List<WangTile>(tileSet.Tiles.Length);
                 foreach (var tile in tileSet.Tiles)
@@ -31,36 +36,47 @@ namespace AperiodicTexturing
 
                 Parallel.ForEach(tiles, tile =>
                 {
+                    if (token.Cancelled) return;
+
                     CreateWangTileImageStage1(tile, tileables);
+                    token.IncrementProgess();
                 });
 
                 var exemplars = FindBestMatches(tileSet, exemplarSet);
 
                 Parallel.ForEach(tiles, tile =>
                 {
+                    if (token.Cancelled) return;
+
                     int index = tile.Index1;
                     var exemplar = exemplars[index];
                     CreateWangTileImageStage2(tile, exemplar.Image);
+                    token.IncrementProgess();
                 });
             }
             else
             {
                 foreach (var tile in tileSet.Tiles)
                 {
+                    if (token.Cancelled) return;
+
                     CreateWangTileImageStage1(tile, tileables);
+                    token.IncrementProgess();
                 }
 
                 var exemplars = FindBestMatches(tileSet, exemplarSet);
 
                 foreach (var tile in tileSet.Tiles)
                 {
+                    if (token.Cancelled) return;
+
                     int index = tile.Index1;
                     var exemplar = exemplars[index];
                     CreateWangTileImageStage2(tile, exemplar.Image);
+                    token.IncrementProgess();
                 }
             }
 
-            exemplarSet.ResetUsedCount();
         }
 
         private static void CreateWangTileImageStage1(WangTile tile, IList<ColorImage2D> tileables)

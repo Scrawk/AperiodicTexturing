@@ -944,6 +944,235 @@
             Used to sort edges by their weight.
             </summary>
         </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridFlowGraph">
+            <summary>
+            A graph were the vertices make up a grid
+            like the pixels in a image. Each vertex
+            has a byte flag where the bits represent 
+            if a edge is present to a neighbouring
+            vertex.
+            
+            Each edge has a capacity and a flow value
+            and are used to perfrom the max flow / min cut algorithm.
+            
+            The edge directions are in the folling order.
+            See Common.Core.Directions.D8 script.
+            
+            LEFT = 0;
+            LEFT_TOP = 1;
+            TOP = 2;
+            RIGHT_TOP = 3;
+            RIGHT = 4;
+            RIGHT_BOTTOM = 5;
+            BOTTOM = 6;
+            LEFT_BOTTOM = 7;
+            
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.MaxFlow">
+            <summary>
+            The max flow of the graph.
+            Calculate must be called to find this.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Capacity">
+            <summary>
+            THe vertices edges capacity value.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Flow">
+            <summary>
+            THe vertices edges flow value.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Label">
+            <summary>
+            THe vertices label.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Single[0:,0:])">
+            <summary>
+            Create a new graph and set the vertices edge 
+            capacities with the values in the araay.
+            The graph will have the same dimensions as the array.
+            </summary>
+            <param name="capacities">The edges capacities.</param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Clear">
+            <summary>
+            Clear the graph by setting all capacity, flow and labels to 0.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.InBounds(System.Int32,System.Int32)">
+            <summary>
+            Are the indices within the bounds of the graph.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Iterate(System.Action{System.Int32,System.Int32})">
+            <summary>
+            Iterate over all vertices in the graph
+            and apply the function.
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Iterate(System.Action{System.Int32,System.Int32,System.Int32})">
+            <summary>
+            Iterate over all vertices edges in the graph
+            and apply the function.
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FillCapacity(System.Single[0:,0:])">
+            <summary>
+            Fill the capacity off all edges with the values in the array.
+            </summary>
+            <param name="array"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.GetCapacity(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Get the capacity of the vertex edge at x,y 
+            going to the neighbour vertex at i.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="i">The  neigbour vertices index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetCapacity(System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            Set the capacity of the vertex edge at x,y 
+            going to the neighbour vertex at i.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="i">The  neigbour vertices index.</param>
+            <param name="capacity"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.GetFlow(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Get the flow of the vertex edge at x,y 
+            going to the neighbour vertex at i.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="i">The  neigbour vertices index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetFlow(System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            Set the flow of the vertex edge at x,y 
+            going to the neighbour vertex at i.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="i">The  neigbour vertices index.</param>
+            <param name="flow"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.GetLabel(System.Int32,System.Int32)">
+            <summary>
+            Get the label of the vertex at x,y.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabel(System.Int32,System.Int32,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL)">
+            <summary>
+            Set the label of the vertex at x,y.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="label"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabel(System.Int32,System.Int32,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL,System.Int32)">
+            <summary>
+            Set the label of the vertex at x,y.
+            Set all edges capacity going from this vertex.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="label">The vertices label.</param>
+            <param name="capacity">The vertices edges capacity.</param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetSource(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set the vertices label at x,y to source.
+            Set all edges capacity going from this vertex.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="capacity">The vertices edges capacity.</param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetSink(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set the vertices label at x,y to sink.
+            Set all edges capacity going from this vertex.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="capacity">The vertices edges capacity.</param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.IsSource(System.Int32,System.Int32)">
+            <summary>
+            Is this vertex labeled as a source.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.IsSink(System.Int32,System.Int32)">
+            <summary>
+            Is this vertex labeled as a sink.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FindBoundaryPoints(System.Boolean,System.Boolean)">
+            <summary>
+            Find the vertices that are labeled as source or sink and
+            have at least one neighbour that has a different label.
+            </summary>
+            <param name="includeSource">Should source vertices be checked.</param>
+            <param name="includeSink">Should sink vertices be checked.</param>
+            <returns>A list of all the vertices.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Calculate">
+            <summary>
+            Calculate the max flow / min cut of the graph.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FordFulkersonMaxFlow">
+            <summary>
+            Calculate the max flow of the graph using the FordFulkerson algorithm.
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.CalculateMinCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.BreadthFirstSearch(Common.Core.Numerics.Point3i[0:,0:],Common.Core.Numerics.Point3i@)">
+            <summary>
+            
+            </summary>
+            <param name="parent"></param>
+            <param name="sink"></param>
+            <returns></returns>
+        </member>
         <member name="T:Common.GraphTheory.GridGraphs.GridGraph">
             <summary>
             A graph were the vertices make up a grid
@@ -1209,7 +1438,7 @@
         <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllVertices(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridVertex})">
             <summary>
-            For each vertex in the graph create a GraphVertex object
+            For each vertex in the graph create a GridVertex object
             and add them to the provided list.
             </summary>
             <param name="vertices"></param>
@@ -1217,7 +1446,7 @@
         <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Create a GrapEdge object for the edge
+            Create a GridEdge object for the edge
             from the vertex at fx,fy to the neighbour
             vertex at tx,ty.
             </summary>
@@ -1245,29 +1474,33 @@
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllEdges(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge},System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
             <summary>
-            
+            For each edge create a GridEdge object
+            and add it to the provided list.
             </summary>
-            <param name="edges"></param>
-            <param name="GetWeightFunc"></param>
+            <param name="edges">The list of edges to add to.</param>
+            <param name="GetWeightFunc">A optional function to provide the edges weight. 
+            If null the edges weight in the graph is used.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdges(System.Int32,System.Int32,System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridEdge},System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
             <summary>
-            
+            Foreach edge the vertex at x,y has create a GridEdge object
+            and add it to the provided list.
             </summary>
             <param name="x">The vertices x index.</param>
             <param name="y">The vertices y index.</param>
-            <param name="edges"></param>
-            <param name="GetWeightFunc"></param>
+            <param name="edges">The list of edges to add to.</param>
+            <param name="GetWeightFunc">A optional function to provide the edges weight. 
+            If null the edges weight in the graph is used.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.ToDirectedGraph">
             <summary>
-            
+            Convert the GridGraph to a adjacency DirectedGraph.
             </summary>
             <returns></returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.ToUndirectedGraph">
             <summary>
-            
+            Convert the GridGraph to a adjacency UndirectedGraph.
             </summary>
             <returns></returns>
         </member>

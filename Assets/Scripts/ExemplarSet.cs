@@ -101,6 +101,23 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// Get the percentage of exemplars in the set have been used.
+        /// </summary>
+        /// <returns>The percentage of used exemplars from 0 to 1.</returns>
+        public float PercentageUsed()
+        {
+            if (Count == 0) return 0;
+
+            int used = 0;
+
+            foreach (var exemplar in Exemplars)
+                if (exemplar.Used > 0)
+                    used++;
+
+            return used / (float)Count;
+        }
+
+        /// <summary>
         /// Create new variants of each exemplar and add the to the set.
         /// </summary>
         /// <param name="flags">The types of exemplars to create.</param>

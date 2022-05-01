@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
@@ -7,9 +8,9 @@ using System.Threading;
 using UnityEngine;
 using UnityEditor;
 
+using Common.Core.Threading;
+using Common.Core.Time;
 using ImageProcessing.Images;
-
-using TIMER = Common.Core.Time.Timer;
 
 namespace AperiodicTexturing
 {
@@ -23,11 +24,13 @@ namespace AperiodicTexturing
 
         private static int m_numVColors = 2;
 
-        private static int m_tileSize = 128;
+        private static int m_tileSize = 256;
 
         private static int m_samples = 100;
 
         private static EXEMPLAR_VARIANT m_varients;
+
+        private static bool m_useThreading = true;
 
         private static int m_seed = 0;
 
@@ -46,6 +49,8 @@ namespace AperiodicTexturing
         private ExemplarSet m_exemplarSet;
 
         private Exception m_exception;
+
+        private ThreadingToken m_token;
 
         private int NumTileables => Math.Max(m_numHColors, m_numVColors);
 
@@ -69,6 +74,7 @@ namespace AperiodicTexturing
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile size", m_tileSize), 64);
             m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 1);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
+            m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
 
             EditorGUILayout.Space();
 
@@ -85,6 +91,8 @@ namespace AperiodicTexturing
 
             m_source = (Texture2D)EditorGUILayout.ObjectField("Source", m_source, typeof(Texture2D), false);
 
+            EditorGUILayout.Space();
+
             if (m_tileables == null)
                 m_tileables = new Texture2D[4];
 
@@ -95,7 +103,7 @@ namespace AperiodicTexturing
 
             EditorGUILayout.Space();
 
-            if (GUILayout.Button(GetButtonText()))
+            if (GUILayout.Button(GetRunButtonText()))
             {
                 if (Validate())
                 {
@@ -111,24 +119,51 @@ namespace AperiodicTexturing
                         m_tileableImages[i] = ToImage(m_tileables[i]);
 
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
+                    Debug.Log(m_tileSet);
 
                     m_isRunning = true;
                     m_exception = null;
+                    m_token = new ThreadingToken();
+                    m_token.UseThreading = m_useThreading;
+                    m_token.TimePeriodFormat = TIME_PERIOD.SECONDS;
 
                     Run();
                 }
             }
 
             EditorGUI.EndDisabledGroup();
-
         }
 
-        private string GetButtonText()
+        private void Update()
+        {
+            if(m_isRunning && m_token != null)
+            {
+                float  progress = m_token.PercentageProgress();
+                string estimatedTime = "";
+
+                if (progress < 0.1f)
+                    estimatedTime = m_token.EstimatedCompletionTime() + m_token.TimePeriodUnit;
+                else
+                    estimatedTime = "(Calculating...)";
+
+                EditorUtility.DisplayProgressBar("Creating tiles", "Estimated completion time " + estimatedTime, progress);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            EditorUtility.ClearProgressBar();
+
+            if(m_token != null)
+                m_token.Cancelled = true;
+        }
+
+        private string GetRunButtonText()
         {
             if (!m_isRunning)
                 return "Create";
             else
-                return "Running (This could take awhile)";
+                return "Running";
         }
 
         private bool Validate()
@@ -144,6 +179,12 @@ namespace AperiodicTexturing
                 if (!m_tileables[i].isReadable)
                 {
                     Debug.Log("Tileable" + i + " texture is not readable.");
+                    return false;
+                }
+
+                if (m_tileables[i].width != m_tileSize || m_tileables[i].height != m_tileSize)
+                {
+                    Debug.Log("Tileable" + i + " texture must have the same dimensions as the tile size.");
                     return false;
                 }
             }
@@ -167,13 +208,11 @@ namespace AperiodicTexturing
             {
                 try
                 {
-                    var timer = new TIMER();
-                    timer.Start();
+                    m_token.StartTimer();
+     
+                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tileableImages, m_exemplarSet, m_token);
 
-                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tileableImages, m_exemplarSet, true);
-
-                    timer.Stop();
-                    Debug.Log("Tile creation time: " + timer.ElapsedSeconds + "s");
+                    Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
                 catch(Exception e)
                 {
@@ -190,8 +229,10 @@ namespace AperiodicTexturing
                 else
                 {
                     SaveTiles();
-                    m_isRunning = false;
                 }
+
+                m_isRunning = false;
+                EditorUtility.ClearProgressBar();
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
