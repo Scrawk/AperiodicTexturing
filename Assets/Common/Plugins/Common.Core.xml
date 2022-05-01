@@ -14039,31 +14039,37 @@
             The blocks end index in the iteration.
             </summary>
         </member>
+        <member name="M:Common.Core.Threading.ThreadingBlock1D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Common.Core.Threading.ThreadingBlock1D.BlockSize(System.Int32,System.Int32)">
             <summary>
-            Calculate what the block size should be given the iterations 
-            count and how many division its to be divided into.
+            The block size is the number of iterarations in the loop each thread will be assigned.
+            A reconmended maximum block size of 4096 will be enforced.
             </summary>
-            <param name="count"></param>
+            <param name="count">The number of iterations in the loop.</param>
             <param name="divisions"></param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.Threading.ThreadingBlock1D.CreateBlocks(System.Int32,System.Int32)">
             <summary>
-            
+            Create the blocks the parallel action will be performed on.
             </summary>
-            <param name="count"></param>
-            <param name="blockSize"></param>
+            <param name="count">The number of iterations in the loop.</param>
+            <param name="blockSize">The block size is the number of iterarations in the loop each thread will be assigned.</param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.Threading.ThreadingBlock1D.ParallelAction(System.Int32,System.Int32,System.Action{System.Int32},Common.Core.Threading.ThreadingToken)">
             <summary>
-            
+            Run a action in parallel.
             </summary>
-            <param name="count"></param>
-            <param name="blockSize"></param>
-            <param name="action"></param>
-            <param name="token"></param>
+            <param name="count">The number of iterations in the loop.</param>
+            <param name="blockSize">The block size is the number of iterarations in the loop each thread will be assigned.</param>
+            <param name="action">The action to perform.</param>
+            <param name="token">A optional helper token.</param>
         </member>
         <member name="T:Common.Core.Threading.ThreadingToken">
             <summary>

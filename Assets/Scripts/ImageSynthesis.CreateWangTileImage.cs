@@ -24,10 +24,31 @@ namespace AperiodicTexturing
 
         public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, ThreadingToken token = null)
         {
+            var tiles = tileSet.ToFlattenedList();
 
-            if(token != null)
-                token.Steps = tileSet.NumTiles * 2;
+            if (token != null)
+                token.Steps = tiles.Count * 2;
 
+            int blockSize = ThreadingBlock1D.BlockSize(tiles.Count, 8);
+
+            ThreadingBlock1D.ParallelAction(tileSet.NumTiles, blockSize, (i) =>
+            {
+                CreateWangTileImageStage1(tiles[i], tileables);
+
+            }, token);
+
+            var exemplars = FindBestMatches(tileSet, exemplarSet);
+
+            ThreadingBlock1D.ParallelAction(tileSet.NumTiles, blockSize, (i) =>
+            {
+                var tile = tiles[i];
+                int index = tile.Index1;
+                var exemplar = exemplars[index];
+                CreateWangTileImageStage2(tile, exemplar.Image);
+
+            }, token);
+
+            /*
             if (token != null && token.UseThreading)
             {
                 var tiles = new List<WangTile>(tileSet.Tiles.Length);
@@ -76,6 +97,7 @@ namespace AperiodicTexturing
                     token.IncrementProgess();
                 }
             }
+            */
 
         }
 

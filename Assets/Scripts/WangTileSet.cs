@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Common.Core.Numerics;
 using Common.Core.Colors;
@@ -95,6 +96,19 @@ namespace AperiodicTexturing
 		{
 			return String.Format("[WangTileSet: NumHColors={0}, NumVColors={1}, NumHTiles={2}, NumVTiles={3}, TileSize={4}]", 
 				NumHColors, NumVColors, NumHTiles, NumVTiles, TileSize);
+		}
+
+		/// <summary>
+		/// Get the 2D array of tiles as a 1D list.
+		/// </summary>
+		/// <returns></returns>
+		public List<WangTile> ToFlattenedList()
+        {
+			var tiles = new List<WangTile>(Tiles.Length);
+			foreach (var tile in Tiles)
+				tiles.Add(tile);
+
+			return tiles;
 		}
 
 		/// <summary>

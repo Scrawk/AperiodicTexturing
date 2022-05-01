@@ -141,7 +141,7 @@ namespace AperiodicTexturing
                 float  progress = m_token.PercentageProgress();
                 string estimatedTime = "";
 
-                if (progress < 0.1f)
+                if (progress > 0.1f)
                     estimatedTime = m_token.EstimatedCompletionTime() + m_token.TimePeriodUnit;
                 else
                     estimatedTime = "(Calculating...)";
