@@ -27,11 +27,14 @@ namespace AperiodicTexturing
             var tiles = tileSet.ToFlattenedList();
 
             if (token != null)
-                token.Steps = tiles.Count * 2;
-
+            {
+                token.EnqueueMessage("Stage 1 of 2");
+                token.Steps = tiles.Count;
+            }
+                
             int blockSize = ThreadingBlock1D.BlockSize(tiles.Count, 8);
 
-            ThreadingBlock1D.ParallelAction(tileSet.NumTiles, blockSize, (i) =>
+            ThreadingBlock1D.ParallelAction(tiles.Count, blockSize, (i) =>
             {
                 CreateWangTileImageStage1(tiles[i], tileables);
 
@@ -39,7 +42,13 @@ namespace AperiodicTexturing
 
             var exemplars = FindBestMatches(tileSet, exemplarSet);
 
-            ThreadingBlock1D.ParallelAction(tileSet.NumTiles, blockSize, (i) =>
+            if (token != null)
+            {
+                token.EnqueueMessage("Stage 2 of 2");
+                token.ResetProgress();
+            }
+
+            ThreadingBlock1D.ParallelAction(tiles.Count, blockSize, (i) =>
             {
                 var tile = tiles[i];
                 int index = tile.Index1;
@@ -48,65 +57,15 @@ namespace AperiodicTexturing
 
             }, token);
 
-            /*
-            if (token != null && token.UseThreading)
-            {
-                var tiles = new List<WangTile>(tileSet.Tiles.Length);
-                foreach (var tile in tileSet.Tiles)
-                    tiles.Add(tile);
-
-                Parallel.ForEach(tiles, tile =>
-                {
-                    if (token.Cancelled) return;
-
-                    CreateWangTileImageStage1(tile, tileables);
-                    token.IncrementProgess();
-                });
-
-                var exemplars = FindBestMatches(tileSet, exemplarSet);
-
-                Parallel.ForEach(tiles, tile =>
-                {
-                    if (token.Cancelled) return;
-
-                    int index = tile.Index1;
-                    var exemplar = exemplars[index];
-                    CreateWangTileImageStage2(tile, exemplar.Image);
-                    token.IncrementProgess();
-                });
-            }
-            else
-            {
-                foreach (var tile in tileSet.Tiles)
-                {
-                    if (token.Cancelled) return;
-
-                    CreateWangTileImageStage1(tile, tileables);
-                    token.IncrementProgess();
-                }
-
-                var exemplars = FindBestMatches(tileSet, exemplarSet);
-
-                foreach (var tile in tileSet.Tiles)
-                {
-                    if (token.Cancelled) return;
-
-                    int index = tile.Index1;
-                    var exemplar = exemplars[index];
-                    CreateWangTileImageStage2(tile, exemplar.Image);
-                    token.IncrementProgess();
-                }
-            }
-            */
-
         }
 
         private static void CreateWangTileImageStage1(WangTile tile, IList<ColorImage2D> tileables)
         {
             
             var colors = GetSortedColors(tile);
+            var search = new GridFlowSearch(tile.TileSize, tile.TileSize);
 
-            for(int i = 0; i < colors.Count; i++)
+            for (int i = 0; i < colors.Count; i++)
             {
                 if(i == 0)
                 {
@@ -115,16 +74,17 @@ namespace AperiodicTexturing
                 }
                 else
                 {
+                    search.Clear();
                     int color = colors[i];
                     var tileable = tileables[color];
-                    var map = CreateMap(tile);
 
-                    var mask = CreateMask(map, color);
+                    var map = CreateMap(tile);
+                    var mask = CreateMask(map, color, 5);
                     var graph = CreateGraph(tile.Image, tileable, mask);
 
                     MarkSourceAndSink(graph, color, map, mask);
 
-                    graph.Calculate();
+                    graph.Calculate(search);
                     BlendImages(graph, tile.Image, tileable, null);
 
                     BlurGraphCutSeams(tile.Image, graph, 2, 0.75f);
@@ -206,7 +166,7 @@ namespace AperiodicTexturing
             return map;
         }
 
-        private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color)
+        private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color, int thickness)
         {
             var mask = new BinaryImage2D(map.Size);
 
@@ -229,7 +189,7 @@ namespace AperiodicTexturing
                 }
             });
 
-            mask = BinaryImage2D.Dilate(mask, 5);
+            mask = BinaryImage2D.Dilate(mask, thickness);
 
             var bounds = mask.Bounds;
             var corners = bounds.GetCorners();

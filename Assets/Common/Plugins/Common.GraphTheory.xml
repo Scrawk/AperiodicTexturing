@@ -969,12 +969,6 @@
             
             </summary>
         </member>
-        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.MaxFlow">
-            <summary>
-            The max flow of the graph.
-            Calculate must be called to find this.
-            </summary>
-        </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Capacity">
             <summary>
             THe vertices edges capacity value.
@@ -1128,7 +1122,7 @@
             </summary>
             <param name="x">The x axis index.</param>
             <param name="y">The y axis index</param>
-            <returns></returns>
+            <returns>True is this vertex is labeled as a source.</returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.IsSink(System.Int32,System.Int32)">
             <summary>
@@ -1136,7 +1130,15 @@
             </summary>
             <param name="x">The x axis index.</param>
             <param name="y">The y axis index</param>
-            <returns></returns>
+            <returns>True this vertex is labeled as a sink.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.IsBoundaryPoint(System.Int32,System.Int32)">
+            <summary>
+            Does the vertex at x,y have a neighbour with a different label.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <returns>True if the vertex at x,y have a neighbour with a different label.</returns>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FindBoundaryPoints(System.Boolean,System.Boolean)">
             <summary>
@@ -1151,27 +1153,42 @@
             <summary>
             Calculate the max flow / min cut of the graph.
             </summary>
-            <returns></returns>
+            <returns>The max flow.</returns>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FordFulkersonMaxFlow">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Calculate(Common.GraphTheory.GridGraphs.GridFlowSearch)">
+            <summary>
+            Calculate the max flow / min cut of the graph.
+            </summary>
+            <param name="search">The helper search data structure.</param>
+            <returns>The max flow.</returns>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FordFulkersonMaxFlow(Common.GraphTheory.GridGraphs.GridFlowSearch)">
             <summary>
             Calculate the max flow of the graph using the FordFulkerson algorithm.
             </summary>
             <returns></returns>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.CalculateMinCut">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.CalculateMinCut(Common.GraphTheory.GridGraphs.GridFlowSearch)">
             <summary>
             
             </summary>
+            <param name="search"></param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.BreadthFirstSearch(Common.Core.Numerics.Point3i[0:,0:],Common.Core.Numerics.Point3i@)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.BreadthFirstSearch(Common.GraphTheory.GridGraphs.GridFlowSearch,System.Int32,Common.Core.Numerics.Point3i@)">
             <summary>
-            
+            Find if there exists a path to the sink.
             </summary>
-            <param name="parent"></param>
-            <param name="sink"></param>
+            <param name="search">The helper search data structure.</param>
+            <param name="step">Used to determine if vertex has been visited.</param>
+            <param name="sink">The index of the sink point.</param>
             <returns></returns>
+        </member>
+        <member name="T:Common.GraphTheory.GridGraphs.GridFlowSearch">
+            <summary>
+            A data structure to store the results 
+            from a algorithm on a grid flow graph.
+            </summary>
         </member>
         <member name="T:Common.GraphTheory.GridGraphs.GridGraph">
             <summary>
@@ -1422,8 +1439,26 @@
             <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.RemoveDirectedEdge(System.Int32,System.Int32,System.Int32)" -->
-        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveDirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Remove the edge from the vertex at x,y to the 
+            neighour vertex at i.
+            </summary>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <exception cref="T:System.ArgumentException">If i less than 0 or greater than 7.</exception>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Add a edge to and from the vertex at x,y to the vertices
+            neighbour i.
+            </summary>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <exception cref="T:System.ArgumentException">If i less than 0 or greater than 7.</exception>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.AddUndirectedEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Add a edge to and from the vertex at fx,fy to the vertices
@@ -1435,7 +1470,16 @@
             <param name="ty">The y index the edge goes to.</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.RemoveUndirectedEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Remove the edge to and from the vertex at x,y to the vertices
+            neighbour i.
+            </summary>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <exception cref="T:System.ArgumentException">If i less than 0 or greater than 7.</exception>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetAllVertices(System.Collections.Generic.List{Common.GraphTheory.GridGraphs.GridVertex})">
             <summary>
             For each vertex in the graph create a GridVertex object
@@ -1443,7 +1487,18 @@
             </summary>
             <param name="vertices"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a GridEdge object for the edge
+            from the vertex at x,y to the neighbour
+            vertex at i.
+            </summary>
+            <param name="x">The vertices x index.</param>
+            <param name="y">The vertices y index.</param>
+            <param name="i">The bit position in the edge connections byte value.</param>
+            <exception cref="T:System.ArgumentException">If i less than 0 or greater than 7.</exception>
+            <returns>The edge object or null if there is no edge between the vertices.</returns>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridGraph.GetEdge(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Create a GridEdge object for the edge

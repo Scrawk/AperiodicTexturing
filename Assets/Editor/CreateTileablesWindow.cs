@@ -7,9 +7,9 @@ using System.Threading;
 using UnityEngine;
 using UnityEditor;
 
+using Common.Core.Threading;
+using Common.Core.Time;
 using ImageProcessing.Images;
-
-using TIMER = Common.Core.Time.Timer;
 
 namespace AperiodicTexturing
 {
@@ -26,6 +26,10 @@ namespace AperiodicTexturing
 
         private static EXEMPLAR_VARIANT m_varients;
 
+        private static bool m_useThreading = true;
+
+        private static bool m_sourceIsTileable;
+
         private static string m_folderName = "Textures Results";
 
         private static string m_fileName = "Tileable";
@@ -39,6 +43,10 @@ namespace AperiodicTexturing
         private bool m_isRunning;
 
         private Exception m_exception;
+
+        private ThreadingToken m_token;
+
+        private string m_message;
 
         [MenuItem("Window/Aperiodic Texturing/Create Tileable Images")]
         public static void ShowWindow()
@@ -58,6 +66,8 @@ namespace AperiodicTexturing
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 64);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
+            m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
+            m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
 
             EditorGUILayout.Space();
 
@@ -82,7 +92,7 @@ namespace AperiodicTexturing
                 {
                     m_image = ToImage(m_source);
 
-                    m_set = new ExemplarSet(m_image, m_tileSize);
+                    m_set = new ExemplarSet(m_image, m_sourceIsTileable, m_tileSize);
                     m_set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.25f);
                     m_set.CreateVariants(m_varients);
 
@@ -95,6 +105,10 @@ namespace AperiodicTexturing
                     m_tiles = new ColorImage2D[m_set.Count];
                     m_isRunning = true;
                     m_exception = null;
+                    m_message = "";
+                    m_token = new ThreadingToken();
+                    m_token.UseThreading = m_useThreading;
+                    m_token.TimePeriodFormat = TIME_PERIOD.SECONDS;
 
                     Run();
                 }
@@ -104,12 +118,39 @@ namespace AperiodicTexturing
 
         }
 
+        private void Update()
+        {
+            if (m_isRunning && m_token != null)
+            {
+                float progress = m_token.PercentageProgress();
+                string estimatedTime = "";
+
+                if (progress > 0.1f)
+                    estimatedTime = m_token.EstimatedCompletionTime().ToString("F2") + m_token.TimePeriodUnit;
+                else
+                    estimatedTime = "(Calculating...)";
+
+                if (m_token.NumMessages > 0)
+                    m_message = m_token.DequeueMessage();
+
+                EditorUtility.DisplayProgressBar("Creating tiles", m_message + " Estimated completion time " + estimatedTime, progress);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            EditorUtility.ClearProgressBar();
+
+            if (m_token != null)
+                m_token.Cancelled = true;
+        }
+
         private string GetRunButtonText()
         {
             if (!m_isRunning)
                 return "Create";
             else
-                return "Running (This could take awhile)";
+                return "Running";
         }
 
         private bool Validate()
@@ -145,14 +186,11 @@ namespace AperiodicTexturing
             {
                 try
                 {
-                    var timer = new TIMER();
-                    timer.Start();
+                    m_token.StartTimer();
 
-                    ImageSynthesis.CreateTileableImages(m_tiles, m_set);
+                    ImageSynthesis.CreateTileableImages(m_tiles, m_set, m_token);
 
-                    timer.Stop();
-                    Debug.Log("Tile creation time: " + timer.ElapsedSeconds + "s");
-
+                    Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
                 catch(Exception e)
                 {
@@ -172,6 +210,7 @@ namespace AperiodicTexturing
                 }
 
                 m_isRunning = false;
+                EditorUtility.ClearProgressBar();
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
 

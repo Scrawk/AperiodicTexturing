@@ -189,6 +189,19 @@ namespace AperiodicTexturing
             return mask;
         }
 
+        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph)
+        {
+            var mask = new GreyScaleImage2D(graph.Width, graph.Height);
+
+            mask.Iterate((x, y) =>
+            {
+                if (graph.IsSink(x, y))
+                    mask[x, y] = 1;
+            });
+
+            return mask;
+        }
+
         private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, BinaryImage2D mask)
         {
             var graph = new GridFlowGraph(image1.Width, image1.Height);

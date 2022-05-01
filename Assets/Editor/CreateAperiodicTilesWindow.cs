@@ -32,6 +32,8 @@ namespace AperiodicTexturing
 
         private static bool m_useThreading = true;
 
+        private static bool m_sourceIsTileable;
+
         private static int m_seed = 0;
 
         private static string m_folderName = "Textures Results";
@@ -51,6 +53,8 @@ namespace AperiodicTexturing
         private Exception m_exception;
 
         private ThreadingToken m_token;
+
+        private string m_message;
 
         private int NumTileables => Math.Max(m_numHColors, m_numVColors);
 
@@ -75,6 +79,7 @@ namespace AperiodicTexturing
             m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 1);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
+            m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
 
             EditorGUILayout.Space();
 
@@ -109,7 +114,7 @@ namespace AperiodicTexturing
                 {
                     m_sourceImage = ToImage(m_source);
 
-                    m_exemplarSet = new ExemplarSet(m_sourceImage, m_tileSize);
+                    m_exemplarSet = new ExemplarSet(m_sourceImage, m_sourceIsTileable, m_tileSize);
                     m_exemplarSet.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
                     m_exemplarSet.CreateVariants(m_varients);
                     Debug.Log(m_exemplarSet);
@@ -123,6 +128,7 @@ namespace AperiodicTexturing
 
                     m_isRunning = true;
                     m_exception = null;
+                    m_message = "";
                     m_token = new ThreadingToken();
                     m_token.UseThreading = m_useThreading;
                     m_token.TimePeriodFormat = TIME_PERIOD.SECONDS;
@@ -142,11 +148,14 @@ namespace AperiodicTexturing
                 string estimatedTime = "";
 
                 if (progress > 0.1f)
-                    estimatedTime = m_token.EstimatedCompletionTime() + m_token.TimePeriodUnit;
+                    estimatedTime = m_token.EstimatedCompletionTime().ToString("F2") + m_token.TimePeriodUnit;
                 else
                     estimatedTime = "(Calculating...)";
 
-                EditorUtility.DisplayProgressBar("Creating tiles", "Estimated completion time " + estimatedTime, progress);
+                if (m_token.NumMessages > 0)
+                    m_message = m_token.DequeueMessage();
+
+                EditorUtility.DisplayProgressBar("Creating tiles", m_message + " Estimated completion time " + estimatedTime, progress);
             }
         }
 
@@ -168,6 +177,7 @@ namespace AperiodicTexturing
 
         private bool Validate()
         {
+
             for (int i = 0; i < NumTileables; i++)
             {
                 if (m_tileables[i] == null)
