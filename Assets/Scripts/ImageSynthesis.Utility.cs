@@ -45,14 +45,13 @@ namespace AperiodicTexturing
                     x > graph.Width - sourceArea ||
                     y > graph.Height - sourceArea)
                 {
-                    graph.SetSource(x, y, 255);
+                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
                 }
-
             });
 
             foreach (var p in sinkArea.EnumerateBounds())
             {
-                graph.SetSink(p.x, p.y, 255);
+                graph.SetLabelAndCapacity(p.x, p.y, FLOW_GRAPH_LABEL.SINK, 255);
             }
 
             return graph;
@@ -205,6 +204,7 @@ namespace AperiodicTexturing
         private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, BinaryImage2D mask)
         {
             var graph = new GridFlowGraph(image1.Width, image1.Height);
+            graph.IsOrthogonal = true;
 
             graph.Iterate((x, y) =>
             {
@@ -215,22 +215,16 @@ namespace AperiodicTexturing
 
                 var w1 = ColorRGB.SqrDistance(col1, col2) * 255;
 
-                for (int i = 0; i < 8; i++)
+                foreach(var i in graph.EnumerateInBoundsDirections(x,y))
                 {
-                    int xi = x + D8.OFFSETS[i, 0];
-                    int yi = y + D8.OFFSETS[i, 1];
-
-                    if (xi < 0 || xi >= graph.Width) continue;
-                    if (yi < 0 || yi >= graph.Height) continue;
-
-                    var col1i = image1[xi, yi];
-                    var col2i = image2[xi, yi];
+                    var col1i = image1[i.x, i.y];
+                    var col2i = image2[i.x, i.y];
 
                     var w2 = ColorRGB.SqrDistance(col1i, col2i) * 255;
 
                     var w = MathUtil.Max(1, w1, w2);
 
-                    graph.SetCapacity(x, y, i, w);
+                    graph.SetCapacity(x, y, i.z, w);
                 }
 
             });

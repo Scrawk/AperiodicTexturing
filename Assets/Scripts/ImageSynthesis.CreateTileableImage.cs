@@ -16,7 +16,7 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
-        public static void CreateTileableImages(IList<ColorImage2D> tiles, ExemplarSet set, ThreadingToken token = null)
+        public static void CreateTileableImages(IList<ColorImage2D> tiles, ExemplarSet set, int sinkOffset, ThreadingToken token = null)
         {
             int count = tiles.Count;
 
@@ -44,7 +44,7 @@ namespace AperiodicTexturing
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var exemplar = exemplars[i];
-                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image);
+                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset);
 
             }, token);
 
@@ -61,14 +61,13 @@ namespace AperiodicTexturing
             return tileable;
         }
 
-        private static ColorImage2D CreateTileableImageStage2(ColorImage2D tileable, ColorImage2D match)
+        private static ColorImage2D CreateTileableImageStage2(ColorImage2D tileable, ColorImage2D match, int sinkOffset)
         {
             int width = tileable.Width;
             int height = tileable.Height;
             int sourceOffset = 2;
-            int sinkOffset = 16;
 
-            var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - sinkOffset, height - sinkOffset);
+            var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
 
             var graph = CreateGraph(tileable, match, null);
             MarkSourceAndSink(graph, sourceOffset, sinkBounds);

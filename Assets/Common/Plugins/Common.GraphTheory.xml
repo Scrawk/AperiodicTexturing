@@ -969,6 +969,11 @@
             
             </summary>
         </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.IsOrthogonal">
+            <summary>
+            Does the graph use only orthogonal and not diagonal directions.
+            </summary>
+        </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Capacity">
             <summary>
             THe vertices edges capacity value.
@@ -1004,6 +1009,12 @@
             Clear the graph by setting all capacity, flow and labels to 0.
             </summary>
         </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.CreateSearch">
+            <summary>
+            Creates a new helper search data structure.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.InBounds(System.Int32,System.Int32)">
             <summary>
             Are the indices within the bounds of the graph.
@@ -1025,6 +1036,16 @@
             and apply the function.
             </summary>
             <param name="func"></param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.EnumerateDirections">
+            <summary>
+            Iterate over the graphs edge directions.
+            </summary>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.EnumerateInBoundsDirections(System.Int32,System.Int32)">
+            <summary>
+            Iterate over the graphs edge directions.
+            </summary>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FillCapacity(System.Single[0:,0:])">
             <summary>
@@ -1052,6 +1073,15 @@
             <param name="i">The  neigbour vertices index.</param>
             <param name="capacity"></param>
         </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetCapacity(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Set the capacity of the vertex edge at x,y 
+            going to the neighbour vertex.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="capacity"></param>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.GetFlow(System.Int32,System.Int32,System.Int32)">
             <summary>
             Get the flow of the vertex edge at x,y 
@@ -1072,6 +1102,15 @@
             <param name="i">The  neigbour vertices index.</param>
             <param name="flow"></param>
         </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetFlow(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Set the flow of the vertex edge at x,y 
+            going to the neighbour vertex.
+            </summary>
+            <param name="x">The x axis index.</param>
+            <param name="y">The y axis index</param>
+            <param name="flow"></param>
+        </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.GetLabel(System.Int32,System.Int32)">
             <summary>
             Get the label of the vertex at x,y.
@@ -1088,7 +1127,7 @@
             <param name="y">The y axis index</param>
             <param name="label"></param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabel(System.Int32,System.Int32,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL,System.Int32)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabelAndCapacity(System.Int32,System.Int32,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL,System.Int32)">
             <summary>
             Set the label of the vertex at x,y.
             Set all edges capacity going from this vertex.
@@ -1098,22 +1137,20 @@
             <param name="label">The vertices label.</param>
             <param name="capacity">The vertices edges capacity.</param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetSource(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabelAndCapacityInBounds(Common.Core.Shapes.Box2i,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL,System.Int32)">
             <summary>
-            Set the vertices label at x,y to source.
-            Set all edges capacity going from this vertex.
+            Sets the labels of the vertices in the bounds of the box.
             </summary>
-            <param name="x">The x axis index.</param>
-            <param name="y">The y axis index</param>
+            <param name="bounds">The box.</param>
+            <param name="label">The label.</param>
             <param name="capacity">The vertices edges capacity.</param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetSink(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetLabelAndCapacityInPerimeter(System.Int32,Common.GraphTheory.GridGraphs.FLOW_GRAPH_LABEL,System.Int32)">
             <summary>
-            Set the vertices label at x,y to sink.
-            Set all edges capacity going from this vertex.
+            Sets the labels of the vertices in the perimeter of the box.
             </summary>
-            <param name="x">The x axis index.</param>
-            <param name="y">The y axis index</param>
+            <param name="width">The width of the perimeters border.</param>
+            <param name="label">The label.</param>
             <param name="capacity">The vertices edges capacity.</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.IsSource(System.Int32,System.Int32)">
@@ -1175,7 +1212,7 @@
             </summary>
             <param name="search"></param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.BreadthFirstSearch(Common.GraphTheory.GridGraphs.GridFlowSearch,System.Int32,Common.Core.Numerics.Point3i@)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.BreadthFirstSearch(Common.GraphTheory.GridGraphs.GridFlowSearch,System.Int32,System.Collections.Generic.IList{System.Int32},Common.Core.Numerics.Point3i@)">
             <summary>
             Find if there exists a path to the sink.
             </summary>

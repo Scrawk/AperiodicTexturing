@@ -22,7 +22,7 @@ namespace AperiodicTexturing
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, ThreadingToken token = null)
+        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, int sinkOffset, ThreadingToken token = null)
         {
             var tiles = tileSet.ToFlattenedList();
 
@@ -53,7 +53,7 @@ namespace AperiodicTexturing
                 var tile = tiles[i];
                 int index = tile.Index1;
                 var exemplar = exemplars[index];
-                CreateWangTileImageStage2(tile, exemplar.Image);
+                CreateWangTileImageStage2(tile, exemplar.Image, sinkOffset);
 
             }, token);
 
@@ -79,7 +79,7 @@ namespace AperiodicTexturing
                     var tileable = tileables[color];
 
                     var map = CreateMap(tile);
-                    var mask = CreateMask(map, color, 5);
+                    var mask = CreateMask(map, color, 3);
                     var graph = CreateGraph(tile.Image, tileable, mask);
 
                     MarkSourceAndSink(graph, color, map, mask);
@@ -93,13 +93,12 @@ namespace AperiodicTexturing
 
         }
 
-        private static void CreateWangTileImageStage2(WangTile tile, ColorImage2D match)
+        private static void CreateWangTileImageStage2(WangTile tile, ColorImage2D match, int sinkOffset)
         {
             int size = tile.TileSize;
             int sourceOffset = 2;
-            int sinkOffset = 16;
 
-            var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - sinkOffset, size - sinkOffset);
+            var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - 1 - sinkOffset, size - 1 - sinkOffset);
 
             var graph = CreateGraph(tile.Image, match, null);
             MarkSourceAndSink(graph, sourceOffset, sinkBounds);
@@ -210,9 +209,9 @@ namespace AperiodicTexturing
                 if (mask[x, y]) return;
 
                 if (map[x, y] == color)
-                    graph.SetSink(x, y, 255);
+                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SINK, 255);
                 else
-                    graph.SetSource(x, y, 255);
+                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
             });
         }
 

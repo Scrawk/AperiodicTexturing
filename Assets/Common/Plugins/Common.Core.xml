@@ -533,6 +533,11 @@
             IsDiagonal(RIGHT_TOP) == true
             </summary>
         </member>
+        <member name="F:Common.Core.Directions.D8.ALL">
+            <summary>
+            All the direction values.
+            </summary>
+        </member>
         <member name="F:Common.Core.Directions.D8.NAME">
             <summary>
             The directions name.
@@ -9839,10 +9844,12 @@
             The area of the box.
             </summary>
         </member>
-        <member name="M:Common.Core.Shapes.Box2i.EnumeratePerimeter">
+        <member name="M:Common.Core.Shapes.Box2i.EnumeratePerimeter(System.Int32)">
             <summary>
-            Enumerate each point on the boxes perimeter.
+            Enumerate each point on the boxes perimeter in ccw order.
             </summary>
+            <returns></returns>
+            <param name="width">The width of the perimeter.</param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.Shapes.Box2i.EnumerateBounds">

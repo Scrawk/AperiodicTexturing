@@ -22,6 +22,8 @@ namespace AperiodicTexturing
 
         private static int m_tileSize = 256;
 
+        private static int m_blendArea = 32;
+
         private static int m_seed = 0;
 
         private static EXEMPLAR_VARIANT m_varients;
@@ -64,7 +66,8 @@ namespace AperiodicTexturing
             EditorGUI.BeginDisabledGroup(m_isRunning);
 
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
-            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 64);
+            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
+            m_blendArea = Mathf.Clamp(EditorGUILayout.IntField("Blend area", m_blendArea), 16, 32);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
             m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
@@ -188,7 +191,7 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
 
-                    ImageSynthesis.CreateTileableImages(m_tiles, m_set, m_token);
+                    ImageSynthesis.CreateTileableImages(m_tiles, m_set, m_blendArea, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }

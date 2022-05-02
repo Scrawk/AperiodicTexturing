@@ -26,6 +26,8 @@ namespace AperiodicTexturing
 
         private static int m_tileSize = 256;
 
+        private static int m_blendArea = 32;
+
         private static int m_samples = 100;
 
         private static EXEMPLAR_VARIANT m_varients;
@@ -75,7 +77,8 @@ namespace AperiodicTexturing
 
             m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 4);
             m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
-            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile size", m_tileSize), 64);
+            m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
+            m_blendArea = Mathf.Clamp(EditorGUILayout.IntField("Blend area", m_blendArea), 16, 32);
             m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 1);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
@@ -220,7 +223,7 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
      
-                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tileableImages, m_exemplarSet, m_token);
+                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tileableImages, m_exemplarSet, m_blendArea, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
