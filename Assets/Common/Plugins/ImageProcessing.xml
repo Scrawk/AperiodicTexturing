@@ -8,73 +8,6 @@
             <summary>
             A 2D image containing RGB color values.
             </summary>
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.BoxBlur(ImageProcessing.Images.ColorImage2D,System.Int32,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a box blur and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="size">The size in pixels of the kernel.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.GaussianBlur(ImageProcessing.Images.ColorImage2D,System.Single,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a Gaussian blur and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="sigma">The standard deviation of the blur kernel.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.SharpenFilter(ImageProcessing.Images.ColorImage2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a sharpen filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.UnsharpenFilter(ImageProcessing.Images.ColorImage2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a unsharpen filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Filter(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.FilterKernel2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="k">The filter to apply.</param>
-            <param name="bounds">The area to apply filter.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Filter(System.Int32,System.Int32,ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.FilterKernel2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a filter to the image at index i,j.
-            </summary>
-            <param name="i">The first index.</param>
-            <param name="j">The second index.</param>
-            <param name="image">The input image.</param>
-            <param name="k">The filter to apply.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The filter result.</returns>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Min(System.Single)">
             <summary>
@@ -144,6 +77,12 @@
             The images pixels.
             </summary>
         </member>
+        <member name="P:ImageProcessing.Images.ColorImage2D.Mipmaps">
+            <summary>
+            The images mipmaps.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
         <member name="P:ImageProcessing.Images.ColorImage2D.Count">
             <summary>
             The number of elements in the array.
@@ -162,6 +101,12 @@
         <member name="P:ImageProcessing.Images.ColorImage2D.Channels">
             <summary>
             The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.ColorImage2D.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.ColorImage2D.Item(System.Int32,System.Int32)">
@@ -185,12 +130,12 @@
             Sets all elements in the array to default value.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Resize(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.ClearMipmaps">
             <summary>
-            Resize the array. Will clear any existing data.
+            Clear the image of all mipmaps.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Resize(Common.Core.Numerics.Point2i)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.Resize(System.Int32,System.Int32)">
             <summary>
             Resize the array. Will clear any existing data.
             </summary>
@@ -214,15 +159,6 @@
             <param name="c">The channel index.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The value at index x,y.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single)">
-            <summary>
-            Set the channel value at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="c">The channel index.</param>
-            <param name="value">The value.</param>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -251,74 +187,45 @@
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the channel value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The channel index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="value">The value.</param>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Copy">
             <summary>
             Return a copy of the image.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Rescale(System.Int32,ImageProcessing.Images.RESCALE)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetMipmap(System.Int32)">
             <summary>
-            
+            Get the mipmap at index i.
             </summary>
-            <param name="scale"></param>
-            <param name="method"></param>
-            <returns></returns>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Rescale(System.Int32,System.Int32,ImageProcessing.Images.RESCALE)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetMipmapInterface(System.Int32)">
             <summary>
-            
+            Get the mipmap at index i.
             </summary>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="method"></param>
-            <returns></returns>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.BilinearRescale(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.CreateMipmaps(System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
             <summary>
-            
+            Creates the images mipmaps.
             </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.BicubicRescale(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.BSplineRescale(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.PointRescale(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.Rescale(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32,ImageProcessing.Interpolation.InterpolationFunction)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="func"></param>
-            <returns></returns>
+            <param name="maxLevel">The max level of mipmaps to create. -1 to ignore</param>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+            <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Sum">
             <summary>
@@ -335,91 +242,6 @@
             <summary>
             A 2D image containing only float values.
             </summary>
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.BoxBlur(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a box blur and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="size">The size in pixels of the kernel.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GaussianBlur(ImageProcessing.Images.GreyScaleImage2D,System.Single,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a Gaussian blur and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="sigma">The standard deviation of the blur kernel.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SharpenFilter(ImageProcessing.Images.GreyScaleImage2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a sharpen filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.UnsharpenFilter(ImageProcessing.Images.GreyScaleImage2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a unsharpen filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="bounds">The area to apply the filter to.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Filter(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.FilterKernel2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="k">The filter to apply.</param>
-            <param name="bounds">The area to apply filter.</param>
-            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MedianFilter(ImageProcessing.Images.GreyScaleImage2D,System.Int32)">
-            <summary>
-            Apply a median filter and return as a new image.
-            </summary>
-            <param name="image">The input image.</param>
-            <param name="size">The size in pixels of the kernel.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Filter(System.Int32,System.Int32,ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.FilterKernel2D,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Apply a filter to the image at index i,j.
-            </summary>
-            <param name="i">The first index.</param>
-            <param name="j">The second index.</param>
-            <param name="image">The input image.</param>
-            <param name="k">The filter to apply.</param>
-            <param name="mode">The wrap mode to use.</param>
-            <returns>The filter result.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetValues(System.Int32,System.Int32,ImageProcessing.Images.GreyScaleImage2D,System.Collections.Generic.List{System.Single},System.Int32)">
-            <summary>
-            Get all the surrounding values from the image at location i,j.
-            </summary>
-            <param name="i">The first index.</param>
-            <param name="j">The second index.</param>
-            <param name="image">The input image.</param>
-            <param name="list">The list of surrounding pixels.</param>
-            <param name="size">The size of the surroundng box.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.Min(System.Single)">
             <summary>
@@ -482,6 +304,12 @@
             The images pixels.
             </summary>
         </member>
+        <member name="P:ImageProcessing.Images.GreyScaleImage2D.Mipmaps">
+            <summary>
+            The images mipmaps.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
         <member name="P:ImageProcessing.Images.GreyScaleImage2D.Count">
             <summary>
             The number of elements in the array.
@@ -500,6 +328,12 @@
         <member name="P:ImageProcessing.Images.GreyScaleImage2D.Channels">
             <summary>
             The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.GreyScaleImage2D.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.GreyScaleImage2D.Item(System.Int32,System.Int32)">
@@ -523,12 +357,12 @@
             Sets all elements in the array to default value.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Resize(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.ClearMipmaps">
             <summary>
-            Resize the array. Will clear any existing data.
+            Clear the image of all mipmaps.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Resize(Common.Core.Numerics.Point2i)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Resize(System.Int32,System.Int32)">
             <summary>
             Resize the array. Will clear any existing data.
             </summary>
@@ -578,6 +412,26 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
         </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetChannel(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetChannel(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
@@ -585,6 +439,16 @@
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixels channel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.Copy">
@@ -673,76 +537,29 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Rescale(System.Int32,ImageProcessing.Images.RESCALE)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetMipmap(System.Int32)">
             <summary>
-            
+            Get the mipmap at index i.
             </summary>
-            <param name="scale"></param>
-            <param name="method"></param>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Rescale(System.Int32,System.Int32,ImageProcessing.Images.RESCALE)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetMipmapInterface(System.Int32)">
             <summary>
-            
+            Get the mipmap at index i.
             </summary>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="method"></param>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.BilinearRescale(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.CreateMipmaps(System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
             <summary>
-            
+            Creates the images mipmaps.
             </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.BicubicRescale(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.BSplineRescale(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.PointRescale(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Rescale(ImageProcessing.Images.GreyScaleImage2D,System.Int32,System.Int32,ImageProcessing.Interpolation.InterpolationFunction)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="func"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetInterpolatedValue(System.Single,System.Single,ImageProcessing.Interpolation.InterpolationFunction,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            
-            </summary>
-            <param name="u"></param>
-            <param name="v"></param>
-            <param name="func"></param>
-            <param name="mode"></param>
-            <returns></returns>
+            <param name="maxLevel">The max level of mipmaps to create. -1 to ignore</param>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+            <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMax">
             <summary>
@@ -768,387 +585,6 @@
             <param name="mean">The mean of the values in the image.</param>
             <returns></returns>
         </member>
-        <member name="T:ImageProcessing.Images.BinaryImage2D">
-            <summary>
-            A 2D image containing only true or false values.
-            </summary>
-            <summary>
-            
-            </summary>
-            <summary>
-            
-            </summary>
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Invert">
-            <summary>
-            Invert each bit in the image.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Or(ImageProcessing.Images.BinaryImage2D)">
-            <summary>
-            Or the bits in this image with another.
-            </summary>
-            <param name="image">Another image of the same size.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Xor(ImageProcessing.Images.BinaryImage2D)">
-            <summary>
-            XOr the bits in this image with another.
-            </summary>
-            <param name="image">Another image of the same size.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.And(ImageProcessing.Images.BinaryImage2D)">
-            <summary>
-            And the bits in this image with another.
-            </summary>
-            <param name="image">Another image of the same size.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor">
-            <summary>
-            Create a default of image.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Create a image of a given width and height.
-            </summary>
-            <param name="width">The width of the image.</param>
-            <param name="height">The height of the image.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(Common.Core.Numerics.Point2i)">
-            <summary>
-            Create a image of a given size.
-            </summary>
-            <param name="size">The size of the image. x is the width and y is the height.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Create a image of a given width and height and filled with a value.
-            </summary>
-            <param name="width">The width of the image.</param>
-            <param name="height">The height of the image.</param>
-            <param name="value">The value to fill the image with.</param>
-        </member>
-        <member name="F:ImageProcessing.Images.BinaryImage2D.Data">
-            <summary>
-            The images pixels.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Count">
-            <summary>
-            The number of elements in the array.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Width">
-            <summary>
-            The size of the arrays 1st dimention.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Height">
-            <summary>
-            The size of the arrays 2st dimention.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Channels">
-            <summary>
-            The number of channels in the images pixel.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Item(System.Int32,System.Int32)">
-            <summary>
-            Access a element at index x,y.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Item(Common.Core.Numerics.Point2i)">
-            <summary>
-            Access a element at index x,y.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.ToString">
-            <summary>
-            Return the image description.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Clear">
-            <summary>
-            Sets all elements in the array to default value.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Resize(System.Int32,System.Int32)">
-            <summary>
-            Resize the array. Will clear any existing data.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Resize(Common.Core.Numerics.Point2i)">
-            <summary>
-            Resize the array. Will clear any existing data.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.GetValue(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Get a value from the image at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-            <returns>The value at index x,y.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.GetValue(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Get a value from the image at normalized index u,v.
-            </summary>
-            <param name="u">The first index.</param>
-            <param name="v">The second index.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-            <returns>The value at index x,y.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.SetValue(System.Int32,System.Int32,System.Boolean,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Set the value at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="value">The value.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Get a pixel from the image at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-            <returns>The pixel at index x,y.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.GetPixel(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Get a pixel from the image at normalized index u,v.
-            </summary>
-            <param name="u">The first index.</param>
-            <param name="v">The second index.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-            <returns>The pixel at index x,y.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Set the pixel at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Copy">
-            <summary>
-            Return a copy of the image.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,System.Int32)">
-            <summary>
-            Open the image by performing a erode followed by a dilate.
-            </summary>
-            <param name="a"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Open the image by performing a erode followed by a dilate.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,System.Int32)">
-            <summary>
-            Close the image by performing a dilate followed by a erode.
-            </summary>
-            <param name="a"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Close the image by performing a dilate followed by a erode.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Border(ImageProcessing.Images.BinaryImage2D)">
-            <summary>
-            Find the border of all connected blocks of true values in the image.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,System.Int32)">
-            <summary>
-            Diluate all true values in a image by the structure element.
-            </summary>
-            <param name="a"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Diluate all true values in a image by the structure element.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Find if a pixel in the image should be dilated.
-            A pixel should be dilated if any surrounding pixel
-            and the element both have a true value.
-            The element is centered on the pixel.
-            </summary>
-            <param name="i">x index in source image.</param>
-            <param name="j">y index in source image.</param>
-            <param name="a">The source image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,System.Int32)">
-            <summary>
-            Erode all true values in a image by the structure element.
-            </summary>
-            <param name="a"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Erode all true values in a image by the structure element.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Find if a pixel in the image should be eroded.
-            A pixel should be eroded if any surrounding pixel
-            has a false value and the element a true value.
-            The element is centered on the pixel.
-            </summary>
-            <param name="i">x index in source image.</param>
-            <param name="j">y index in source image.</param>
-            <param name="a">The source image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(ImageProcessing.Images.BinaryImage2D,System.Int32)">
-            <summary>
-            Iteratively thin a image by removing pixels on the border
-            if they match the structure element.
-            Will exit early if image can not be thinned anymore.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="iterations">The number of times to thin the image.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Boolean}},ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,System.Int32,System.Boolean@)">
-            <summary>
-            Thin the image with the two structure elements and remove 
-            any thinned points from the image.
-            </summary>
-            <param name="points">The current pixels in the image with a true value.</param>
-            <param name="a">The image to be thinned.</param>
-            <param name="b">The structure element b.</param>
-            <param name="c">The structure element c.</param>
-            <param name="i">The rotation index for the elements.</param>
-            <param name="done">If the image has not changed this iteration.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Remove all pixels in the image that matchs the structure element.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Remove all pixels in the image that match the structure element
-            in any of its 4 rotations.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Remove all pixels in the image that match either of the two 
-            structure elements in any of there 4 rotations.
-            </summary>
-            <param name="a">The image.</param>
-            <param name="b">The structure element b.</param>
-            <param name="c">The structure element c.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Find if the pixel in the image matches the structure element
-            in any of its 4 rotations.
-            </summary>
-            <param name="x">The x index in the source image.</param>
-            <param name="y">The y index in the source image.</param>
-            <param name="a">The source image.</param>
-            <param name="b">The structure element.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
-            <summary>
-            Find if the pixel in the image matches either of the 
-            structure elements in any of there 4 rotations.
-            </summary>
-            <param name="x">The x index in the source image.</param>
-            <param name="y">The y index in the source image.</param>
-            <param name="a">The source image.</param>
-            <param name="b">The structure element b.</param>
-            <param name="c">The structure element c.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,System.Int32)">
-            <summary>
-            Find if all surrounding pixels in a image match the 
-            structure element.
-            </summary>
-            <param name="i">The x index in the source image.</param>
-            <param name="j">The y index in the source image.</param>
-            <param name="a">The source image.</param>
-            <param name="b">The structure element.</param>
-            <param name="rotate">The element rotation.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Segmentation(ImageProcessing.Images.BinaryImage2D)">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.MinimumSpanningForest(ImageProcessing.Images.BinaryImage2D,System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.ColorizeForest(ImageProcessing.Images.BinaryImage2D,System.Int32,Common.GraphTheory.AdjacencyGraphs.GraphForest)">
-            <summary>
-            
-            </summary>
-            <param name="image"></param>
-            <param name="seed"></param>
-            <param name="forest"></param>
-            <returns></returns>
-        </member>
         <member name="T:ImageProcessing.Images.Image2D`1">
             <summary>
             Base class for 2D images.
@@ -1157,6 +593,144 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.BoxBlur``1(``0,System.Int32,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a box blur and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="size">The size in pixels of the kernel.</param>
+            <param name="bounds">The area to apply the filter to.</param>
+            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GaussianBlur``1(``0,System.Single,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a Gaussian blur and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="sigma">The standard deviation of the blur kernel.</param>
+            <param name="bounds">The area to apply the filter to.</param>
+            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SharpenFilter``1(``0,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a sharpen filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="bounds">The area to apply the filter to.</param>
+            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.UnsharpenFilter``1(``0,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a unsharpen filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="bounds">The area to apply the filter to.</param>
+            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Filter``1(``0,ImageProcessing.Images.FilterKernel2D,System.Nullable{Common.Core.Shapes.Box2i},ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="k">The filter to apply.</param>
+            <param name="bounds">The area to apply filter.</param>
+            <param name="mask">If not null only areas where mask has a value will have the filter applied.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Filter``1(System.Int32,System.Int32,``0,ImageProcessing.Images.FilterKernel2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a filter to the image at index i,j.
+            </summary>
+            <param name="i">The first index.</param>
+            <param name="j">The second index.</param>
+            <param name="image">The input image.</param>
+            <param name="k">The filter to apply.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <returns>The filter result.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MedianFilter``1(``0,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a median filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="size">The size in pixels of the kernel.</param>
+            <param name="mode">The wrapping mode.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MinFilter``1(``0,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a min filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="size">The size in pixels of the kernel.</param>
+            <param name="mode">The wrapping mode.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MaxFilter``1(``0,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Apply a max filter and return as a new image.
+            </summary>
+            <param name="image">The input image.</param>
+            <param name="size">The size in pixels of the kernel.</param>
+            <param name="mode">The wrapping mode.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetChannels``1(System.Int32,System.Int32,System.Int32,``0,System.Collections.Generic.List{System.Single},System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get all the surrounding channel values from the image at location i,j.
+            </summary>
+            <param name="i">The first index.</param>
+            <param name="j">The second index.</param>
+            <param name="c">The channels index.</param>
+            <param name="image">The input image.</param>
+            <param name="list">The list of surrounding pixels.</param>
+            <param name="size">The size of the surroundng box.</param>
+            <param name="mode">The wrapping mode.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetMinMax``1(System.Int32,System.Int32,System.Int32,``0,System.Int32,ImageProcessing.Images.WRAP_MODE,System.Single@,System.Single@)">
+            <summary>
+            Get all the surrounding channel values from the image at location i,j.
+            </summary>
+            <param name="i">The first index.</param>
+            <param name="j">The second index.</param>
+            <param name="c">The channels index.</param>
+            <param name="image">The input image.</param>
+            <param name="size">The size of the surroundng box.</param>
+            <param name="mode">The wrapping mode.</param>
+            <param name="min">The min value found.</param>
+            <param name="max">The max value found.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Int32,System.Single,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Random,System.Single,System.Single)" -->
+        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Create a image filled with a single value.
+            </summary>
+            <typeparam name="IMAGE">The images generic type</typeparam>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <param name="value">The constant value.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,Common.Core.Colors.ColorRGB)">
+            <summary>
+            Create a image filled with a single value.
+            </summary>
+            <typeparam name="IMAGE">The images generic type</typeparam>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <param name="value">The constant value.</param>
+            <returns>The new image.</returns>
         </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Count">
             <summary>
@@ -1176,6 +750,17 @@
         <member name="P:ImageProcessing.Images.Image2D`1.Channels">
             <summary>
             The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.Image2D`1.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.Image2D`1.HasMipmaps">
+            <summary>
+            Does the image have mipmaps.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Size">
@@ -1204,6 +789,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Clear">
+            <summary>
+            Clear the image of all data.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.ClearMipmaps">
+            <summary>
+            Clear the image of all mipmaps.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.NewImage``1(System.Int32,System.Int32)">
+            <summary>
+            Helper function to create generic image.
+            </summary>
+            <typeparam name="IMAGE">THe images generic type.</typeparam>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <returns>The image.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.HashCode">
             <summary>
             Create a hashcode by hasing all pixels in the image together.
@@ -1223,10 +827,60 @@
             <summary>
             Get a pixel from the image at normalized index u,v.
             </summary>
-            <param name="u">The first index.</param>
-            <param name="v">The second index.</param>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetPixelMipmap(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetPixelMipmap(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetPixelMipmap(System.Single,System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="m">The mipmap normalized (0-1) index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetChannel(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetChannel(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -1246,6 +900,26 @@
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="pixel">The pixel.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixels channel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="value">The pixels channel value.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.IsSameSize(ImageProcessing.Images.IImage2D)">
             <summary>
             Is this array the same size as the other array.
@@ -1263,27 +937,7 @@
             Are the x and y index not in the bounds of the array.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.InBounds(Common.Core.Numerics.Point2i)">
-            <summary>
-            Are the x and y index in the bounds of the array.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.NotInBounds(Common.Core.Numerics.Point2i)">
-            <summary>
-            Are the x and y index not in the bounds of the array.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Clear">
-            <summary>
-            Sets all elements in the array to default value.
-            </summary>
-        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.Resize(System.Int32,System.Int32)">
-            <summary>
-            Resize the array. Will clear any existing data.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Resize(Common.Core.Numerics.Point2i)">
             <summary>
             Resize the array. Will clear any existing data.
             </summary>
@@ -1462,6 +1116,58 @@
             </summary>
             <returns>The color image.</returns>
         </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MipmapWidth(System.Int32)">
+            <summary>
+            Get the mipmaps width at level m.
+            </summary>
+            <param name="m">The mipmap level.</param>
+            <returns>The mipmaps width.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MipmapHeight(System.Int32)">
+            <summary>
+            Get the mipmaps height at level m.
+            </summary>
+            <param name="m">The mipmap level.</param>
+            <returns>The mipmaps height.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.MipmapSize(System.Int32)">
+            <summary>
+            Get the mipmaps size at level m.
+            </summary>
+            <param name="m">The mipmap level.</param>
+            <returns>The mipmaps size.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetMipmapInterface(System.Int32)">
+            <summary>
+            Get the mipmap at index i.
+            </summary>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.CalculateMipmapLevels(System.Int32,System.Int32)">
+            <summary>
+            Calculate how many mipmap levels a image of thie size would have.
+            </summary>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <returns>How many mipmap levels a image of thie size would have</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.CreateMipmaps(ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
+            <summary>
+            Creates the images mipmaps.
+            </summary>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+            <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.CreateMipmaps(System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
+            <summary>
+            Creates the images mipmaps.
+            </summary>
+            <param name="maxLevel">The max level of mipmaps to create.</param>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.GetInterpolatedPixel(System.Single,System.Single,ImageProcessing.Interpolation.InterpolationFunction,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             
@@ -1472,22 +1178,66 @@
             <param name="mode"></param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SaveAsRaw(System.String,System.Int32)">
-            <summary>
-            Save the file as raw bytes.
-            </summary>
-            <param name="filename">The filename.</param>
-            <param name="bitDepth">The bitdepth of the file.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.ToBytes(System.Int32,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Rescale``1(``0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
             <summary>
             
             </summary>
-            <param name="bitDepth"></param>
-            <param name="bigEndian"></param>
+            <typeparam name="IMAGE"></typeparam>
+            <param name="image"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="mode"></param>
+            <param name="method"></param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.FromBytes(System.Byte[],System.Int32,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.PointRescale``1(``0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            
+            </summary>
+            <typeparam name="IMAGE"></typeparam>
+            <param name="image"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="mode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Rescale``1(``0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Interpolation.InterpolationFunction)">
+            <summary>
+            
+            </summary>
+            <typeparam name="IMAGE"></typeparam>
+            <param name="image"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="func"></param>
+            <param name="mode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SaveAsRaw(System.String,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+            <summary>
+            Save the image as raw bytes.
+            </summary>
+            <param name="filename">The filename.</param>
+            <param name="bitDepth">The bitdepth of the file.</param>
+            <param name="bigEndian">The endianness if 16 bits.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SaveMipmapsAsRaw(System.String,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+            <summary>
+            Save the images mipmaps as raw bytes.
+            </summary>
+            <param name="filename">The filename.</param>
+            <param name="bitDepth">The bitdepth of the file.</param>
+            <param name="bigEndian">The endianness if 16 bits.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+            <summary>
+            Get the images data as bytes.
+            </summary>
+            <param name="bitDepth">The bitdepth of the bytes.</param>
+            <param name="bigEndian">The endianness if 16 bits.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.FromBytes(System.Byte[],ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
             <summary>
             
             </summary>
@@ -1708,6 +1458,453 @@
             <param name="mode">The wrap mode</param>
             <returns>A list of the new images.</returns>
         </member>
+        <member name="T:ImageProcessing.Images.BinaryImage2D">
+            <summary>
+            A 2D image containing only true or false values.
+            </summary>
+            <summary>
+            
+            </summary>
+            <summary>
+            
+            </summary>
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Invert">
+            <summary>
+            Invert each bit in the image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Or(ImageProcessing.Images.BinaryImage2D)">
+            <summary>
+            Or the bits in this image with another.
+            </summary>
+            <param name="image">Another image of the same size.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Xor(ImageProcessing.Images.BinaryImage2D)">
+            <summary>
+            XOr the bits in this image with another.
+            </summary>
+            <param name="image">Another image of the same size.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.And(ImageProcessing.Images.BinaryImage2D)">
+            <summary>
+            And the bits in this image with another.
+            </summary>
+            <param name="image">Another image of the same size.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor">
+            <summary>
+            Create a default of image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a image of a given width and height.
+            </summary>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(Common.Core.Numerics.Point2i)">
+            <summary>
+            Create a image of a given size.
+            </summary>
+            <param name="size">The size of the image. x is the width and y is the height.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Create a image of a given width and height and filled with a value.
+            </summary>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
+            <param name="value">The value to fill the image with.</param>
+        </member>
+        <member name="F:ImageProcessing.Images.BinaryImage2D.Data">
+            <summary>
+            The images pixels.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Mipmaps">
+            <summary>
+            The images mipmaps.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Count">
+            <summary>
+            The number of elements in the array.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Width">
+            <summary>
+            The size of the arrays 1st dimention.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Height">
+            <summary>
+            The size of the arrays 2st dimention.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Channels">
+            <summary>
+            The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Item(System.Int32,System.Int32)">
+            <summary>
+            Access a element at index x,y.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Item(Common.Core.Numerics.Point2i)">
+            <summary>
+            Access a element at index x,y.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.ToString">
+            <summary>
+            Return the image description.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Clear">
+            <summary>
+            Sets all elements in the array to default value.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.ClearMipmaps">
+            <summary>
+            Clear the image of all mipmaps.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Resize(System.Int32,System.Int32)">
+            <summary>
+            Resize the array. Will clear any existing data.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetValue(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The value at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetValue(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first index.</param>
+            <param name="v">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The value at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.SetValue(System.Int32,System.Int32,System.Boolean,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="value">The value.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetPixel(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first index.</param>
+            <param name="v">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetChannel(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetChannel(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="pixel">The pixel.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixels channel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="value">The pixels channel value.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Copy">
+            <summary>
+            Return a copy of the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetMipmap(System.Int32)">
+            <summary>
+            Get the mipmap at index i.
+            </summary>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.GetMipmapInterface(System.Int32)">
+            <summary>
+            Get the mipmap at index i.
+            </summary>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.CreateMipmaps(System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
+            <summary>
+            Creates the images mipmaps.
+            </summary>
+            <param name="maxLevel">The max level of mipmaps to create. -1 to ignore</param>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+            <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+            <summary>
+            Open the image by performing a erode followed by a dilate.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Open the image by performing a erode followed by a dilate.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+            <summary>
+            Close the image by performing a dilate followed by a erode.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Close the image by performing a dilate followed by a erode.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Border(ImageProcessing.Images.BinaryImage2D)">
+            <summary>
+            Find the border of all connected blocks of true values in the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+            <summary>
+            Diluate all true values in a image by the structure element.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Diluate all true values in a image by the structure element.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Find if a pixel in the image should be dilated.
+            A pixel should be dilated if any surrounding pixel
+            and the element both have a true value.
+            The element is centered on the pixel.
+            </summary>
+            <param name="i">x index in source image.</param>
+            <param name="j">y index in source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+            <summary>
+            Erode all true values in a image by the structure element.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Erode all true values in a image by the structure element.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Find if a pixel in the image should be eroded.
+            A pixel should be eroded if any surrounding pixel
+            has a false value and the element a true value.
+            The element is centered on the pixel.
+            </summary>
+            <param name="i">x index in source image.</param>
+            <param name="j">y index in source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+            <summary>
+            Iteratively thin a image by removing pixels on the border
+            if they match the structure element.
+            Will exit early if image can not be thinned anymore.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="iterations">The number of times to thin the image.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Boolean}},ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,System.Int32,System.Boolean@)">
+            <summary>
+            Thin the image with the two structure elements and remove 
+            any thinned points from the image.
+            </summary>
+            <param name="points">The current pixels in the image with a true value.</param>
+            <param name="a">The image to be thinned.</param>
+            <param name="b">The structure element b.</param>
+            <param name="c">The structure element c.</param>
+            <param name="i">The rotation index for the elements.</param>
+            <param name="done">If the image has not changed this iteration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Remove all pixels in the image that matchs the structure element.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Remove all pixels in the image that match the structure element
+            in any of its 4 rotations.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Remove all pixels in the image that match either of the two 
+            structure elements in any of there 4 rotations.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element b.</param>
+            <param name="c">The structure element c.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Find if the pixel in the image matches the structure element
+            in any of its 4 rotations.
+            </summary>
+            <param name="x">The x index in the source image.</param>
+            <param name="y">The y index in the source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
+            <summary>
+            Find if the pixel in the image matches either of the 
+            structure elements in any of there 4 rotations.
+            </summary>
+            <param name="x">The x index in the source image.</param>
+            <param name="y">The y index in the source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element b.</param>
+            <param name="c">The structure element c.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,System.Int32)">
+            <summary>
+            Find if all surrounding pixels in a image match the 
+            structure element.
+            </summary>
+            <param name="i">The x index in the source image.</param>
+            <param name="j">The y index in the source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <param name="rotate">The element rotation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Segmentation(ImageProcessing.Images.BinaryImage2D)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.MinimumSpanningForest(ImageProcessing.Images.BinaryImage2D,System.Func{Common.Core.Numerics.Point2i,Common.Core.Numerics.Point2i,System.Single})">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.ColorizeForest(ImageProcessing.Images.BinaryImage2D,System.Int32,Common.GraphTheory.AdjacencyGraphs.GraphForest)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="seed"></param>
+            <param name="forest"></param>
+            <returns></returns>
+        </member>
         <member name="T:ImageProcessing.Images.VectorImage2D">
             <summary>
             A 2D image containing RGB color values.
@@ -1774,6 +1971,12 @@
             The images pixels.
             </summary>
         </member>
+        <member name="P:ImageProcessing.Images.VectorImage2D.Mipmaps">
+            <summary>
+            The images mipmaps.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
         <member name="P:ImageProcessing.Images.VectorImage2D.Count">
             <summary>
             The number of elements in the array.
@@ -1792,6 +1995,12 @@
         <member name="P:ImageProcessing.Images.VectorImage2D.Channels">
             <summary>
             The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.VectorImage2D.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.VectorImage2D.Item(System.Int32,System.Int32)">
@@ -1815,12 +2024,12 @@
             Sets all elements in the array to default value.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.Resize(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.ClearMipmaps">
             <summary>
-            Resize the array. Will clear any existing data.
+            Clear the image of all mipmaps.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.Resize(Common.Core.Numerics.Point2i)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.Resize(System.Int32,System.Int32)">
             <summary>
             Resize the array. Will clear any existing data.
             </summary>
@@ -1908,11 +2117,45 @@
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the channel value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The channel index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="value">The value.</param>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Copy">
             <summary>
             Return a copy of the image.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetMipmap(System.Int32)">
+            <summary>
+            Get the mipmap at index i.
+            </summary>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetMipmapInterface(System.Int32)">
+            <summary>
+            Get the mipmap at index i.
+            </summary>
+            <param name="i">The mipmap level.</param>
+            <returns>The mipmap at index i.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.CreateMipmaps(System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.RESCALE)">
+            <summary>
+            Creates the images mipmaps.
+            </summary>
+            <param name="maxLevel">The max level of mipmaps to create. -1 to ignore</param>
+            <param name="mode">The wrap mode to use.</param>
+            <param name="method">The interpolation method to use.</param>
+            <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
         <member name="T:ImageProcessing.Images.FilterKernel2D">
             <summary>
@@ -2017,6 +2260,151 @@
             <summary>
             General interface for a 2 dimensional image.
             </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.IImage2D.Width">
+            <summary>
+            The images size on the x axis.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.IImage2D.Height">
+            <summary>
+            The images size on the y axis.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.IImage2D.Channels">
+            <summary>
+            The number of channels in the images pixel.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.IImage2D.MipmapLevels">
+            <summary>
+            The number of mipmap levels in image.
+            CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.MipmapWidth(System.Int32)">
+            <summary>
+            Get the mipmaps width at level m.
+            </summary>
+            <param name="m">The mipmap level.</param>
+            <returns>The mipmaps width.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.MipmapHeight(System.Int32)">
+            <summary>
+            Get the mipmaps height at level m.
+            </summary>
+            <param name="m">The mipmap level.</param>
+            <returns>The mipmaps height.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.Resize(System.Int32,System.Int32)">
+            <summary>
+            Resize the array. Will clear any existing data.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetPixelMipmap(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetPixelMipmap(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetPixelMipmap(System.Single,System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="m">The mipmap normalized (0-1) index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetPixel(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixel from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetChannel(System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetChannel(System.Single,System.Single,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a pixels channel value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="pixel">The pixel.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="m">The mipmap index.</param>
+            <param name="pixel">The pixel.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the pixels channel at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The pixels channel index (0-2).</param>
+            <param name="value">The pixels channel value.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+            <summary>
+            Get the images data as bytes.
+            </summary>
+            <param name="bitDepth">The bitdepth of the bytes.</param>
+            <param name="bigEndian">The endianness if 16 bits.</param>
+            <returns></returns>
         </member>
         <member name="T:ImageProcessing.Images.StructureElement2D">
             <summary>

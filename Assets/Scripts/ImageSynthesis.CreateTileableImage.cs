@@ -22,7 +22,7 @@ namespace AperiodicTexturing
 
             if(token != null)
             {
-                token.EnqueueMessage("Stage 1 of 2");
+                token.EnqueueMessage("Stage 1 of 3");
                 token.Steps = count;
             }
                 
@@ -37,14 +37,29 @@ namespace AperiodicTexturing
 
             if (token != null)
             {
-                token.EnqueueMessage("Stage 2 of 2");
+                token.EnqueueMessage("Stage 2 of 3");
                 token.ResetProgress();
             }
 
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var exemplar = exemplars[i];
-                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset);
+                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset, true);
+
+            }, token);
+
+            exemplars = FindBestMatches(tiles, set);
+
+            if (token != null)
+            {
+                token.EnqueueMessage("Stage 3 of 3");
+                token.ResetProgress();
+            }
+
+            ThreadingBlock1D.ParallelAction(count, 1, (i) =>
+            {
+                var exemplar = exemplars[i];
+                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset, false);
 
             }, token);
 
@@ -61,7 +76,7 @@ namespace AperiodicTexturing
             return tileable;
         }
 
-        private static ColorImage2D CreateTileableImageStage2(ColorImage2D tileable, ColorImage2D match, int sinkOffset)
+        private static ColorImage2D CreateTileableImageStage2(ColorImage2D tileable, ColorImage2D match, int sinkOffset, bool offset)
         {
             int width = tileable.Width;
             int height = tileable.Height;
@@ -76,7 +91,8 @@ namespace AperiodicTexturing
             var mask = CreateMaskFromGraph(graph, 5, 0.75f);
             BlendImages(graph, tileable, match, mask);
 
-            tileable = ColorImage2D.Offset(tileable, width / 2, height / 2);
+            if(offset)
+                tileable = ColorImage2D.Offset(tileable, width / 2, height / 2);
 
             return tileable;
         }

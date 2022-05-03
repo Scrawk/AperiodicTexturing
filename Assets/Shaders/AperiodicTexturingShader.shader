@@ -3,11 +3,11 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _TilesTexture("TilesTexture", 2D) = "white" {}
-        _TileMappingTexture("TileMappingTexture", 2D) = "black" {}
-        _TileScale("TileScale", Vector) = (0, 0, 0, 0)
-        _TileMappingScale("TileMappingScale", Vector) = (0, 0, 0, 0)
-        _Glossiness ("Smoothness", Range(0, 1)) = 0.5
+        _TilesTexture("Tiles Texture", 2D) = "white" {}
+        _TileMappingTexture("Tile Mapping Texture", 2D) = "black" {}
+        _TileScale("Tile Scale", Vector) = (4, 4, 0, 0)
+        _TileMappingScale("Tile Mapping Scale", Vector) = (256, 256, 0, 0)
+        _Glossiness ("Smoothness", Range(0, 1)) = 0.0
         _Metallic ("Metallic", Range(0,1)) = 0.0
     }
     SubShader
@@ -37,21 +37,42 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
+        float4 GetTileUV(float2 uv)
+        {
+            float2 tileIndex = tex2D(_TileMappingTexture, uv) * 255.0;
+            float2 invScale = 1.0 / _TileScale;
+
+            float2 mappingUV = uv * _TileMappingScale;
+            float2 mappingScaledUV = mappingUV * invScale;
+
+            float4 tileUV;
+            tileUV.xy = (tileIndex + frac(mappingUV)) * invScale;
+            tileUV.z = ddx(mappingScaledUV);
+            tileUV.w = ddy(mappingScaledUV);
+
+            return tileUV;
+        }
+
+        float4 SampleAperiodicTexture(float4 uv)
+        {
+            return tex2D(_TilesTexture, uv.xy, uv.z, uv.w);
+        }
+
+        void surf(Input IN, inout SurfaceOutputStandard o)
         {
             float2 uv = IN.uv_TileMappingTexture.xy;
-            float2 tileIndex = tex2D(_TileMappingTexture, uv) * 255.0;
 
-            float2 mappingAddress = uv * _TileMappingScale;
-            float2 tileScaledTex = uv * _TileMappingScale * (1.0 / _TileScale);
+            float4 tileUV = GetTileUV(uv);
 
-            float4 result = tex2D(_TilesTexture, (tileIndex + frac(mappingAddress)) / _TileScale, ddx(tileScaledTex), ddy(tileScaledTex));
+            float4 result = SampleAperiodicTexture(tileUV);
 
             o.Albedo = result.rgb * _Color.rgb;
+            o.Alpha = result.a * _Color.a;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = 1;
+
         }
+
         ENDCG
     }
     FallBack "Diffuse"

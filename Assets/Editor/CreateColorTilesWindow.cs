@@ -22,11 +22,13 @@ namespace AperiodicTexturing
 
         private static int m_thickness = 4;
 
-        private static float m_alpha = 0.5f;
+        private static float m_alpha = 1;
 
         private static string m_folderName = "Textures Results";
 
         private static string m_tileFileName = "ColorTile";
+
+        private static bool m_appendTileSize = true;
 
         private static Color m_backGroundColor = Color.black;
 
@@ -54,6 +56,7 @@ namespace AperiodicTexturing
 
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
             m_tileFileName = EditorGUILayout.TextField("Tile file name", m_tileFileName);
+            m_appendTileSize = EditorGUILayout.Toggle("Append tile size", m_appendTileSize);
 
             EditorGUILayout.Space();
 
@@ -125,7 +128,8 @@ namespace AperiodicTexturing
 
             string folderName = Application.dataPath + "/" + m_folderName;
             string hv = m_numHColors + "x" + m_numVColors;
-            string fileName = folderName + "/" + m_tileFileName + hv + ".png";
+            string size = m_appendTileSize ? "_" + m_tileSize : "";
+            string fileName = folderName + "/" + m_tileFileName + hv + size + ".png";
 
             System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
 

@@ -26,7 +26,7 @@ namespace AperiodicTexturing
 
         private static int m_tileSize = 256;
 
-        private static int m_blendArea = 32;
+        private static int m_blendArea = 16;
 
         private static int m_samples = 100;
 
@@ -78,7 +78,7 @@ namespace AperiodicTexturing
             m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 4);
             m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
-            m_blendArea = Mathf.Clamp(EditorGUILayout.IntField("Blend area", m_blendArea), 16, 32);
+            m_blendArea = Mathf.Clamp(EditorGUILayout.IntField("Blend area", m_blendArea), 8, 32);
             m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 1);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
