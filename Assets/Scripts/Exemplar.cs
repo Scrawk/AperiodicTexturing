@@ -30,29 +30,43 @@ namespace AperiodicTexturing
         /// <param name="image">The exemplars image.</param>
         public Exemplar(ColorImage2D image)
         {
-            Image = image;
+            Tile = new Tile(image);
         }
 
         /// <summary>
         /// Create a new exemplar thats a variant of the original exemplar.
         /// </summary>
-        /// <param name="image">The exemplars image.</param>
-        /// <param name="original">The original exemplar this one is a variant of.</param>
-        public Exemplar(ColorImage2D image, Exemplar original)
+        /// <param name="images">The exemplars imagse.</param>
+        public Exemplar(IList<ColorImage2D> images)
         {
-            Image = image;
+            Tile = new Tile(images);
+        }
+
+        /// <summary>
+        /// Create a new exemplar thats a variant of the original exemplar.
+        /// </summary>
+        /// <param name="images">The exemplars imagse.</param>
+        /// <param name="original">The original exemplar this one is a variant of.</param>
+        public Exemplar(IList<ColorImage2D> images, Exemplar original)
+        {
+            Tile = new Tile(images);
             Original = original;
         }
 
         /// <summary>
-        /// The Examples size on the x axis.
+        /// The number of images in the tile.
         /// </summary>
-        public int Width => Image.Width;
+        public int Count => Tile.Count;
 
         /// <summary>
-        /// The Examples size on the y axis.
+        /// The exemplars size on the x axis.
         /// </summary>
-        public int Height => Image.Height;
+        public int Width => Tile.Width;
+
+        /// <summary>
+        /// The exemplars size on the y axis.
+        /// </summary>
+        public int Height => Tile.Height;
 
         /// <summary>
         /// Has this exemplar been used.
@@ -65,20 +79,9 @@ namespace AperiodicTexturing
         public bool IsVariant => Original != null;
 
         /// <summary>
-        /// Access the exemplars image.
+        /// The exemplars images.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public ColorRGB this[int x, int y]
-        {
-            get { return Image[x, y]; }
-        }
-
-        /// <summary>
-        /// The exemaplars image.
-        /// </summary>
-        public ColorImage2D Image { get; private set; }
+        public Tile Tile { get; private set; }
 
         /// <summary>
         /// The original exemplar this one is a variant of.
@@ -92,8 +95,8 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[Exemplar: Width={0}, Height={1}, Used={2}, IsVariant={3}]",
-                Width, Height, Used, IsVariant);
+            return String.Format("[Exemplar: Count={0}, Width={1}, Height={2}, Used={3}, IsVariant={4}]",
+                Count, Width, Height, Used, IsVariant);
         }
 
         /// <summary>
@@ -121,20 +124,28 @@ namespace AperiodicTexturing
         {
             var variants = new List<Exemplar>();
 
-            if(flags.HasFlag(EXEMPLAR_VARIANT.ROTATE90))
-                variants.Add(new Exemplar(ColorImage2D.Rotate90(Image), this));
+            foreach(var image in Tile.Images)
+            {
+                var images = new List<ColorImage2D>();
 
-            if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE180))
-                variants.Add(new Exemplar(ColorImage2D.Rotate180(Image), this));
+                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE90))
+                    images.Add(ColorImage2D.Rotate90(image));
 
-            if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE270))
-                variants.Add(new Exemplar(ColorImage2D.Rotate270(Image), this));
+                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE180))
+                    images.Add(ColorImage2D.Rotate180(image));
 
-            if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_HORIZONTAL))
-                variants.Add(new Exemplar(ColorImage2D.FlipHorizontal(Image), this));
+                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE270))
+                    images.Add(ColorImage2D.Rotate270(image));
 
-            if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_VERTICAL))
-                variants.Add(new Exemplar(ColorImage2D.FlipVertical(Image), this));
+                if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_HORIZONTAL))
+                    images.Add(ColorImage2D.FlipHorizontal(image));
+
+                if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_VERTICAL))
+                    images.Add(ColorImage2D.FlipVertical(image));
+
+                if(images.Count > 0)
+                    variants.Add(new Exemplar(images, this));
+            }
 
             return variants;
         }

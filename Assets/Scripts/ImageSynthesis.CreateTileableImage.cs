@@ -16,11 +16,12 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
-        public static void CreateTileableImages(IList<ColorImage2D> tiles, ExemplarSet set, int sinkOffset, ThreadingToken token = null)
+        public static Tile[] CreateTileableImages(ExemplarSet set, int sinkOffset, ThreadingToken token = null)
         {
-            int count = tiles.Count;
-
-            if(token != null)
+            int count = set.Count;
+            var tiles = new Tile[count];
+ 
+            if (token != null)
             {
                 token.EnqueueMessage("Stage 1 of 3");
                 token.Steps = count;
@@ -29,7 +30,7 @@ namespace AperiodicTexturing
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var exemplar = set[i];
-                tiles[i] = CreateTileableImageStage1(exemplar.Image);
+                tiles[i] = CreateTileableImageStage1(exemplar.Tile);
 
             }, token);
 
@@ -44,7 +45,9 @@ namespace AperiodicTexturing
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var exemplar = exemplars[i];
-                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset, true);
+                var tile = tiles[i];
+
+                CreateTileableImageStage2(tile, exemplar, sinkOffset, true);
 
             }, token);
 
@@ -59,51 +62,60 @@ namespace AperiodicTexturing
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var exemplar = exemplars[i];
-                tiles[i] = CreateTileableImageStage2(tiles[i], exemplar.Image, sinkOffset, false);
+                var tile = tiles[i];
+
+                CreateTileableImageStage2(tile, exemplar, sinkOffset, false);
 
             }, token);
 
+            return tiles;
         }
 
-        private static ColorImage2D CreateTileableImageStage1(ColorImage2D image)
+        private static Tile CreateTileableImageStage1(Tile tile)
         {
-            int width = image.Width;
-            int height = image.Height;
+            int width = tile.Width;
+            int height = tile.Height;
 
-            var tileable = ColorImage2D.Offset(image, width / 2, height / 2);
-            BlurOffsetSeams(tileable, 0.75f);
+            var tileable = tile.Copy();
+            tileable.Offset(width / 2, height / 2);
+
+            foreach (var image in tileable.Images)
+            {
+                BlurOffsetSeams(image, 0.75f);
+            }
 
             return tileable;
         }
 
-        private static ColorImage2D CreateTileableImageStage2(ColorImage2D tileable, ColorImage2D match, int sinkOffset, bool offset)
+        private static void CreateTileableImageStage2(Tile tile, Exemplar match, int sinkOffset, bool offset)
         {
-            int width = tileable.Width;
-            int height = tileable.Height;
+            int width = tile.Width;
+            int height = tile.Height;
             int sourceOffset = 2;
 
             var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
 
-            var graph = CreateGraph(tileable, match, null);
+            var graph = CreateGraph(tile.Image, match.Tile.Image, null);
             MarkSourceAndSink(graph, sourceOffset, sinkBounds);
 
             graph.Calculate();
             var mask = CreateMaskFromGraph(graph, 5, 0.75f);
-            BlendImages(graph, tileable, match, mask);
+            BlendImages(graph, tile, match.Tile, mask);
 
             if(offset)
-                tileable = ColorImage2D.Offset(tileable, width / 2, height / 2);
-
-            return tileable;
+            {
+                tile.Offset(width / 2, height / 2);
+            }
         }
 
-        private static Exemplar[] FindBestMatches(IList<ColorImage2D> tiles, ExemplarSet set)
+        private static Exemplar[] FindBestMatches(IList<Tile> tiles, ExemplarSet set)
         {
             var exemplars = new Exemplar[tiles.Count];
 
             for(int i = 0; i < tiles.Count; i++)
             {
-                Exemplar exemplar = FindBestMatch(tiles[i], set, null);
+                var image = tiles[i].Image;
+                var exemplar = FindBestMatch(image, set, null);
                 exemplar.IncrementUsed();
 
                 exemplars[i] = exemplar;

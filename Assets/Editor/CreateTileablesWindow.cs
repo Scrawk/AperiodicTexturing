@@ -16,7 +16,7 @@ namespace AperiodicTexturing
     class CreateTileablesWidow : EditorWindow
     {
 
-        private static Texture2D m_source;
+        private static Texture2D[] m_source;
 
         private static int m_numTiles = 2;
 
@@ -34,11 +34,9 @@ namespace AperiodicTexturing
 
         private static string m_folderName = "Textures Results";
 
-        private static string m_fileName = "Tileable";
+        private static string[] m_fileNames;
 
-        private ColorImage2D[] m_tiles;
-
-        private ColorImage2D m_image;
+        private Tile[] m_tiles;
 
         private ExemplarSet m_set;
 
@@ -58,8 +56,11 @@ namespace AperiodicTexturing
 
         private void OnGUI()
         {
+            var wrapStyle = new GUIStyle(GUI.skin.GetStyle("label"));
+            wrapStyle.wordWrap = true;
+
             titleContent.text = "Tileable texture creator";
-            EditorGUILayout.LabelField("Create a number of tileable textures from the source texture.");
+            EditorGUILayout.LabelField("Create a number of tileable textures from the source texture.", wrapStyle);
 
             EditorGUILayout.Space();
 
@@ -81,11 +82,40 @@ namespace AperiodicTexturing
             EditorGUILayout.Space();
 
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
-            m_fileName = EditorGUILayout.TextField("File name", m_fileName);
+
+            if (m_fileNames == null)
+            {
+                m_fileNames = new string[]
+                {
+                    "Tileable",
+                    "Tileable",
+                    "Tileable",
+                    "Tileable",
+                };
+            }
+
+            for (int i = 0; i < 4; i++)
+                m_fileNames[i] = EditorGUILayout.TextField("File name " + i, m_fileNames[i]);
 
             EditorGUILayout.Space();
 
-            m_source = (Texture2D)EditorGUILayout.ObjectField("Source", m_source, typeof(Texture2D), false);
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField("Source textures. Albedo then 3 optional textures.", wrapStyle, GUILayout.Width(150));
+
+            var texOptions = new GUILayoutOption[]
+            {
+                GUILayout.Width(64),
+                GUILayout.Height(64)
+            };
+
+            if (m_source == null)
+                m_source = new Texture2D[4];
+
+            for(int i = 0; i < 4; i++)
+                m_source[i] = (Texture2D)EditorGUILayout.ObjectField(m_source[i], typeof(Texture2D), false, texOptions);
+
+            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
 
@@ -93,9 +123,8 @@ namespace AperiodicTexturing
             {
                 if(Validate())
                 {
-                    m_image = ToImage(m_source);
-
-                    m_set = new ExemplarSet(m_image, m_sourceIsTileable, m_tileSize);
+  
+                    m_set = new ExemplarSet(GetImages(), m_sourceIsTileable, m_tileSize);
                     m_set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.25f);
                     m_set.CreateVariants(m_varients);
 
@@ -105,7 +134,6 @@ namespace AperiodicTexturing
                         return;
                     }
 
-                    m_tiles = new ColorImage2D[m_set.Count];
                     m_isRunning = true;
                     m_exception = null;
                     m_message = "";
@@ -158,16 +186,35 @@ namespace AperiodicTexturing
 
         private bool Validate()
         {
-            if (m_source == null)
-            {
-                Debug.Log("Source texture is null.");
-                return false;
-            }
+            int width = 0;
+            int height = 0;
 
-            if (!m_source.isReadable)
+            for(int i = 0; i < 4; i++)
             {
-                Debug.Log("Source texture is not readable.");
-                return false;
+                var tex = m_source[i];
+                if (tex == null && i != 0) continue;
+
+                if(i == 0)
+                {
+                    width = tex.width;
+                    height = tex.height;
+                }
+                else if(tex.width != width || tex.height != height)
+                {
+                    Debug.Log("Source textures must all be the same size .");
+                }
+
+                if (tex == null)
+                {
+                    Debug.Log($"Source texture {i} is null.");
+                    return false;
+                }
+                if (!tex.isReadable)
+                {
+                    Debug.Log($"Source texture {i} is not readable.");
+                    return false;
+                }
+
             }
 
             string folderName = Application.dataPath + "/" + m_folderName;
@@ -191,7 +238,7 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
 
-                    ImageSynthesis.CreateTileableImages(m_tiles, m_set, m_blendArea, m_token);
+                    m_tiles = ImageSynthesis.CreateTileableImages(m_set, m_blendArea, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -226,18 +273,34 @@ namespace AperiodicTexturing
             for (int i = 0; i < m_tiles.Length; i++)
             {
                 var tile = m_tiles[i];
-                if (tile == null) continue;
 
-                var tex = ToTexture(tile);
+                for (int j = 0; j < tile.Count; j++)
+                {
+                    var tex = ToTexture(tile.Images[j]);
+                    var id = i.ToString() + j.ToString();
 
-                string fileName = folderName + "/" + m_fileName + i + ".png";
+                    string fileName = folderName + "/" + m_fileNames[j] + id + ".png";
 
-                System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
+                    System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
 
-                Debug.Log("Saved texture " + fileName);
+                    Debug.Log("Saved texture " + fileName);
+                }
+
             }
 
             AssetDatabase.Refresh();
+        }
+
+        private List<ColorImage2D> GetImages()
+        {
+            var images = new List<ColorImage2D>();
+            for (int i = 0; i < m_source.Length; i++)
+            {
+                if (m_source[i] == null) continue;
+                images.Add(ToImage(m_source[i]));
+            }
+
+            return images;
         }
 
         private ColorImage2D ToImage(Texture2D tex)
@@ -246,7 +309,7 @@ namespace AperiodicTexturing
 
             image.Fill((x, y) =>
             {
-                return tex.GetPixel(x, y).ToColorRGB();
+                return tex.GetPixel(x, y).ToColorRGBA();
             });
 
             return image;

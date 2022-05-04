@@ -11,17 +11,37 @@ using System.Collections;
 
 namespace AperiodicTexturing
 {
-    public class ExemplarSet : IEnumerable<Exemplar>
+    public class ExemplarSet
     {
         /// <summary>
         /// Create a new exemplat set.
         /// </summary>
-        /// <param name="source">The source mage the exemplars are created from.</param>
+        /// <param name="source">The source image the exemplars are created from.</param>
         /// <param name="sourceIsTileable">Is the source texture tileable.</param>
         /// <param name="exemplarSize">The size of a exemplar.</param>
         public ExemplarSet(ColorImage2D source, bool sourceIsTileable, int exemplarSize)
         {
-            Source = source.Copy();
+            Sources = new List<ColorImage2D>();
+            Sources.Add(source);
+
+            SourceIsTileable = sourceIsTileable;
+            ExemplarSize = exemplarSize;
+            Exemplars = new List<Exemplar>();
+        }
+
+        /// <summary>
+        /// Create a new exemplat set.
+        /// </summary>
+        /// <param name="sources">The source image the exemplars are created from is the first image in the list. 
+        /// Any otyhers are optional textures like heights, normasl, metalness, etc.</param>
+        /// <param name="sourceIsTileable">Is the source texture tileable.</param>
+        /// <param name="exemplarSize">The size of a exemplar.</param>
+        public ExemplarSet(IList<ColorImage2D> sources, bool sourceIsTileable, int exemplarSize)
+        {
+            Sources = new List<ColorImage2D>();
+            foreach (var source in sources)
+                Sources.Add(source);
+
             SourceIsTileable = sourceIsTileable;
             ExemplarSize = exemplarSize;
             Exemplars = new List<Exemplar>();
@@ -50,7 +70,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The exemplars source image.
         /// </summary>
-        private ColorImage2D Source { get; set; }
+        private List<ColorImage2D> Sources { get; set; }
 
         /// <summary>
         /// Get the exemplar at index i.
@@ -68,27 +88,8 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[ExemplarSet: Count={0}, Size={1}, SourceIsTileable={2}]", 
+            return String.Format("[ExemplarSet: Count={0}, Size={1}, SourceIsTileable={2}]",
                 Count, ExemplarSize, SourceIsTileable);
-        }
-
-        /// <summary>
-        /// Enumerate through the exemplas in set.
-        /// </summary>
-        /// <returns>The exemplar.</returns>
-        public IEnumerator<Exemplar> GetEnumerator()
-        {
-            foreach (var exemplar in Exemplars)
-                yield return exemplar;
-        }
-
-        /// <summary>
-        /// Enumerate through the exemplas in set.
-        /// </summary>
-        /// <returns>The exemplar.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -131,6 +132,9 @@ namespace AperiodicTexturing
         /// <param name="flags">The types of exemplars to create.</param>
         public void CreateVariants(EXEMPLAR_VARIANT flags)
         {
+            if (flags == EXEMPLAR_VARIANT.NONE)
+                return;
+
             var variants = new List<Exemplar>();
 
             foreach (var exemplar in Exemplars)
@@ -188,10 +192,27 @@ namespace AperiodicTexturing
         {
             Clear();
 
-            var images = ColorImage2D.Crop(Source, Source.Width / ExemplarSize, Source.Height / ExemplarSize);
+            int width = Sources[0].Width;
+            int height = Sources[0].Height;
 
-            foreach(var image in images)
-                Exemplars.Add(new Exemplar(image));
+            var images = new List<List<ColorImage2D>>();
+
+            foreach (var source in Sources)
+            {
+                var image = ColorImage2D.Crop(source, width / ExemplarSize, height / ExemplarSize);
+                images.Add(image);
+            }
+
+            for (int i = 0; i < images.Count; i++)
+            {
+                var exemplars = new List<ColorImage2D>();
+
+                for (int j = 0; j < images[i].Count; j++)
+                    exemplars.Add(images[i][j]);
+
+                Exemplars.Add(new Exemplar(exemplars));
+            }
+
         }
 
         /// <summary>
@@ -207,8 +228,10 @@ namespace AperiodicTexturing
         {
             Clear();
 
-            var mask = new BinaryImage2D(Source.Width, Source.Height);
- 
+            int width = Sources[0].Width;
+            int height = Sources[0].Height;
+
+            var mask = new BinaryImage2D(width, height);
             var rnd = new Random(seed);
 
             //Safety break in case no new exemplars can be created.
@@ -219,8 +242,8 @@ namespace AperiodicTexturing
                 int border = SourceIsTileable ? 0 : ExemplarSize;
 
                 //Select a random place in the source image.
-                int x = rnd.Next(0, Source.Width - border - 1);
-                int y = rnd.Next(0, Source.Height - border - 1);
+                int x = rnd.Next(0, width - border - 1);
+                int y = rnd.Next(0, height - border - 1);
 
                 //Get the amount of pixels in this area of the image
                 //that have already been used to create new exemplars.
@@ -239,9 +262,17 @@ namespace AperiodicTexturing
                 //Mark this area of the image as having been sampled.
                 AddCoverage(mask, x, y);
 
-                var exemplar = ColorImage2D.Crop(Source, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize), WRAP_MODE.WRAP);
-                Exemplars.Add(new Exemplar(exemplar));
+                var exemplars = new List<ColorImage2D>();
+
+                foreach (var source in Sources)
+                {
+                    var exemplar = ColorImage2D.Crop(source, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize), WRAP_MODE.WRAP);
+                    exemplars.Add(exemplar);
+                }
+
+                Exemplars.Add(new Exemplar(exemplars));
             }
+
         }
 
         /// <summary>

@@ -58,7 +58,7 @@
             </summary>
             <param name="size">The size of the image. x is the width and y is the height.</param>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(System.Int32,System.Int32,Common.Core.Colors.ColorRGB)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
             <summary>
             Create a image of a given width and height and filled with a value.
             </summary>
@@ -66,7 +66,7 @@
             <param name="height">The height of the image.</param>
             <param name="value">The value to fill the image with.</param>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(Common.Core.Colors.ColorRGB[0:,0:])">
+        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(Common.Core.Colors.ColorRGBA[0:,0:])">
             <summary>
             Create a image from the given data.
             </summary>
@@ -178,7 +178,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -432,7 +432,7 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -687,7 +687,7 @@
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.GetChannels``1(System.Int32,System.Int32,System.Int32,``0,System.Collections.Generic.List{System.Single},System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
-            Get all the surrounding channel values from the image at location i,j.
+            Get all the surrounding channel values from the image centered at i,j and in a area of size.
             </summary>
             <param name="i">The first index.</param>
             <param name="j">The second index.</param>
@@ -699,7 +699,7 @@
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.GetMinMax``1(System.Int32,System.Int32,System.Int32,``0,System.Int32,ImageProcessing.Images.WRAP_MODE,System.Single@,System.Single@)">
             <summary>
-            Get all the surrounding channel values from the image at location i,j.
+            Find the min and max values from the image centered at i,j and in a area of size.
             </summary>
             <param name="i">The first index.</param>
             <param name="j">The second index.</param>
@@ -710,8 +710,30 @@
             <param name="min">The min value found.</param>
             <param name="max">The max value found.</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Int32,System.Single,System.Single)" -->
-        <!-- Badly formed XML comment ignored for member "M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Random,System.Single,System.Single)" -->
+        <member name="M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
+            <summary>
+            Create a image filled with randow values.
+            </summary>
+            <typeparam name="IMAGE">The images generic type</typeparam>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <param name="seed">The random generators seed.</param>
+            <param name="min">The min value generated.</param>
+            <param name="max">The max value generated.</param>
+            <returns>The new image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Random,System.Single,System.Single)">
+            <summary>
+            Create a image filled with randow values.
+            </summary>
+            <typeparam name="IMAGE">The images generic type</typeparam>
+            <param name="width">The images width.</param>
+            <param name="height">The images height.</param>
+            <param name="rnd">The random generator.</param>
+            <param name="min">The min value generated.</param>
+            <param name="max">The max value generated.</param>
+            <returns>The new image.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,System.Single)">
             <summary>
             Create a image filled with a single value.
@@ -722,7 +744,7 @@
             <param name="value">The constant value.</param>
             <returns>The new image.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,Common.Core.Colors.ColorRGB)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
             <summary>
             Create a image filled with a single value.
             </summary>
@@ -771,6 +793,12 @@
         <member name="P:ImageProcessing.Images.Image2D`1.Bounds">
             <summary>
             The size of the image as a box.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.Image2D`1.Tag">
+            <summary>
+            Tag for algorithms on the image can mark or 
+            id the image if needed. May change at any point.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Item(System.Int32,System.Int32)">
@@ -882,15 +910,6 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Set the pixel at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-        </member>
         <member name="M:ImageProcessing.Images.Image2D`1.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
@@ -900,7 +919,7 @@
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -942,35 +961,13 @@
             Resize the array. Will clear any existing data.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.GetClamped(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Indices(System.Int32@,System.Int32@,ImageProcessing.Images.WRAP_MODE)">
             <summary>
-            Get the element at clamped index x,y.
+            Get the indices values depending on the wrapping mode.
             </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.GetWrapped(System.Int32,System.Int32)">
-            <summary>
-            Get the element at wrapped index x,y.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.GetMirrored(System.Int32,System.Int32)">
-            <summary>
-            Get the element at mirrored index x,y.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetClamped(System.Int32,System.Int32,`0)">
-            <summary>
-            Set the element at clamped index x.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetWrapped(System.Int32,System.Int32,`0)">
-            <summary>
-            Set the element at wrapped index x.
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetMirrored(System.Int32,System.Int32,`0)">
-            <summary>
-            Set the element at mirred index x.
-            </summary>
+            <param name="x">The index on the x axis.</param>
+            <param name="y">The index on the y axis.</param>
+            <param name="mode">The wrapping mode.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.BlockSize(System.Int32)">
             <summary>
@@ -1311,7 +1308,7 @@
             x2 has to be greater than x1 and y2 has to be greater than y1.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
             <summary>
             A Fast Bresenham Type Algorithm For Drawing Ellipses http://homepage.smc.edu/kennedy_john/belipse.pdf 
             Uses a different parameter representation than DrawEllipse().
@@ -1322,7 +1319,7 @@
             <param name="yr">The radius of the ellipse in y-direction.</param>
             <param name="color">The color for the line.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
             <summary>
             A Fast Bresenham Type Algorithm For Drawing filled ellipses http://homepage.smc.edu/kennedy_john/belipse.pdf  
             Uses a different parameter representation than DrawEllipse().
@@ -1654,7 +1651,7 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -2108,7 +2105,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -2369,7 +2366,7 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.IImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -2378,7 +2375,7 @@
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.IImage2D.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGB,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>

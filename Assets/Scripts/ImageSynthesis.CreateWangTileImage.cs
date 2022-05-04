@@ -53,7 +53,7 @@ namespace AperiodicTexturing
                 var tile = tiles[i];
                 int index = tile.Index1;
                 var exemplar = exemplars[index];
-                CreateWangTileImageStage2(tile, exemplar.Image, sinkOffset);
+                CreateWangTileImageStage2(tile, exemplar.Tile.Images[0], sinkOffset);
 
             }, token);
 

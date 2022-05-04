@@ -321,9 +321,6 @@
     <Reference Include="Unity.Plastic.Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.4\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Collections">
-      <HintPath>Assets\Common\Plugins\Common.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Plastic.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.4\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -333,11 +330,14 @@
     <Reference Include="unityplastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.4\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Geometry">
-      <HintPath>Assets\Common\Plugins\Common.Geometry.dll</HintPath>
+    <Reference Include="Common.Collections">
+      <HintPath>Assets\Common\Plugins\Common.Collections.dll</HintPath>
     </Reference>
     <Reference Include="ImageProcessing">
       <HintPath>Assets\Common\Plugins\ImageProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Geometry">
+      <HintPath>Assets\Common\Plugins\Common.Geometry.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.IonicZip">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll</HintPath>

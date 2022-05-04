@@ -74,19 +74,20 @@
     <Compile Include="Assets\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
+    <Compile Include="Assets\Scripts\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Common\Plugins\Common.Collections.xml" />
     <None Include="Assets\Shaders\AperiodicTexturingShader.shader" />
     <None Include="Assets\Common\Plugins\Common.Core.dll" />
     <None Include="Assets\Common\Plugins\Common.Core.xml" />
     <None Include="Assets\Shaders\AperiodicTextureShader_Debug.shader" />
     <None Include="Assets\Common\Plugins\ImageProcessing.xml" />
+    <None Include="Assets\Common\Plugins\Common.Collections.dll" />
     <None Include="Assets\Common\Plugins\Common.GraphTheory.xml" />
     <None Include="Assets\Common\Plugins\Common.Geometry.xml" />
-    <None Include="Assets\Common\Plugins\Common.Collections.dll" />
     <None Include="Assets\Common\Plugins\ImageProcessing.dll" />
     <None Include="Assets\Common\Plugins\Common.GraphTheory.dll" />
-    <None Include="Assets\Common\Plugins\Common.Collections.xml" />
     <None Include="Assets\Common\Plugins\Common.Geometry.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -336,11 +337,11 @@
     <Reference Include="Common.Collections">
       <HintPath>Assets\Common\Plugins\Common.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Geometry">
-      <HintPath>Assets\Common\Plugins\Common.Geometry.dll</HintPath>
-    </Reference>
     <Reference Include="ImageProcessing">
       <HintPath>Assets\Common\Plugins\ImageProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Geometry">
+      <HintPath>Assets\Common\Plugins\Common.Geometry.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.6\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>

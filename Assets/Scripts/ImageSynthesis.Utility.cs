@@ -31,7 +31,39 @@ namespace AperiodicTexturing
                 else
                 {
                     float a = mask[x, y];
-                    source[x, y] = ColorRGB.Lerp(source[x, y], sink[x, y], a);
+                    source[x, y] = ColorRGBA.Lerp(source[x, y], sink[x, y], a);
+                }
+            });
+        }
+
+        private static void BlendImages(GridFlowGraph graph, Tile source, Tile sink, GreyScaleImage2D mask)
+        {
+            graph.Iterate((x, y) =>
+            {
+                if (mask == null)
+                {
+                    if (graph.IsSink(x, y))
+                    {
+                        for(int i = 0; i < source.Count; i++)
+                        {
+                            var image1 = source.Images[i];
+                            var image2 = sink.Images[i];
+
+                            image1[x, y] = image2[x, y];
+                        }
+                    }    
+                }
+                else
+                {
+                    float a = mask[x, y];
+
+                    for (int i = 0; i < source.Count; i++)
+                    {
+                        var image1 = source.Images[i];
+                        var image2 = sink.Images[i];
+
+                        image1[x, y] = ColorRGBA.Lerp(image1[x, y], image2[x, y], a);
+                    }
                 }
             });
         }
@@ -78,9 +110,9 @@ namespace AperiodicTexturing
                         if (mask != null && !mask[x, y]) continue;
 
                         var pixel1 = image[x, y];
-                        var pixel2 = exemplar[x, y];
+                        var pixel2 = exemplar.Tile.Image[x, y];
 
-                        cost += ColorRGB.SqrDistance(pixel1, pixel2);
+                        cost += ColorRGBA.SqrDistance(pixel1, pixel2);
                         count++;
                     }
                 }
@@ -125,9 +157,9 @@ namespace AperiodicTexturing
                         if (mask != null && !mask[x, y]) continue;
 
                         var pixel1 = image[x, y];
-                        var pixel2 = exemplar[x, y];
+                        var pixel2 = exemplar.Tile.Image[x, y];
 
-                        cost += ColorRGB.SqrDistance(pixel1, pixel2);
+                        cost += ColorRGBA.SqrDistance(pixel1, pixel2);
                         count++;
                     }
                 }
@@ -213,14 +245,14 @@ namespace AperiodicTexturing
                 var col1 = image1[x, y];
                 var col2 = image2[x, y];
 
-                var w1 = ColorRGB.SqrDistance(col1, col2) * 255;
+                var w1 = ColorRGBA.SqrDistance(col1, col2) * 255;
 
                 foreach(var i in graph.EnumerateInBoundsDirections(x,y))
                 {
                     var col1i = image1[i.x, i.y];
                     var col2i = image2[i.x, i.y];
 
-                    var w2 = ColorRGB.SqrDistance(col1i, col2i) * 255;
+                    var w2 = ColorRGBA.SqrDistance(col1i, col2i) * 255;
 
                     var w = MathUtil.Max(1, w1, w2);
 

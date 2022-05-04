@@ -16,9 +16,9 @@ namespace AperiodicTexturing
 {
     class CreateAperiodicTilesWidow : EditorWindow
     {
-        private static Texture2D m_source;
+        private static Texture2D[] m_source = new Texture2D[4];
 
-        private static Texture2D[] m_tileables;
+        private static Texture2D[][] m_tileables;
 
         private static int m_numHColors = 2;
 
@@ -63,7 +63,9 @@ namespace AperiodicTexturing
         [MenuItem("Window/Aperiodic Texturing/Create Aperiodic Tiles")]
         public static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(CreateAperiodicTilesWidow));
+            var window = EditorWindow.GetWindow(typeof(CreateAperiodicTilesWidow));
+            window.minSize = new Vector2(500, 600);
+            window.maxSize = new Vector2(500, 600);
         }
 
         private void OnGUI()
@@ -97,34 +99,29 @@ namespace AperiodicTexturing
 
             EditorGUILayout.Space();
 
-            m_source = (Texture2D)EditorGUILayout.ObjectField("Source", m_source, typeof(Texture2D), false);
+            TextureLayout("Source textures. Albedo then 3 optional textures.", m_source);
 
             EditorGUILayout.Space();
 
-            if (m_tileables == null)
-                m_tileables = new Texture2D[4];
-
-            for(int i = 0; i < NumTileables; i++)
-            {
-                m_tileables[i] = (Texture2D)EditorGUILayout.ObjectField("Tileable"+i, m_tileables[i], typeof(Texture2D), false);
-            }
-
+            CreateTileables();
+            for (int i = 0; i < m_tileables.Length; i++)
+                TextureLayout($"Tileable {i} textures. Albedo then 3 optional textures.", m_tileables[i]);
+                
             EditorGUILayout.Space();
 
             if (GUILayout.Button(GetRunButtonText()))
             {
                 if (Validate())
                 {
-                    m_sourceImage = ToImage(m_source);
 
-                    m_exemplarSet = new ExemplarSet(m_sourceImage, m_sourceIsTileable, m_tileSize);
+                    m_exemplarSet = new ExemplarSet(GetImages(), m_sourceIsTileable, m_tileSize);
                     m_exemplarSet.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
                     m_exemplarSet.CreateVariants(m_varients);
                     Debug.Log(m_exemplarSet);
 
-                    m_tileableImages = new ColorImage2D[NumTileables];
-                    for (int i = 0; i < NumTileables; i++)
-                        m_tileableImages[i] = ToImage(m_tileables[i]);
+                    //m_tileableImages = new ColorImage2D[NumTileables];
+                    //for (int i = 0; i < NumTileables; i++)
+                    //    m_tileableImages[i] = ToImage(m_tileables[i]);
 
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
                     Debug.Log(m_tileSet);
@@ -170,6 +167,28 @@ namespace AperiodicTexturing
                 m_token.Cancelled = true;
         }
 
+        private void TextureLayout(string label, IList<Texture2D> textures)
+        {
+            var style = new GUIStyle(GUI.skin.GetStyle("label"));
+            style.wordWrap = true;
+            style.fixedHeight = 64;
+
+            var options = new GUILayoutOption[]
+            {
+                GUILayout.Width(64),
+                GUILayout.Height(64)
+            };
+
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField(label, style, GUILayout.Width(150));
+
+            for (int i = 0; i < textures.Count; i++)
+                textures[i] = (Texture2D)EditorGUILayout.ObjectField(textures[i], typeof(Texture2D), false, options);
+
+            EditorGUILayout.EndHorizontal();
+        }
+
         private string GetRunButtonText()
         {
             if (!m_isRunning)
@@ -178,11 +197,23 @@ namespace AperiodicTexturing
                 return "Running";
         }
 
+        private void CreateTileables()
+        {
+            if (m_tileables == null || m_tileables.Length != NumTileables)
+            {
+                m_tileables = new Texture2D[NumTileables][];
+
+                for (int i = 0; i < m_tileables.Length; i++)
+                    m_tileables[i] = new Texture2D[4];
+            }
+        }
+
         private bool Validate()
         {
 
             for (int i = 0; i < NumTileables; i++)
             {
+                /*
                 if (m_tileables[i] == null)
                 {
                     Debug.Log("Tileable" + i + " texture is null.");
@@ -200,6 +231,7 @@ namespace AperiodicTexturing
                     Debug.Log("Tileable" + i + " texture must have the same dimensions as the tile size.");
                     return false;
                 }
+                */
             }
 
             string folderName = Application.dataPath + "/" + m_folderName;
@@ -295,13 +327,25 @@ namespace AperiodicTexturing
             AssetDatabase.Refresh();
         }
 
+        private List<ColorImage2D> GetImages()
+        {
+            var images = new List<ColorImage2D>();
+            for (int i = 0; i < m_source.Length; i++)
+            {
+                if (m_source[i] == null) continue;
+                images.Add(ToImage(m_source[i]));
+            }
+
+            return images;
+        }
+
         private ColorImage2D ToImage(Texture2D tex)
         {
             var image = new ColorImage2D(tex.width, tex.height);
 
             image.Fill((x, y) =>
             {
-                return tex.GetPixel(x, y).ToColorRGB();
+                return tex.GetPixel(x, y).ToColorRGBA();
             });
 
             return image;
