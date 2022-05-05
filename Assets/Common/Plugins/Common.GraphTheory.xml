@@ -969,6 +969,39 @@
             
             </summary>
         </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Create a new graph.
+            </summary>
+            <param name="width">The graphs size on the x axis.</param>
+            <param name="height">The graphs size on the y axis.</param>
+            <param name="isOrthogonal">Is the graph orthogonal.</param>
+        </member>
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Single[0:,0:],System.Boolean)">
+            <summary>
+            Create a new graph and set the vertices edge 
+            capacities with the values in the araay.
+            The graph will have the same dimensions as the array. 
+            </summary>
+            <param name="capacities">The array of capacities.</param>
+            <param name="isOrthogonal">Is the graph orthogonal.</param>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.VertexCount">
+            <summary>
+            THe number of vertices in the graph 
+            which is the width times the height.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Width">
+            <summary>
+            The width of the graph on the x axis.
+            </summary>
+        </member>
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Height">
+            <summary>
+            The height of the graph on the y axis.
+            </summary>
+        </member>
         <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.IsOrthogonal">
             <summary>
             Does the graph use only orthogonal and not diagonal directions.
@@ -989,20 +1022,20 @@
             THe vertices label.
             </summary>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Int32,System.Int32)">
+        <member name="P:Common.GraphTheory.GridGraphs.GridFlowGraph.Directions">
             <summary>
-            
+            The neigbour directions each pixel is connect to.
+            If orthogonal there will be 4 neighbours (left, bottom, right and top).
+            If not orthogonal there will be 8 neighbours which includes the diagonals.
             </summary>
-            <param name="width"></param>
-            <param name="height"></param>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.#ctor(System.Single[0:,0:])">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.SetIsOrthogonal(System.Boolean)">
             <summary>
-            Create a new graph and set the vertices edge 
-            capacities with the values in the araay.
-            The graph will have the same dimensions as the array.
+            The neigbour directions each pixel is connect to.
+            If orthogonal there will be 4 neighbours (left, bottom, right and top).
+            If not orthogonal there will be 8 neighbours which includes the diagonals.
             </summary>
-            <param name="capacities">The edges capacities.</param>
+            <param name="isOrthogonal">Is the grapgh orthogonal</param>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Clear">
             <summary>
@@ -1192,18 +1225,20 @@
             </summary>
             <returns>The max flow.</returns>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Calculate(Common.GraphTheory.GridGraphs.GridFlowSearch)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.Calculate(Common.GraphTheory.GridGraphs.GridFlowSearch,System.Int32)">
             <summary>
             Calculate the max flow / min cut of the graph.
             </summary>
             <param name="search">The helper search data structure.</param>
+            <param name="seed">The random generators seed.</param>
             <returns>The max flow.</returns>
         </member>
-        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FordFulkersonMaxFlow(Common.GraphTheory.GridGraphs.GridFlowSearch)">
+        <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.FordFulkersonMaxFlow(Common.GraphTheory.GridGraphs.GridFlowSearch,System.Int32)">
             <summary>
-            Calculate the max flow of the graph using the FordFulkerson algorithm.
+            
             </summary>
-            <returns></returns>
+            <param name="search"></param>
+            <param name="seed"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="M:Common.GraphTheory.GridGraphs.GridFlowGraph.CalculateMinCut(Common.GraphTheory.GridGraphs.GridFlowSearch)">

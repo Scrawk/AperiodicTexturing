@@ -230,6 +230,16 @@
             color as a string.
             </summary>
         </member>
+        <member name="M:Common.Core.Colors.ColorRGB.AlphaBlend(Common.Core.Colors.ColorRGB,Common.Core.Colors.ColorRGB,System.Single,System.Single)">
+            <summary>
+            Alpha blend the two pixels.
+            </summary>
+            <param name="c0">The first pixel.</param>
+            <param name="c1">The second pixel.</param>
+            <param name="a0">The first pixels alpha.</param>
+            <param name="a1">The second pixels alpha.</param>
+            <returns>The alpha blened pixel.</returns>
+        </member>
         <member name="M:Common.Core.Colors.ColorRGB.FromBytes(System.Int32,System.Int32,System.Int32)">
             <summary>
             color from bytes.
@@ -416,6 +426,14 @@
             <summary>
             color as a string.
             </summary>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.AlphaBlend(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Alpha blend the two pixels.
+            </summary>
+            <param name="c0">The first pixel.</param>
+            <param name="c1">The second pixel.</param>
+            <returns>The alpha blened pixel.</returns>
         </member>
         <member name="M:Common.Core.Colors.ColorRGBA.FromBytes(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>

@@ -18,7 +18,7 @@ namespace AperiodicTexturing
     {
         private static Texture2D[] m_source = new Texture2D[4];
 
-        private static Texture2D[][] m_tileables;
+        private static List<Texture2D[]> m_textures;
 
         private static int m_numHColors = 2;
 
@@ -44,9 +44,7 @@ namespace AperiodicTexturing
 
         private bool m_isRunning;
 
-        private ColorImage2D[] m_tileableImages;
-
-        private ColorImage2D m_sourceImage;
+        private List<Tile> m_tiles;
 
         private WangTileSet m_tileSet;
 
@@ -64,8 +62,8 @@ namespace AperiodicTexturing
         public static void ShowWindow()
         {
             var window = EditorWindow.GetWindow(typeof(CreateAperiodicTilesWidow));
-            window.minSize = new Vector2(500, 600);
-            window.maxSize = new Vector2(500, 600);
+            window.minSize = new Vector2(500, 700);
+            window.maxSize = new Vector2(500, 700);
         }
 
         private void OnGUI()
@@ -102,10 +100,11 @@ namespace AperiodicTexturing
             TextureLayout("Source textures. Albedo then 3 optional textures.", m_source);
 
             EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-            CreateTileables();
-            for (int i = 0; i < m_tileables.Length; i++)
-                TextureLayout($"Tileable {i} textures. Albedo then 3 optional textures.", m_tileables[i]);
+            CreateTextures();
+            for (int i = 0; i < m_textures.Count; i++)
+                TextureLayout($"Tileable {i} textures. Albedo then 3 optional textures.", m_textures[i]);
                 
             EditorGUILayout.Space();
 
@@ -114,14 +113,10 @@ namespace AperiodicTexturing
                 if (Validate())
                 {
 
-                    m_exemplarSet = new ExemplarSet(GetImages(), m_sourceIsTileable, m_tileSize);
+                    m_exemplarSet = new ExemplarSet(GetSourceImages(), m_sourceIsTileable, m_tileSize);
                     m_exemplarSet.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
                     m_exemplarSet.CreateVariants(m_varients);
                     Debug.Log(m_exemplarSet);
-
-                    //m_tileableImages = new ColorImage2D[NumTileables];
-                    //for (int i = 0; i < NumTileables; i++)
-                    //    m_tileableImages[i] = ToImage(m_tileables[i]);
 
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
                     Debug.Log(m_tileSet);
@@ -133,6 +128,7 @@ namespace AperiodicTexturing
                     m_token.UseThreading = m_useThreading;
                     m_token.TimePeriodFormat = TIME_PERIOD.SECONDS;
 
+                    CreateTiles();
                     Run();
                 }
             }
@@ -197,41 +193,82 @@ namespace AperiodicTexturing
                 return "Running";
         }
 
-        private void CreateTileables()
+        private void CreateTextures()
         {
-            if (m_tileables == null || m_tileables.Length != NumTileables)
+            if (m_textures == null || m_textures.Count != NumTileables)
             {
-                m_tileables = new Texture2D[NumTileables][];
+                m_textures = new List<Texture2D[]>();
 
-                for (int i = 0; i < m_tileables.Length; i++)
-                    m_tileables[i] = new Texture2D[4];
+                for (int i = 0; i < NumTileables; i++)
+                    m_textures.Add(new Texture2D[4]);
+            }
+        }
+
+        private void CreateTiles()
+        {
+            m_tiles = new List<Tile>();
+
+            foreach(var texArray in m_textures)
+            {
+                var images = new List<ColorImage2D>();
+
+                foreach (var tex in texArray)
+                {
+                    if (tex == null) continue;
+                    images.Add(ToImage(tex));
+                }
+
+                var tile = new Tile(images);
+                m_tiles.Add(tile);
             }
         }
 
         private bool Validate()
         {
+            int width = 0;
+            int height = 0;
+            bool[] hasTile = new bool[4];
 
             for (int i = 0; i < NumTileables; i++)
             {
-                /*
-                if (m_tileables[i] == null)
+                for (int j = 0; j < 4; j++)
                 {
-                    Debug.Log("Tileable" + i + " texture is null.");
-                    return false;
-                }
+                    var tex = m_textures[i][j];
 
-                if (!m_tileables[i].isReadable)
-                {
-                    Debug.Log("Tileable" + i + " texture is not readable.");
-                    return false;
-                }
+                    if (i == 0)
+                        hasTile[j] = true;
+                    else if ((tex == null && hasTile[j]) || tex != null && !hasTile[j])
+                    {
+                        Debug.Log("Tileable textures must all the same number of tiles.");
+                        return false;
+                    }
 
-                if (m_tileables[i].width != m_tileSize || m_tileables[i].height != m_tileSize)
-                {
-                    Debug.Log("Tileable" + i + " texture must have the same dimensions as the tile size.");
-                    return false;
+                    if (tex == null && j != 0) continue;
+
+                    if (j == 0)
+                    {
+                        width = tex.width;
+                        height = tex.height;
+                    }
+                    else if (tex.width != width || tex.height != height)
+                    {
+                        Debug.Log("Tileable textures must all be the same size.");
+                        return false;
+                    }
+
+                    if (tex == null)
+                    {
+                        Debug.Log($"Tileable texture {j} is null.");
+                        return false;
+                    }
+                    if (!tex.isReadable)
+                    {
+                        Debug.Log($"Tileable texture {j} is not readable.");
+                        return false;
+                    }
+
                 }
-                */
+                
             }
 
             string folderName = Application.dataPath + "/" + m_folderName;
@@ -255,7 +292,7 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
      
-                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tileableImages, m_exemplarSet, m_blendArea, m_token);
+                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, m_exemplarSet, m_blendArea, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -306,7 +343,7 @@ namespace AperiodicTexturing
                             int xi = x * m_tileSize + i;
                             int yj = y * m_tileSize + j;
 
-                            pixels[xi + yj * width] = tile.Image[i, j].ToColor();
+                            pixels[xi + yj * width] = tile.Tile.Image[i, j].ToColor();
                         }
                     }
                 }
@@ -327,7 +364,7 @@ namespace AperiodicTexturing
             AssetDatabase.Refresh();
         }
 
-        private List<ColorImage2D> GetImages()
+        private List<ColorImage2D> GetSourceImages()
         {
             var images = new List<ColorImage2D>();
             for (int i = 0; i < m_source.Length; i++)

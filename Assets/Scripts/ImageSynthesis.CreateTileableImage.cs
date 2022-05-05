@@ -95,7 +95,7 @@ namespace AperiodicTexturing
 
             var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
 
-            var graph = CreateGraph(tile.Image, match.Tile.Image, null);
+            var graph = CreateGraph(tile.Image, match.Tile.Image, null, true);
             MarkSourceAndSink(graph, sourceOffset, sinkBounds);
 
             graph.Calculate();

@@ -9,6 +9,13 @@
             A 2D image containing RGB color values.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Single)">
+            <summary>
+            Set the channel at index c of each pixel to the value.
+            </summary>
+            <param name="c">The channels index (0-3).</param>
+            <param name="value">The value.</param>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Min(System.Single)">
             <summary>
             Make each value in image the smaller of the two values.
@@ -40,10 +47,126 @@
             convert all pixels to rgb color space.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Gamma(System.Single,System.Single)">
+            <summary>
+            Applies the gamma function to the pixels in the image.
+            </summary>
+            <param name="lambda">The power to raise each channel to.</param>
+            <param name="a">The constant the result is multiplied by. Defaults to 1.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Invert">
+            <summary>
+            Inverts the pixels in the image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Add(Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Add the pixels in the image.
+            </summary>
+            <param name="pixel">The pixel.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Subtract(Common.Core.Colors.ColorRGBA,System.Boolean)">
+            <summary>
+            Subtract the pixels in the image.
+            </summary>
+            <param name="pixel">The pixel.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Multiply(Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Multiply the pixels in the image.
+            </summary>
+            <param name="pixel">The pixel.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.Divide(Common.Core.Colors.ColorRGBA,System.Boolean)">
+            <summary>
+            Add the pixels in the image.
+            </summary>
+            <param name="pixel">The pixel.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Addition(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.ColorImage2D)">
+            <summary>
+            Adds the two images together.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Subtraction(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.ColorImage2D)">
+            <summary>
+            Subtracts the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Multiply(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.ColorImage2D)">
+            <summary>
+            Multiply the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Division(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.ColorImage2D)">
+            <summary>
+            Divide the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Addition(ImageProcessing.Images.ColorImage2D,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Add each pixel in the image with pixel.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="pixel">The pixel.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Subtraction(ImageProcessing.Images.ColorImage2D,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Subtract each pixel in the image with pixel.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="pixel">The pixel.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Multiply(ImageProcessing.Images.ColorImage2D,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Multiply each pixel in the image with pixel.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="pixel">The pixel.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.op_Division(ImageProcessing.Images.ColorImage2D,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Divide each pixel in the image with pixel.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="pixel">The pixel.</param>
+            <returns></returns>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.#ctor">
             <summary>
             Create a default of image.
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(Common.Core.Numerics.Point2i)">
+            <summary>
+            Create a image of a given size.
+            </summary>
+            <param name="size">The size of the image. x is the width and y is the height.</param>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(System.Int32,System.Int32)">
             <summary>
@@ -51,12 +174,6 @@
             </summary>
             <param name="width">The width of the image.</param>
             <param name="height">The height of the image.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(Common.Core.Numerics.Point2i)">
-            <summary>
-            Create a image of a given size.
-            </summary>
-            <param name="size">The size of the image. x is the width and y is the height.</param>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.#ctor(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
             <summary>
@@ -178,7 +295,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -186,6 +303,8 @@
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -267,10 +386,121 @@
             Normalize each value in the image to be between (inclusive) 0 and 1.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Invert">
+            <summary>
+            Inverts the values in the image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Add(System.Single)">
+            <summary>
+            Add the values in the image.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Subtract(System.Single,System.Boolean)">
+            <summary>
+            Subtract the values in the image.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Multiply(System.Single)">
+            <summary>
+            Multiply the values in the image.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Divide(System.Single,System.Boolean)">
+            <summary>
+            Add the values in the image.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Addition(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            Adds the two images together.
+            The resulting inage will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Subtraction(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            Subtracts the two images.
+            The resulting inage will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Multiply(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            Multiple the two images.
+            The resulting inage will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Division(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            Divide the two images.
+            The resulting inage will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Addition(ImageProcessing.Images.GreyScaleImage2D,System.Single)">
+            <summary>
+            Add each value in the image with value.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Subtraction(ImageProcessing.Images.GreyScaleImage2D,System.Single)">
+            <summary>
+            Subtract each value in the image with value.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Multiply(ImageProcessing.Images.GreyScaleImage2D,System.Single)">
+            <summary>
+            Multiply each value in the image with value.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.op_Division(ImageProcessing.Images.GreyScaleImage2D,System.Single)">
+            <summary>
+            Divide each value in the image with value.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.#ctor">
             <summary>
             Create a default of image.
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.#ctor(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Create a image of a given width and height and filled with a value.
+            </summary>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
+            <param name="value">The value to fill the image with.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.#ctor(System.Int32,System.Int32)">
             <summary>
@@ -284,14 +514,6 @@
             Create a image of a given size.
             </summary>
             <param name="size">The size of the image. x is the width and y is the height.</param>
-        </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.#ctor(System.Int32,System.Int32,System.Single)">
-            <summary>
-            Create a image of a given width and height and filled with a value.
-            </summary>
-            <param name="width">The width of the image.</param>
-            <param name="height">The height of the image.</param>
-            <param name="value">The value to fill the image with.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.#ctor(System.Single[0:,0:])">
             <summary>
@@ -432,7 +654,7 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -440,6 +662,8 @@
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -910,16 +1134,18 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -927,7 +1153,9 @@
             <param name="y">The second index.</param>
             <param name="m">The mipmap index.</param>
             <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -939,12 +1167,19 @@
             <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.IsSameSize(ImageProcessing.Images.IImage2D)">
+        <member name="M:ImageProcessing.Images.Image2D`1.AreSameSize(ImageProcessing.Images.IImage2D)">
             <summary>
             Is this array the same size as the other array.
             </summary>
             <param name="image"></param>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.AreNotSameSize(ImageProcessing.Images.IImage2D)">
+            <summary>
+            Are the images the same size.
+            </summary>
+            <param name="image"></param>
+            <returns>True if the images are not the same size.</returns>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.InBounds(System.Int32,System.Int32)">
             <summary>
@@ -1101,10 +1336,12 @@
             </summary>
             <returns>The greayscale image.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.ToBinaryImage">
+        <member name="M:ImageProcessing.Images.Image2D`1.ToBinaryImage(System.Single)">
             <summary>
             Convert to a binary image.
             </summary>
+            <param name="threshold">The threshold that determines 
+            if the images values are tru or false.</param>
             <returns>The binary image.</returns>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.ToColorImage">
@@ -1210,35 +1447,39 @@
             <param name="mode"></param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SaveAsRaw(System.String,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.SaveAsRaw(System.String,System.Boolean,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
             <summary>
             Save the image as raw bytes.
             </summary>
             <param name="filename">The filename.</param>
+            <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bitDepth">The bitdepth of the file.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.SaveMipmapsAsRaw(System.String,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.SaveMipmapsAsRaw(System.String,System.Boolean,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
             <summary>
             Save the images mipmaps as raw bytes.
             </summary>
             <param name="filename">The filename.</param>
+            <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bitDepth">The bitdepth of the file.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean,System.Boolean)">
             <summary>
             Get the images data as bytes.
             </summary>
             <param name="bitDepth">The bitdepth of the bytes.</param>
+            <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.FromBytes(System.Byte[],ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+        <member name="M:ImageProcessing.Images.Image2D`1.FromBytes(System.Byte[],ImageProcessing.Images.BIT_DEPTH,System.Boolean,System.Boolean)">
             <summary>
             
             </summary>
             <param name="bytes"></param>
+            <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bitDepth"></param>
             <param name="bigEndian"></param>
         </member>
@@ -1497,13 +1738,6 @@
             Create a default of image.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Create a image of a given width and height.
-            </summary>
-            <param name="width">The width of the image.</param>
-            <param name="height">The height of the image.</param>
-        </member>
         <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(Common.Core.Numerics.Point2i)">
             <summary>
             Create a image of a given size.
@@ -1517,6 +1751,13 @@
             <param name="width">The width of the image.</param>
             <param name="height">The height of the image.</param>
             <param name="value">The value to fill the image with.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.BinaryImage2D.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a image of a given width and height.
+            </summary>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
         </member>
         <member name="F:ImageProcessing.Images.BinaryImage2D.Data">
             <summary>
@@ -1553,6 +1794,11 @@
             <summary>
             The number of mipmap levels in image.
             CreateMipmaps must be called for the image to have mipmaps.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.Threshold">
+            <summary>
+            The threshold at which a value in the image is true or false.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.BinaryImage2D.Item(System.Int32,System.Int32)">
@@ -1651,7 +1897,7 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -1659,6 +1905,8 @@
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.BinaryImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -1931,17 +2179,113 @@
             Normalize each vector in the image.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Invert">
+            <summary>
+            Inverts the vectors in the image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Add(Common.Core.Numerics.Vector2f)">
+            <summary>
+            Add the vectors in the image.
+            </summary>
+            <param name="vector">The vector.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Subtract(Common.Core.Numerics.Vector2f,System.Boolean)">
+            <summary>
+            Subtract the vectors in the image.
+            </summary>
+            <param name="vector">The vector.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Multiply(Common.Core.Numerics.Vector2f)">
+            <summary>
+            Multiply the vectors in the image.
+            </summary>
+            <param name="vector">The vector.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Divide(Common.Core.Numerics.Vector2f,System.Boolean)">
+            <summary>
+            Add the vectors in the image.
+            </summary>
+            <param name="vector">The vector.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Addition(ImageProcessing.Images.VectorImage2D,ImageProcessing.Images.VectorImage2D)">
+            <summary>
+            Adds the two images together.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Subtraction(ImageProcessing.Images.VectorImage2D,ImageProcessing.Images.VectorImage2D)">
+            <summary>
+            Subtracts the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Multiply(ImageProcessing.Images.VectorImage2D,ImageProcessing.Images.VectorImage2D)">
+            <summary>
+            Multiply the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Division(ImageProcessing.Images.VectorImage2D,ImageProcessing.Images.VectorImage2D)">
+            <summary>
+            Divide the two images.
+            The resulting image will be the same size as the first image.
+            If the second image is a different size then bilinear filtering will be used sample the image.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="image2">The second image.</param>
+            <returns>A image the same size as the first.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Addition(ImageProcessing.Images.VectorImage2D,Common.Core.Numerics.Vector2f)">
+            <summary>
+            Add each vector in the image with vector.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="vector">The vector.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Subtraction(ImageProcessing.Images.VectorImage2D,Common.Core.Numerics.Vector2f)">
+            <summary>
+            Subtract each vector in the image with vector.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="vector">The vector.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Multiply(ImageProcessing.Images.VectorImage2D,Common.Core.Numerics.Vector2f)">
+            <summary>
+            Multiply each vector in the image with vector.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="vector">The vector.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.op_Division(ImageProcessing.Images.VectorImage2D,Common.Core.Numerics.Vector2f)">
+            <summary>
+            Divide each vector in the image with vector.
+            </summary>
+            <param name="image1">The first image.</param>
+            <param name="vector">The vector.</param>
+            <returns></returns>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.#ctor">
             <summary>
             Create a default of image.
             </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Create a image of a given width and height.
-            </summary>
-            <param name="width">The width of the image.</param>
-            <param name="height">The height of the image.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.#ctor(Common.Core.Numerics.Point2i)">
             <summary>
@@ -1956,6 +2300,13 @@
             <param name="width">The width of the image.</param>
             <param name="height">The height of the image.</param>
             <param name="value">The value to fill the image with.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a image of a given width and height.
+            </summary>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.#ctor(Common.Core.Numerics.Vector2f[0:,0:])">
             <summary>
@@ -2105,7 +2456,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The pixel at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -2113,6 +2464,8 @@
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -2253,6 +2606,12 @@
             Wrap mode options for when sampling a image.
             </summary>
         </member>
+        <member name="T:ImageProcessing.Images.BLEND_MODE">
+            <summary>
+            The mode pixels are blended based on there alpha value.
+            Only applies to images with a alpha channel.
+            </summary>
+        </member>
         <member name="T:ImageProcessing.Images.IImage2D">
             <summary>
             General interface for a 2 dimensional image.
@@ -2366,16 +2725,18 @@
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.IImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixel(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
             <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
-        <member name="M:ImageProcessing.Images.IImage2D.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.IImage2D.SetPixelMipmap(System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Set the pixel at index x,y.
             </summary>
@@ -2383,7 +2744,9 @@
             <param name="y">The second index.</param>
             <param name="m">The mipmap index.</param>
             <param name="pixel">The pixel.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="blend">The mode pixels are blended based on there alpha value. 
+            Only applies to images with a alpha channel.</param>
         </member>
         <member name="M:ImageProcessing.Images.IImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -2395,11 +2758,12 @@
             <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.IImage2D.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+        <member name="M:ImageProcessing.Images.IImage2D.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean,System.Boolean)">
             <summary>
             Get the images data as bytes.
             </summary>
             <param name="bitDepth">The bitdepth of the bytes.</param>
+            <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
             <returns></returns>
         </member>

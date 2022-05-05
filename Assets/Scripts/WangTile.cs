@@ -23,11 +23,26 @@ namespace AperiodicTexturing
 		/// <param name="bottom">The tiles edge color on its bottom side (-y)</param>
 		/// <param name="right">The tiles edge color on its right side (+x)</param>
 		/// <param name="top">The tiles edge color on its top side (+y)</param>
-		/// <param name="tileSize">The size of the tile.</param>
+		/// <param name="tileSize">The tiles size.</param>
+		/// <param name="height">The tiles height.</param>
 		public WangTile(int left, int bottom, int right, int top, int tileSize)
+			: this(left, bottom, right, top, tileSize, tileSize)
 		{
-			TileSize = tileSize;
-			Image = new ColorImage2D(tileSize, tileSize);
+
+		}
+
+		/// <summary>
+		/// Create a new wang tile.
+		/// </summary>
+		/// <param name="left">The tiles edge color on its left side (-x)</param>
+		/// <param name="bottom">The tiles edge color on its bottom side (-y)</param>
+		/// <param name="right">The tiles edge color on its right side (+x)</param>
+		/// <param name="top">The tiles edge color on its top side (+y)</param>
+		/// <param name="width">The tiles width.</param>
+		/// <param name="height">The tiles height.</param>
+		public WangTile(int left, int bottom, int right, int top, int width, int height)
+		{
+			Tile = new Tile(width, height);
 
 			Edges = new int[]
 			{
@@ -71,14 +86,19 @@ namespace AperiodicTexturing
 		public int[] Edges { get; private set; }
 
 		/// <summary>
-		/// The size of the tiles image data.
+		/// The width of  the tile.
 		/// </summary>
-		public int TileSize { get; private set; }
+		public int Width => Tile.Width;
+
+		/// <summary>
+		/// The height of  the tile.
+		/// </summary>
+		public int Height => Tile.Height;
 
 		/// <summary>
 		/// The tiles image.
 		/// </summary>
-		public ColorImage2D Image { get; private set; }
+		public Tile Tile { get; private set; }
 
 		/// <summary>
 		/// A list of colors the tiles edges can be represented as.
@@ -121,13 +141,22 @@ namespace AperiodicTexturing
 		/// <returns></returns>
 		public WangTile Copy()
 		{
-			var copy = new WangTile(Left, Bottom, Right, Top, TileSize);
+			var copy = new WangTile(Left, Bottom, Right, Top, Width, Height);
 			copy.Index1 = Index1;
 			copy.Index2 = Index2;
-			copy.Image = Image.Copy();
+			copy.Tile = Tile.Copy();
 
 			return copy;
 		}
+
+		/// <summary>
+		/// Copy the images in tile.
+		/// </summary>
+		/// <param name="images">The images to copy.</param>
+		public void Fill(IList<ColorImage2D> images)
+        {
+			Tile.Fill(images);
+        }
 
 		/// <summary>
 		/// Colors the edges of the image according to its edge color id.
@@ -136,13 +165,12 @@ namespace AperiodicTexturing
 		/// <param name="alpha">The colors alpha.</param>
 		public void AddEdgeColor(int thickness, float alpha)
 		{
-			int size = TileSize;
 			ColorRGBA a = new ColorRGBA(1, 1, 1, alpha);
 
-			Image.DrawBox(0, thickness+1, thickness, size - thickness - 1, Colors[Left] * a, true);
-			Image.DrawBox(thickness+1, 0, size - thickness - 1, thickness, Colors[Bottom] * a, true);
-			Image.DrawBox(size - thickness, thickness+1, size, size - thickness - 1, Colors[Right] * a, true);
-			Image.DrawBox(thickness+1, size - thickness, size - thickness - 1, size, Colors[Top] * a, true);
+			Tile.Image.DrawBox(0, thickness+1, thickness, Width - thickness - 1, Colors[Left] * a, true);
+			Tile.Image.DrawBox(thickness+1, 0, Width - thickness - 1, thickness, Colors[Bottom] * a, true);
+			Tile.Image.DrawBox(Width - thickness, thickness+1, Width, Height - thickness - 1, Colors[Right] * a, true);
+			Tile.Image.DrawBox(thickness+1, Height - thickness, Width - thickness - 1, Height, Colors[Top] * a, true);
 		}
 
 	}

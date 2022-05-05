@@ -98,5 +98,19 @@ namespace AperiodicTexturing
             }
         }
 
+        /// <summary>
+        /// Copy the images in tile.
+        /// </summary>
+        /// <param name="images">The images to copy.</param>
+        public void Fill(IList<ColorImage2D> images)
+        {
+            Images.Clear();
+
+            for (int i = 0; i < images.Count; i++)
+            {
+                Images.Add(images[i].Copy());
+            }
+        }
+
     }
 }

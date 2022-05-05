@@ -22,7 +22,7 @@ namespace AperiodicTexturing
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTileSet tileSet, IList<ColorImage2D> tileables, ExemplarSet exemplarSet, int sinkOffset, ThreadingToken token = null)
+        public static void CreateWangTileImage(WangTileSet tileSet, IList<Tile> tileables, ExemplarSet exemplarSet, int sinkOffset, ThreadingToken token = null)
         {
             var tiles = tileSet.ToFlattenedList();
 
@@ -53,24 +53,24 @@ namespace AperiodicTexturing
                 var tile = tiles[i];
                 int index = tile.Index1;
                 var exemplar = exemplars[index];
-                CreateWangTileImageStage2(tile, exemplar.Tile.Images[0], sinkOffset);
+                CreateWangTileImageStage2(tile, exemplar.Tile, sinkOffset);
 
             }, token);
 
         }
 
-        private static void CreateWangTileImageStage1(WangTile tile, IList<ColorImage2D> tileables)
+        private static void CreateWangTileImageStage1(WangTile tile, IList<Tile> tileables)
         {
             
             var colors = GetSortedColors(tile);
-            var search = new GridFlowSearch(tile.TileSize, tile.TileSize);
+            var search = new GridFlowSearch(tile.Width, tile.Height);
 
             for (int i = 0; i < colors.Count; i++)
             {
                 if(i == 0)
                 {
                     int color = colors[i];
-                    tile.Image.Fill(tileables[color]);
+                    tile.Fill(tileables[color].Images);
                 }
                 else
                 {
@@ -80,32 +80,34 @@ namespace AperiodicTexturing
 
                     var map = CreateMap(tile);
                     var mask = CreateMask(map, color, 3);
-                    var graph = CreateGraph(tile.Image, tileable, mask);
+
+                    var graph = CreateGraph(tile.Tile.Image, tileable.Image, mask, true);
 
                     MarkSourceAndSink(graph, color, map, mask);
 
                     graph.Calculate(search);
-                    BlendImages(graph, tile.Image, tileable, null);
+                    BlendImages(graph, tile.Tile, tileable, null);
 
-                    BlurGraphCutSeams(tile.Image, graph, 2, 0.75f);
+                    BlurGraphCutSeams(tile.Tile.Image, graph, 2, 0.75f);
                 }
             }
 
         }
 
-        private static void CreateWangTileImageStage2(WangTile tile, ColorImage2D match, int sinkOffset)
+        private static void CreateWangTileImageStage2(WangTile tile, Tile match, int sinkOffset)
         {
-            int size = tile.TileSize;
+            int width = tile.Width;
+            int height = tile.Height;
             int sourceOffset = 2;
 
-            var sinkBounds = new Box2i(sinkOffset, sinkOffset, size - 1 - sinkOffset, size - 1 - sinkOffset);
+            var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
 
-            var graph = CreateGraph(tile.Image, match, null);
+            var graph = CreateGraph(tile.Tile.Image, match.Image, null, true);
             MarkSourceAndSink(graph, sourceOffset, sinkBounds);
 
             graph.Calculate();
             var blend = CreateMaskFromGraph(graph, 5, 0.75f);
-            BlendImages(graph, tile.Image, match, blend);
+            BlendImages(graph, tile.Tile.Image, match.Image, blend);
         }
 
         private static List<int> GetSortedColors(WangTile tile)
@@ -129,7 +131,7 @@ namespace AperiodicTexturing
 
             foreach(var tile in tileSet.Tiles)
             {
-                Exemplar exemplar = FindBestMatch(tile.Image, set, null);
+                Exemplar exemplar = FindBestMatch(tile.Tile.Image, set, null);
                 exemplar.IncrementUsed();
 
                 var index = tile.Index1;
@@ -141,8 +143,9 @@ namespace AperiodicTexturing
 
         private static GreyScaleImage2D CreateMap(WangTile tile)
         {
-            int size = tile.TileSize;
-            var map = new GreyScaleImage2D(size, size);
+            int width = tile.Width;
+            int height = tile.Height;
+            var map = new GreyScaleImage2D(width, height);
 
             if (tile.IsConst)
             {
@@ -151,10 +154,10 @@ namespace AperiodicTexturing
             else
             {
                 var c00 = new Point2i(0, 0);
-                var c01 = new Point2i(0, size);
-                var c10 = new Point2i(size, 0);
-                var c11 = new Point2i(size, size);
-                var mid = new Point2i(size / 2, size / 2);
+                var c01 = new Point2i(0, height);
+                var c10 = new Point2i(width, 0);
+                var c11 = new Point2i(width, height);
+                var mid = new Point2i(width / 2, height / 2);
 
                 map.DrawTriangle(mid, c00, c01, new ColorRGBA(tile.Left, 1), true);
                 map.DrawTriangle(mid, c00, c10, new ColorRGBA(tile.Bottom, 1), true);
@@ -217,7 +220,7 @@ namespace AperiodicTexturing
 
         private static void BlurGraphCutSeams(WangTile tile, GridFlowGraph graph, float strength)
         {
-            var image = tile.Image;
+            var image = tile.Tile.Image;
             int width = image.Width;
             int height = image.Height;
             var binary = new BinaryImage2D(width, height);

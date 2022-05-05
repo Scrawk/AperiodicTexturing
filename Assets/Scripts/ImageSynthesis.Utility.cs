@@ -48,10 +48,9 @@ namespace AperiodicTexturing
                         {
                             var image1 = source.Images[i];
                             var image2 = sink.Images[i];
-
                             image1[x, y] = image2[x, y];
                         }
-                    }    
+                    }
                 }
                 else
                 {
@@ -61,7 +60,6 @@ namespace AperiodicTexturing
                     {
                         var image1 = source.Images[i];
                         var image2 = sink.Images[i];
-
                         image1[x, y] = ColorRGBA.Lerp(image1[x, y], image2[x, y], a);
                     }
                 }
@@ -74,8 +72,8 @@ namespace AperiodicTexturing
             {
                 if (x < sourceArea ||
                     y < sourceArea ||
-                    x > graph.Width - sourceArea ||
-                    y > graph.Height - sourceArea)
+                    x > graph.Width - 1 - sourceArea ||
+                    y > graph.Height - 1 - sourceArea)
                 {
                     graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
                 }
@@ -220,24 +218,40 @@ namespace AperiodicTexturing
             return mask;
         }
 
-        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph)
+        private static ColorImage2D CreateImageFromGraph(GridFlowGraph graph, ColorRGBA source, ColorRGBA sink)
+        {
+            var image = new ColorImage2D(graph.Width, graph.Height);
+
+            image.Iterate((x, y) =>
+            {
+                if (graph.IsSink(x, y))
+                    image[x, y] = sink;
+                else if (graph.IsSource(x, y))
+                    image[x, y] = source;
+            });
+
+            return image;
+        }
+
+        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph, float source, float sink)
         {
             var mask = new GreyScaleImage2D(graph.Width, graph.Height);
 
             mask.Iterate((x, y) =>
             {
                 if (graph.IsSink(x, y))
-                    mask[x, y] = 1;
+                    mask[x, y] = sink;
+                else if (graph.IsSource(x, y))
+                    mask[x, y] = source;
             });
 
             return mask;
         }
 
-        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, BinaryImage2D mask)
+        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, BinaryImage2D mask, bool isOrthogonal)
         {
-            var graph = new GridFlowGraph(image1.Width, image1.Height);
-            graph.IsOrthogonal = true;
-
+            var graph = new GridFlowGraph(image1.Width, image1.Height, isOrthogonal);
+ 
             graph.Iterate((x, y) =>
             {
                 if (mask != null && !mask[x, y]) return;
