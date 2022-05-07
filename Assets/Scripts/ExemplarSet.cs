@@ -147,7 +147,52 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// Get a list of random exemplar.
+        /// Get a list of each exemplars tiles.
+        /// Tile are deep copied.
+        /// </summary>
+        /// <returns>The list of tiles.</returns>
+        public List<Tile> GetTiles()
+        {
+            var tiles = new List<Tile>(Count);
+
+            foreach (var exemplar in Exemplars)
+                tiles.Add(exemplar.Tile.Copy());
+
+            return tiles;
+        }
+
+        /// <summary>
+        /// Get a list of random tiles.
+        /// Tile are deep copied.
+        /// </summary>
+        /// <param name="count">The number of tiles to get. 
+        /// If the count is larger than the set size then all tiles are returned.</param>
+        /// <param name="seed">The seed for the random generator.</param>
+        /// <returns>The list of tiles.</returns>
+        public List<Tile> GetRandomTiles(int count, int seed)
+        {
+            var exemplars = GetRandomExemplars(count, seed);
+
+            var tiles = new List<Tile>(exemplars.Count);
+
+            foreach (var exemplar in exemplars)
+                tiles.Add(exemplar.Tile.Copy());
+
+            return tiles;
+        }
+
+        /// <summary>
+        /// Assign a weight to each tile in the set.
+        /// </summary>
+        /// <param name="weights">A array of floats contains values >= 0.</param>
+        public void SetWeights(IList<float> weights)
+        {
+            for (int i = 0; i < Count; i++)
+                Exemplars[i].Tile.SetWeights(weights);
+        }
+
+        /// <summary>
+        /// Get a list of random exemplars.
         /// </summary>
         /// <param name="count">The number of exemplars to get. 
         /// If the count is larger than the set size then all exemplars are returned.</param>

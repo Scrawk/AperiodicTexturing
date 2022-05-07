@@ -129,12 +129,12 @@ namespace AperiodicTexturing
         {
             var exemplars = new Exemplar[tileSet.NumTiles];
 
-            foreach(var tile in tileSet.Tiles)
+            foreach(var wtile in tileSet.Tiles)
             {
-                Exemplar exemplar = FindBestMatch(tile.Tile.Image, set, null);
+                Exemplar exemplar = FindBestMatch(wtile.Tile, set, null);
                 exemplar.IncrementUsed();
 
-                var index = tile.Index1;
+                var index = wtile.Index1;
                 exemplars[index] = exemplar;
             }
 

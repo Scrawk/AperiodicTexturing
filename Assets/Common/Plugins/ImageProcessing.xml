@@ -357,6 +357,100 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:ImageProcessing.Images.FilterKernel2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Int32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="scale"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Int32,System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="scale"></param>
+            <param name="size"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Single[0:,0:],System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="scale"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:ImageProcessing.Images.FilterKernel2D.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.FilterKernel2D.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.FilterKernel2D.Scale">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.FilterKernel2D.Item(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.Copy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.Sum">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.BoxKernel(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.GaussianKernel(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="sigma"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.SharpenKernel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.FilterKernel2D.UnsharpenKernel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ImageProcessing.Images.GreyScaleImage2D">
             <summary>
             A 2D image containing only float values.
@@ -784,6 +878,100 @@
             <param name="mode">The wrap mode to use.</param>
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Open(ImageProcessing.Images.GreyScaleImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Open the image by performing a erode followed by a dilate.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Open(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Open the image by performing a erode followed by a dilate.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Close(ImageProcessing.Images.GreyScaleImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Close the image by performing a dilate followed by a erode.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Close(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Close the image by performing a dilate followed by a erode.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Dilate(ImageProcessing.Images.GreyScaleImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Dilate all values in a image by the structure element.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Dilate(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Dilate all values in a image by the structure element.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Erode(ImageProcessing.Images.GreyScaleImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Erode all values in a image by the structure element.
+            </summary>
+            <param name="a"></param>
+            <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Erode(ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Erode all values in a image by the structure element.
+            </summary>
+            <param name="a">The image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.DilateFindMax(System.Int32,System.Int32,ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Find the max value around the pixel at i,j.
+            </summary>
+            <param name="i">x index in source image.</param>
+            <param name="j">y index in source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.ErodeFindMin(System.Int32,System.Int32,ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Find the min value around the pixel at i,j.
+            </summary>
+            <param name="i">x index in source image.</param>
+            <param name="j">y index in source image.</param>
+            <param name="a">The source image.</param>
+            <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
+            <returns></returns>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMax">
             <summary>
@@ -1537,20 +1725,140 @@
             <param name="i"></param>
             <param name="bytes"></param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawBoxOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawPoint(Common.Core.Numerics.Point2f,System.Single,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="center"></param>
+            <param name="size"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawBox(Common.Core.Shapes.Box2f,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="box"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawBox(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawBox(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="x1"></param>
+            <param name="y1"></param>
+            <param name="x2"></param>
+            <param name="y2"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawBoxOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Draws a rectangle.
             x2 has to be greater than x1 and y2 has to be greater than y1.
             </summary>
+            <param name="x1"></param>
+            <param name="y1"></param>
+            <param name="x2"></param>
+            <param name="y2"></param>
+            <param name="color"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawBoxFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawBoxFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             Draws a filled rectangle.
             x2 has to be greater than x1 and y2 has to be greater than y1.
             </summary>
+            <param name="x1"></param>
+            <param name="y1"></param>
+            <param name="x2"></param>
+            <param name="y2"></param>
+            <param name="color"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawCircle(Common.Core.Shapes.Circle2f,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
+            
+            </summary>
+            <param name="circle"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawCircle(Common.Core.Numerics.Point2f,System.Single,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="center"></param>
+            <param name="radius"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawCircle(System.Single,System.Single,System.Single,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="radius"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipse(Common.Core.Numerics.Point2f,System.Single,System.Single,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="center"></param>
+            <param name="radiusX"></param>
+            <param name="radiusY"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipse(System.Single,System.Single,System.Single,System.Single,Common.Core.Colors.ColorRGBA,System.Boolean,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="radiusX"></param>
+            <param name="radiusY"></param>
+            <param name="color"></param>
+            <param name="filled"></param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseOutline(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            
+            TODO - Draws as filled?
+            
             A Fast Bresenham Type Algorithm For Drawing Ellipses http://homepage.smc.edu/kennedy_john/belipse.pdf 
             Uses a different parameter representation than DrawEllipse().
             </summary>
@@ -1559,8 +1867,10 @@
             <param name="xr">The radius of the ellipse in x-direction.</param>
             <param name="yr">The radius of the ellipse in y-direction.</param>
             <param name="color">The color for the line.</param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawEllipseFilled(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
             <summary>
             A Fast Bresenham Type Algorithm For Drawing filled ellipses http://homepage.smc.edu/kennedy_john/belipse.pdf  
             Uses a different parameter representation than DrawEllipse().
@@ -1570,6 +1880,8 @@
             <param name="xr">The radius of the ellipse in x-direction.</param>
             <param name="yr">The radius of the ellipse in y-direction.</param>
             <param name="color">The color for the line.</param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.DrawLineDDA(System.Int32,System.Int32,System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -1623,6 +1935,26 @@
             Draws a filled polygon. 
             Add the first point also at the end of the array if the line should be closed.
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawShape(Common.Core.Shapes.IShape2f,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            Draw a shape into image by setting any pixels 
+            in the image to the color if they are contained in the shape.
+            </summary>
+            <param name="shape">The shape interface.</param>
+            <param name="color">The color to use.</param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DrawShape(Common.Core.Shapes.IShape2d,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.BLEND_MODE)">
+            <summary>
+            Draw a shape into image by setting any pixels 
+            in the image to the color if they are contained in the shape.
+            </summary>
+            <param name="shape">The shape interface.</param>
+            <param name="color">The color to use.</param>
+            <param name="wrap">The wrap mode for out of bounds indices. Defaults to clamp.</param>
+            <param name="blend">The blend mode for the pixels. Defalus to alpha.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.DrawFilledTriangle(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.GreyScaleImage2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -1948,61 +2280,68 @@
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Open the image by performing a erode followed by a dilate.
             </summary>
             <param name="a"></param>
             <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Open(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Open the image by performing a erode followed by a dilate.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Close the image by performing a dilate followed by a erode.
             </summary>
             <param name="a"></param>
             <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Close(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Close the image by performing a dilate followed by a erode.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Border(ImageProcessing.Images.BinaryImage2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Border(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find the border of all connected blocks of true values in the image.
             </summary>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Diluate all true values in a image by the structure element.
             </summary>
             <param name="a"></param>
             <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Diluate all true values in a image by the structure element.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Dilate(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find if a pixel in the image should be dilated.
             A pixel should be dilated if any surrounding pixel
@@ -2013,25 +2352,28 @@
             <param name="j">y index in source image.</param>
             <param name="a">The source image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Erode all true values in a image by the structure element.
             </summary>
             <param name="a"></param>
             <param name="size"></param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Erode all true values in a image by the structure element.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Erode(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find if a pixel in the image should be eroded.
             A pixel should be eroded if any surrounding pixel
@@ -2042,9 +2384,10 @@
             <param name="j">y index in source image.</param>
             <param name="a">The source image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(ImageProcessing.Images.BinaryImage2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.WRAP_MODE,System.Int32)">
             <summary>
             Iteratively thin a image by removing pixels on the border
             if they match the structure element.
@@ -2052,9 +2395,10 @@
             </summary>
             <param name="a">The image.</param>
             <param name="iterations">The number of times to thin the image.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Boolean}},ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,System.Int32,System.Boolean@)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.Thinning(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Boolean}},ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,System.Int32,ImageProcessing.Images.WRAP_MODE,System.Boolean@)">
             <summary>
             Thin the image with the two structure elements and remove 
             any thinned points from the image.
@@ -2065,26 +2409,29 @@
             <param name="c">The structure element c.</param>
             <param name="i">The rotation index for the elements.</param>
             <param name="done">If the image has not changed this iteration.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Remove all pixels in the image that matchs the structure element.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Remove all pixels in the image that match the structure element
             in any of its 4 rotations.
             </summary>
             <param name="a">The image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Remove all pixels in the image that match either of the two 
             structure elements in any of there 4 rotations.
@@ -2092,9 +2439,10 @@
             <param name="a">The image.</param>
             <param name="b">The structure element b.</param>
             <param name="c">The structure element c.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find if the pixel in the image matches the structure element
             in any of its 4 rotations.
@@ -2103,9 +2451,10 @@
             <param name="y">The y index in the source image.</param>
             <param name="a">The source image.</param>
             <param name="b">The structure element.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss4(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.StructureElement2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find if the pixel in the image matches either of the 
             structure elements in any of there 4 rotations.
@@ -2115,9 +2464,10 @@
             <param name="a">The source image.</param>
             <param name="b">The structure element b.</param>
             <param name="c">The structure element c.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,System.Int32)">
+        <member name="M:ImageProcessing.Images.BinaryImage2D.HitAndMiss(System.Int32,System.Int32,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.StructureElement2D,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Find if all surrounding pixels in a image match the 
             structure element.
@@ -2127,6 +2477,8 @@
             <param name="a">The source image.</param>
             <param name="b">The structure element.</param>
             <param name="rotate">The element rotation.</param>
+            <param name="wrap">The wrap mode.</param>
+            <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
         <member name="M:ImageProcessing.Images.BinaryImage2D.Segmentation(ImageProcessing.Images.BinaryImage2D)">
@@ -2507,100 +2859,6 @@
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
-        <member name="T:ImageProcessing.Images.FilterKernel2D">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Int32,System.Single)">
-            <summary>
-            
-            </summary>
-            <param name="scale"></param>
-            <param name="size"></param>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Int32,System.Single,System.Single)">
-            <summary>
-            
-            </summary>
-            <param name="scale"></param>
-            <param name="size"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.#ctor(System.Single[0:,0:],System.Single)">
-            <summary>
-            
-            </summary>
-            <param name="scale"></param>
-            <param name="data"></param>
-        </member>
-        <member name="P:ImageProcessing.Images.FilterKernel2D.Data">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.FilterKernel2D.Size">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.FilterKernel2D.Scale">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.FilterKernel2D.Item(System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.Copy">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.Sum">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.BoxKernel(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.GaussianKernel(System.Single)">
-            <summary>
-            
-            </summary>
-            <param name="sigma"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.SharpenKernel">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ImageProcessing.Images.FilterKernel2D.UnsharpenKernel">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:ImageProcessing.Images.WRAP_MODE">
             <summary>
             Wrap mode options for when sampling a image.
@@ -2816,7 +3074,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.StructureElement2D.Fill(Common.Core.Shapes.Circle2f,System.Boolean)">
+        <member name="M:ImageProcessing.Images.StructureElement2D.Fill(Common.Core.Shapes.IShape2f,System.Boolean)">
             <summary>
             
             </summary>
@@ -2912,6 +3170,616 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.InterpolationFunction.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.InterpolationFunction.GetWeight(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.InterpolationFunction.Pow2(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.InterpolationFunction.Pow3(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Interpolation.LinearInterpolation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LinearInterpolation.Default">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LinearInterpolation.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.LinearInterpolation.GetWeight(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Interpolation.CubicInterpolation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.CubicInterpolation.Default">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.CubicInterpolation.Smooth">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.CubicInterpolation.Sharp">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.CubicInterpolation.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Interpolation.CubicInterpolation.a">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.CubicInterpolation.#ctor(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.CubicInterpolation.GetWeight(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.CubicInterpolation.GetWeight(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="a"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Interpolation.SplineInterpolation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.SplineInterpolation.CatmullRom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.SplineInterpolation.CubicBSpline">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.SplineInterpolation.MitchellNetravli">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.SplineInterpolation.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Interpolation.SplineInterpolation.a">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Interpolation.SplineInterpolation.b">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.SplineInterpolation.#ctor(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.SplineInterpolation.GetWeight(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.SplineInterpolation.GetWeight(System.Single,System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Interpolation.LanzcosInterpolation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LanzcosInterpolation.Default2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LanzcosInterpolation.Default3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LanzcosInterpolation.Default4">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.LanzcosInterpolation.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Interpolation.LanzcosInterpolation.n">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.LanzcosInterpolation.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="n"></param>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.LanzcosInterpolation.GetWeight(System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.LanzcosInterpolation.GetWeight(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Interpolation.PolyphaseKernel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.PolyphaseKernel.#ctor(ImageProcessing.Interpolation.InterpolationFunction,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="func"></param>
+            <param name="srcLength"></param>
+            <param name="dstLength"></param>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.PolyphaseKernel.WindowSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.PolyphaseKernel.Length">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.PolyphaseKernel.Samples">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.PolyphaseKernel.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Interpolation.PolyphaseKernel.Weights">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.PolyphaseKernel.GetWeight(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.PolyphaseKernel.ApplyHorizontal``1(System.Int32,``0,``0,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            
+            </summary>
+            <typeparam name="IMAGE"></typeparam>
+            <param name="y"></param>
+            <param name="src"></param>
+            <param name="dst"></param>
+            <param name="mode"></param>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.PolyphaseKernel.ApplyVertical``1(System.Int32,``0,``0,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            
+            </summary>
+            <typeparam name="IMAGE"></typeparam>
+            <param name="x"></param>
+            <param name="src"></param>
+            <param name="dst"></param>
+            <param name="mode"></param>
+        </member>
+        <member name="M:ImageProcessing.Interpolation.PolyphaseKernel.SampleWindow(ImageProcessing.Interpolation.InterpolationFunction,System.Single,System.Single,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="func"></param>
+            <param name="x"></param>
+            <param name="scale"></param>
+            <param name="samples"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Pixels.ColorPixelSet2D">
+            <summary>
+            A set of pixel indices.
+            Can be used to calculate some proerties of the set. 
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.ColorPixelSet2D.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.ColorPixelSet2D.#ctor(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{Common.Core.Colors.ColorRGBA}})">
+            <summary>
+            
+            </summary>
+            <param name="pixels"></param>
+        </member>
+        <member name="M:ImageProcessing.Pixels.ColorPixelSet2D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.ColorPixelSet2D.CalculateMean">
+            <summary>
+            The mean value of the pixels in the set.
+            </summary>
+            <returns>The mean value of the pixels in the set.</returns>
+        </member>
+        <member name="T:ImageProcessing.Pixels.PixelIndex2D`1">
+            <summary>
+            Struct to hold a pixels value and its index in a image.
+            </summary>
+            <typeparam name="T">The pixels type</typeparam>
+        </member>
+        <member name="F:ImageProcessing.Pixels.PixelIndex2D`1.x">
+            <summary>
+            The pixels index in a image.
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Pixels.PixelIndex2D`1.y">
+            <summary>
+            The pixels index in a image.
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Pixels.PixelIndex2D`1.Value">
+            <summary>
+            The pixels value.
+            </summary>
+        </member>
+        <member name="F:ImageProcessing.Pixels.PixelIndex2D`1.Tag">
+            <summary>
+            Tag for algorithms on the image can mark or 
+            id the image if needed. May change at any point.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelIndex2D`1.#ctor(System.Int32,System.Int32,`0)">
+            <summary>
+            Create a new PixelIndex2D.
+            </summary>
+            <param name="x">The pixels x coordinate.</param>
+            <param name="y">The pixels y coordinate.</param>
+            <param name="value">The pixels value</param>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelIndex2D`1.#ctor(System.Int32,System.Int32,`0,System.Int32)">
+            <summary>
+            Create a new PixelIndex2D.
+            </summary>
+            <param name="x">The pixels x coordinate.</param>
+            <param name="y">The pixels y coordinate.</param>
+            <param name="value">The pixels value</param>
+            <param name="tag"></param>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelIndex2D`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Pixels.PixelSegmentation2D`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSegmentation2D`1.#ctor(ImageProcessing.Images.Image2D{`0})">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+        </member>
+        <member name="P:ImageProcessing.Pixels.PixelSegmentation2D`1.Image">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Pixels.PixelSegmentation2D`1.Count">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Pixels.PixelSegmentation2D`1.Sets">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSegmentation2D`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSegmentation2D`1.AddPixel(Common.Core.Numerics.Point2i,ImageProcessing.Pixels.PixelIndex2D{`0})">
+            <summary>
+            
+            </summary>
+            <param name="root"></param>
+            <param name="pixel"></param>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSegmentation2D`1.ColorizeSegmentation(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="seed"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Pixels.SegmentationColors">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.SegmentationColors.Generate(System.Int32,System.Collections.Generic.IEnumerable{Common.Core.Numerics.Point2i})">
+            <summary>
+            
+            </summary>
+            <param name="seed"></param>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Pixels.PixelSet2D`1">
+            <summary>
+            A set of pixel indices.
+            Can be used to calculate some proerties of the set.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.#ctor">
+            <summary>
+            /
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.#ctor(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{`0}})">
+            <summary>
+            
+            </summary>
+            <param name="pixels"></param>
+        </member>
+        <member name="P:ImageProcessing.Pixels.PixelSet2D`1.Count">
+            <summary>
+            The number of pixels in the set.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Pixels.PixelSet2D`1.Pixels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.Add(ImageProcessing.Pixels.PixelIndex2D{`0})">
+            <summary>
+            Add a new pixel index to the set.
+            </summary>
+            <param name="pixel"></param>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.CompareTo(ImageProcessing.Pixels.PixelSet2D{`0})">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.CalculateBounds">
+            <summary>
+            Calculate the bounding box of the set.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.CalculateRoundness(System.Single)">
+            <summary>
+            Calcuate the roundness of the set.
+            </summary>
+            <param name="perimeter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Pixels.PixelSet2D`1.CalculateCentroid">
+            <summary>
+            Calcuate the centriod of the set.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Statistics.KMeansCluster">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeansCluster.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeansCluster.#ctor(System.Int32,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="mean"></param>
+        </member>
+        <member name="P:ImageProcessing.Statistics.KMeansCluster.Index">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.KMeansCluster.Mean">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.KMeansCluster.Set">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeansCluster.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Statistics.KMeans">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.KMeans.Clusters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.Run(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="k"></param>
+            <param name="seed"></param>
+            <param name="weighted"></param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.InitializeClustersRandom(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="k"></param>
+            <param name="seed"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.InitializeClustersWeighted(ImageProcessing.Images.ColorImage2D,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="k"></param>
+            <param name="seed"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.UpdateWeights(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="weights"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.ChoosePixel(ImageProcessing.Images.ColorImage2D,ImageProcessing.Images.GreyScaleImage2D,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="weights"></param>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.InitialAssignment(ImageProcessing.Images.ColorImage2D)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.UpdateAssignment">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.UpdateClusterMeans">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.KMeans.Closest(Common.Core.Colors.ColorRGBA)">
+            <summary>
+            
+            </summary>
+            <param name="col"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

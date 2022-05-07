@@ -34,6 +34,8 @@ namespace AperiodicTexturing
                     source[x, y] = ColorRGBA.Lerp(source[x, y], sink[x, y], a);
                 }
             });
+
+            //mask.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask" + i);
         }
 
         private static void BlendImages(GridFlowGraph graph, Tile source, Tile sink, GreyScaleImage2D mask)
@@ -87,7 +89,7 @@ namespace AperiodicTexturing
             return graph;
         }
 
-        private static Exemplar FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
+        private static Exemplar FindBestMatch(Tile tile, ExemplarSet set, BinaryImage2D mask)
         {
             var costs = new float[set.Count];
 
@@ -107,11 +109,18 @@ namespace AperiodicTexturing
                     {
                         if (mask != null && !mask[x, y]) continue;
 
-                        var pixel1 = image[x, y];
-                        var pixel2 = exemplar.Tile.Image[x, y];
+                        var exemplars_pixel = exemplar.Tile.Image[x, y];
 
-                        cost += ColorRGBA.SqrDistance(pixel1, pixel2);
-                        count++;
+                        for (int j = 0; j < tile.Count; j++)
+                        {
+                            var w = tile.GetWeight(j);
+                            if (w <= 0) continue;
+
+                            var tiles_pixel = tile.Images[j][x, y];
+    
+                            cost += ColorRGBA.SqrDistance(tiles_pixel, exemplars_pixel) * w;
+                            count++;
+                        }
                     }
                 }
 
@@ -125,53 +134,6 @@ namespace AperiodicTexturing
             for (int i = 0; i < set.Count; i++)
             {
                 if(costs[i] < bestCost)
-                {
-                    bestCost = costs[i];
-                    bestMatch = set[i];
-                }
-            }
-
-            return bestMatch;
-        }
-
-        private static Exemplar FindBestMatchParallel(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
-        {
-            var costs = new float[set.Count];
-
-            Parallel.For(0, set.Count, (i) =>
-            {
-                costs[i] = float.PositiveInfinity;
-
-                var exemplar = set[i];
-
-                float cost = 0;
-                int count = 0;
-                float costModifier = (exemplar.Used + 1.0f) * 1.5f;
-
-                for (int x = 0; x < exemplar.Width; x++)
-                {
-                    for (int y = 0; y < exemplar.Height; y++)
-                    {
-                        if (mask != null && !mask[x, y]) continue;
-
-                        var pixel1 = image[x, y];
-                        var pixel2 = exemplar.Tile.Image[x, y];
-
-                        cost += ColorRGBA.SqrDistance(pixel1, pixel2);
-                        count++;
-                    }
-                }
-
-                if (count != 0)
-                    costs[i] = (cost / count) * costModifier;
-            });
-
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
-
-            for (int i = 0; i < set.Count; i++)
-            {
-                if (costs[i] < bestCost)
                 {
                     bestCost = costs[i];
                     bestMatch = set[i];
