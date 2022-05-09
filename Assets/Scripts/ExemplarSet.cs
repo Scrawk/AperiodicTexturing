@@ -9,6 +9,8 @@ using Common.Core.Directions;
 using ImageProcessing.Images;
 using System.Collections;
 
+using UnityEngine;
+
 namespace AperiodicTexturing
 {
     public class ExemplarSet
@@ -38,10 +40,21 @@ namespace AperiodicTexturing
         /// <param name="exemplarSize">The size of a exemplar.</param>
         public ExemplarSet(IList<ColorImage2D> sources, bool sourceIsTileable, int exemplarSize)
         {
-            Sources = new List<ColorImage2D>();
-            foreach (var source in sources)
-                Sources.Add(source);
+            if (sources.Count == 0)
+                throw new ArgumentException("The sources array must have at least 1 image.");
 
+            var size = sources[0].Size;
+            Sources = new List<ColorImage2D>();
+
+            for(int i = 0; i < sources.Count; i++)
+            {
+                var source = sources[i];
+                if (source.Size != size)
+                    throw new ArgumentException("All the source images must be the same size.");
+
+                Sources.Add(source);
+            }
+                
             SourceIsTileable = sourceIsTileable;
             ExemplarSize = exemplarSize;
             Exemplars = new List<Exemplar>();
@@ -50,7 +63,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The numer of exemplars in the set.
         /// </summary>
-        public int Count => Exemplars.Count;
+        public int ExemplarCount => Exemplars.Count;
 
         /// <summary>
         /// The width and height of a exemplars image.
@@ -88,8 +101,8 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[ExemplarSet: Count={0}, Size={1}, SourceIsTileable={2}]",
-                Count, ExemplarSize, SourceIsTileable);
+            return String.Format("[ExemplarSet: ExemplarCount={0}, ExemplarSize={1}, SourceIsTileable={2}]",
+                ExemplarCount, ExemplarSize, SourceIsTileable);
         }
 
         /// <summary>
@@ -115,7 +128,7 @@ namespace AperiodicTexturing
         /// <returns>The percentage of used exemplars from 0 to 1.</returns>
         public float PercentageUsed()
         {
-            if (Count == 0) return 0;
+            if (ExemplarCount == 0) return 0;
 
             int used = 0;
 
@@ -123,7 +136,16 @@ namespace AperiodicTexturing
                 if (exemplar.Used > 0)
                     used++;
 
-            return used / (float)Count;
+            return used / (float)ExemplarCount;
+        }
+
+        /// <summary>
+        /// Create the mipmaps for each exemplar is set.
+        /// </summary>
+        public void CreateMipmaps()
+        {
+            foreach (var exemplar in Exemplars)
+                exemplar.Tile.CreateMipmaps();
         }
 
         /// <summary>
@@ -153,7 +175,7 @@ namespace AperiodicTexturing
         /// <returns>The list of tiles.</returns>
         public List<Tile> GetTiles()
         {
-            var tiles = new List<Tile>(Count);
+            var tiles = new List<Tile>(ExemplarCount);
 
             foreach (var exemplar in Exemplars)
                 tiles.Add(exemplar.Tile.Copy());
@@ -187,7 +209,7 @@ namespace AperiodicTexturing
         /// <param name="weights">A array of floats contains values >= 0.</param>
         public void SetWeights(IList<float> weights)
         {
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < ExemplarCount; i++)
                 Exemplars[i].Tile.SetWeights(weights);
         }
 
@@ -203,7 +225,7 @@ namespace AperiodicTexturing
             count = Math.Max(count, 0);
             var exemplars = new List<Exemplar>();
 
-            if (count >= Count)
+            if (count >= ExemplarCount)
             {
                 //If the requested number of exemplars to create is
                 //larger that the actual number then just return a
@@ -212,7 +234,7 @@ namespace AperiodicTexturing
             }
             else
             {
-                var rnd = new Random(seed);
+                var rnd = new System.Random(seed);
 
                 while (exemplars.Count != count)
                 {
@@ -233,29 +255,48 @@ namespace AperiodicTexturing
         /// Create a new set of exemplars by dividing the sources image into even parts.
         /// Presumes the exemplar size divides evenly in the source image size.
         /// </summary>
-        public void CreateExemplarsFromCrop()
+        public void CreateExemplarsFromCrop(int overlap = 0)
         {
             Clear();
 
             int width = Sources[0].Width;
             int height = Sources[0].Height;
 
-            var images = new List<List<ColorImage2D>>();
+            var images = new List<List<ColorImage2D>>(Sources.Count);
 
-            foreach (var source in Sources)
+            for(int i = 0; i < Sources.Count; i++)
             {
-                var image = ColorImage2D.Crop(source, width / ExemplarSize, height / ExemplarSize);
-                images.Add(image);
+                var source = Sources[i];
+                var crop = ColorImage2D.Crop(source, width / ExemplarSize, height / ExemplarSize, overlap);
+
+                for (int j = 0; j < crop.Count; j++)
+                {
+                    crop[j].Name = source.Name + " _crop_" + j;
+                }
+
+                images.Add(crop);
+            }
+
+            if (images.Count == 0)
+                return;
+
+            int numExemplars = images[0].Count;
+
+            for (int i = 0; i < numExemplars; i++)
+            {
+                var exemplar = new Exemplar(ExemplarSize);
+                Exemplars.Add(exemplar);
             }
 
             for (int i = 0; i < images.Count; i++)
             {
-                var exemplars = new List<ColorImage2D>();
-
                 for (int j = 0; j < images[i].Count; j++)
-                    exemplars.Add(images[i][j]);
+                {
+                    var image = images[i][j];
+                    var exemplar = Exemplars[j];
 
-                Exemplars.Add(new Exemplar(exemplars));
+                    exemplar.Tile.Images.Add(image);
+                }
             }
 
         }
@@ -277,7 +318,7 @@ namespace AperiodicTexturing
             int height = Sources[0].Height;
 
             var mask = new BinaryImage2D(width, height);
-            var rnd = new Random(seed);
+            var rnd = new System.Random(seed);
 
             //Safety break in case no new exemplars can be created.
             int fails = 0;
@@ -307,15 +348,18 @@ namespace AperiodicTexturing
                 //Mark this area of the image as having been sampled.
                 AddCoverage(mask, x, y);
 
-                var exemplars = new List<ColorImage2D>();
+                var exemplar_images = new List<ColorImage2D>();
 
-                foreach (var source in Sources)
+                for(int i = 0; i < Sources.Count; i++)
                 {
-                    var exemplar = ColorImage2D.Crop(source, new Box2i(x, y, x + ExemplarSize, y + ExemplarSize), WRAP_MODE.WRAP);
-                    exemplars.Add(exemplar);
+                    var box = new Box2i(x, y, x + ExemplarSize, y + ExemplarSize);
+                    var image = ColorImage2D.Crop(Sources[i], box, 0, WRAP_MODE.WRAP);
+                    image.Name = "RandomImage" + i;
+
+                    exemplar_images.Add(image);
                 }
 
-                Exemplars.Add(new Exemplar(exemplars));
+                Exemplars.Add(new Exemplar(exemplar_images));
             }
 
         }

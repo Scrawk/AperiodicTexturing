@@ -18,6 +18,7 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
+        private const string DEUB_FOLDER = "C:/Users/Justin/OneDrive/Desktop/";
 
         private static void BlendImages(GridFlowGraph graph, ColorImage2D source, ColorImage2D sink, GreyScaleImage2D mask)
         {
@@ -35,7 +36,6 @@ namespace AperiodicTexturing
                 }
             });
 
-            //mask.SaveAsRaw("C:/Users/Justin/OneDrive/Desktop/mask" + i);
         }
 
         private static void BlendImages(GridFlowGraph graph, Tile source, Tile sink, GreyScaleImage2D mask)
@@ -89,11 +89,33 @@ namespace AperiodicTexturing
             return graph;
         }
 
+        private static GridFlowGraph MarkSourceAndSink(GridFlowGraph graph, int sourceOffset, int sinkOffset)
+        {
+
+            graph.Iterate((x, y) =>
+            {
+                if (x < sourceOffset ||
+                    y < sourceOffset ||
+                    x > graph.Width - 1 - sourceOffset ||
+                    y > graph.Height - 1 - sourceOffset)
+                {
+                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
+                }
+                else if(x > sinkOffset && x < graph.Width - sinkOffset - 1 && 
+                        y > sinkOffset && y < graph.Height - sinkOffset - 1)
+                {
+                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SINK, 255);
+                }
+            });
+
+            return graph;
+        }
+
         private static Exemplar FindBestMatch(Tile tile, ExemplarSet set, BinaryImage2D mask)
         {
-            var costs = new float[set.Count];
+            var costs = new float[set.ExemplarCount];
 
-            for(int i = 0; i < set.Count; i++)
+            for(int i = 0; i < set.ExemplarCount; i++)
             {
                 costs[i] = float.PositiveInfinity;
 
@@ -131,7 +153,7 @@ namespace AperiodicTexturing
             Exemplar bestMatch = null;
             float bestCost = float.PositiveInfinity;
 
-            for (int i = 0; i < set.Count; i++)
+            for (int i = 0; i < set.ExemplarCount; i++)
             {
                 if(costs[i] < bestCost)
                 {

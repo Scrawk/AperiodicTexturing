@@ -28,7 +28,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The number of tiles to be created.
         /// </summary>
-        private static int m_numTiles = 2;
+        private static int m_numTiles = 1;
 
         /// <summary>
         /// THe tiles size.
@@ -42,6 +42,10 @@ namespace AperiodicTexturing
         /// </summary>
         private static int m_blendArea = 16;
 
+        /// <summary>
+        /// Number of times to sample the source 
+        /// image when creating the exemplar set.
+        /// </summary>
         private static int m_samples = 100;
 
         /// <summary>
@@ -71,7 +75,7 @@ namespace AperiodicTexturing
         /// Is the source image provided tileable.
         /// This can makes sampling the texture easier if true.
         /// </summary>
-        private static bool m_sourceIsTileable;
+        private static bool m_sourceIsTileable = true;
 
         /// <summary>
         /// Folder the results will be output to.
@@ -86,9 +90,19 @@ namespace AperiodicTexturing
         private static string[] m_fileNames;
 
         /// <summary>
+        /// The tiles images created from source texture.
+        /// </summary>
+        private List<ColorImage2D> m_images;
+
+        /// <summary>
+        /// The tiles passed into the algorithm to make tileable.
+        /// </summary>
+        private List<Tile> m_tiles;
+
+        /// <summary>
         /// The tiles created by the algorithm.
         /// </summary>
-        private Tile[] m_tiles;
+        private Tile[] m_tileables;
 
         /// <summary>
         /// The exemplar set the tiles are created from.
@@ -150,6 +164,8 @@ namespace AperiodicTexturing
             {
                 if(Validate())
                 {
+                    CreateImages();
+                    CreateTiles();
                     CreateExemplarSet();
                     ResetBeforeRunning();
                     Run();
@@ -392,15 +408,8 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
 
-                    //Create the tiles that will be made tileable.
-                    var tiles = m_set.GetRandomTiles(m_numTiles, m_seed);
-
-                    //Assign the weights to the tiles.
-                    for (int i = 0; i < tiles.Count; i++)
-                        tiles[i].SetWeights(m_weights);
-
                     //Make the tiles tileable.
-                    m_tiles = ImageSynthesis.CreateTileableImages(tiles, m_set, m_blendArea, m_token);
+                    m_tileables = ImageSynthesis.CreateTileableImages_TEST(m_tiles, m_set, m_blendArea, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -439,9 +448,9 @@ namespace AperiodicTexturing
         {
             string folderName = Application.dataPath + "/" + m_folderName;
 
-            for (int i = 0; i < m_tiles.Length; i++)
+            for (int i = 0; i < m_tileables.Length; i++)
             {
-                var tile = m_tiles[i];
+                var tile = m_tileables[i];
 
                 for (int j = 0; j < tile.Count; j++)
                 {
@@ -478,39 +487,61 @@ namespace AperiodicTexturing
         /// </summary>
         private void CreateExemplarSet()
         {
-            //Convert the Texture2D objects into ColorImage2D objects used by the algorithm.
-            var images = GetImages();
             //Create the exemplars from the images.
-            m_set = new ExemplarSet(images, m_sourceIsTileable, m_tileSize);
+            m_set = new ExemplarSet(m_images, m_sourceIsTileable, 16);
+
             //Create the required number of tiles needed by randomly sampling frm the exemplar.
-            m_set.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
+            //m_set.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
+            m_set.CreateExemplarsFromCrop();
+            m_set.CreateMipmaps();
+
             //Create the variants from the exempars in the set.
-            m_set.CreateVariants(m_varients);
+            //m_set.CreateVariants(m_varients);
 
             //Check if the required number of tiles have been created.
-            if (m_set.Count < m_numTiles)
+            //if (m_set.Count < m_numTiles)
+            //{
+            //    Debug.Log("Failed to find the required number of tiles in sources texture. Use a larger source texture or a smaller tile size.");
+            //    return;
+            //}
+
+            Debug.Log("m_set " + m_set);
+        }
+
+        private void CreateTiles()
+        {
+            var set = new ExemplarSet(m_images, m_sourceIsTileable, m_tileSize);
+
+            set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.1f);
+            m_tiles = set.GetRandomTiles(m_numTiles, m_seed);
+
+            //Assign the weights to the tiles and name the images (for debugging).
+            for (int i = 0; i < m_tiles.Count; i++)
             {
-                Debug.Log("Failed to find the required number of tiles in sources texture. Use a larger source texture or a smaller tile size.");
-                return;
+                var tile = m_tiles[i];
+                tile.SetWeights(m_weights);
+
+                for (int j = 0; j < tile.Images.Count; j++)
+                {
+                    tile.Images[j].Name = $"Tile{i}_Image{j}";
+                }
             }
 
-            Debug.Log(m_set);
+            Debug.Log("set " + set);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        private List<ColorImage2D> GetImages()
+        private void CreateImages()
         {
-            var images = new List<ColorImage2D>();
+            m_images = new List<ColorImage2D>();
             for (int i = 0; i < m_source.Length; i++)
             {
                 if (m_source[i] == null) continue;
-                images.Add(ToImage(m_source[i]));
+                m_images.Add(ToImage(m_source[i]));
             }
-
-            return images;
         }
 
         /// <summary>
@@ -526,6 +557,8 @@ namespace AperiodicTexturing
             {
                 return tex.GetPixel(x, y).ToColorRGBA();
             });
+
+            image.Name = tex.name;
 
             return image;
         }

@@ -91,28 +91,48 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            string weights = "";
+            return string.Format("[Tile: Count={0}, Width={1}, Height={2}, Images={3}, Weights={4}]",
+                Count, Width, Height, GetImageNames(), GetWeightNames());
+        }
 
-            if(Weights != null)
+        /// <summary>
+        /// Get all the weights as a string for debugging.
+        /// </summary>
+        /// <returns></returns>
+        private string GetWeightNames()
+        {
+            if (Weights == null) return "{}";
+
+            string weights = "{";
+            for (int i = 0; i < Weights.Length; i++)
             {
-                weights = "{";
-                for (int i = 0; i < Weights.Length; i++)
-                {
-                    weights += Weights[i];
+                weights += Weights[i];
 
-                    if (i != Weights.Length - 1)
-                        weights += ",";
-                }
-                weights += "}";
+                if (i != Weights.Length - 1)
+                    weights += ", ";
             }
-            else
+            weights += "}";
+
+            return weights;
+        }
+
+        /// <summary>
+        /// Get all the images names as a string for debugging.
+        /// </summary>
+        /// <returns></returns>
+        private string GetImageNames()
+        {
+            string images = "{";
+            for (int i = 0; i < Images.Count; i++)
             {
-                weights = "{}";
+                images += Images[i].Name;
+
+                if (i != Images.Count - 1)
+                    images += ", ";
             }
+            images += "}";
 
-
-            return String.Format("[Tile: Count={0}, Width={1}, Height={2}, Weights={3}]",
-                Count, Width, Height, weights);
+            return images;
         }
 
         /// <summary>
@@ -160,6 +180,21 @@ namespace AperiodicTexturing
             copy.SetWeights(Weights);
 
             return copy;
+        }
+
+        /// <summary>
+        /// Create the mipmaps for each image in tile.
+        /// </summary>
+        public void CreateMipmaps()
+        {
+            foreach (var image in Images)
+            {
+                image.CreateMipmaps();
+
+               //int m = image.MipmapLevels - 1;
+                //UnityEngine.Debug.Log(image.Name + " " + image.GetMipmap(m).GetPixel(0, 0));
+            }
+                
         }
 
         /// <summary>

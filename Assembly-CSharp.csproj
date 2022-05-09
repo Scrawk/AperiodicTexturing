@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,9 +53,6 @@
     <UnityVersion>2021.2.7f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\Common\Extensions\PointExtension4.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension4.cs" />
@@ -72,6 +69,7 @@
     <Compile Include="Assets\Common\Extensions\QuaternionExtension.cs" />
     <Compile Include="Assets\Scripts\WangTileSet.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension3.cs" />
+    <Compile Include="Assets\Scripts\ImageSynthesis.CreateTileableImage_TEST.cs" />
     <Compile Include="Assets\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />

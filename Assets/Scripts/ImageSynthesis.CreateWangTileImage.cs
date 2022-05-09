@@ -199,7 +199,7 @@ namespace AperiodicTexturing
             foreach(var p in bounds.EnumeratePerimeter())
             {
                 if (!corners.Contains(p))
-                    mask[p] = false;
+                    mask[p.x, p.y] = false;
             }
 
             return mask;

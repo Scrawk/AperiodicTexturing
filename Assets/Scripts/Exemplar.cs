@@ -27,6 +27,15 @@ namespace AperiodicTexturing
         /// <summary>
         /// Create a new exemplar.
         /// </summary>
+        /// <param name="size">The tile width and height.</param>
+        public Exemplar(int size)
+        {
+            Tile = new Tile(size, size);
+        }
+
+        /// <summary>
+        /// Create a new exemplar.
+        /// </summary>
         /// <param name="image">The exemplars image.</param>
         public Exemplar(ColorImage2D image)
         {

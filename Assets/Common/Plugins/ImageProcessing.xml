@@ -22,6 +22,18 @@
             </summary>
             <param name="value">The another value.</param>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.NormalizeRGBA(System.Boolean)">
+            <summary>
+            Normalize each pixels rgba values in the image to be between (inclusive) 0 and 1.
+            </summary>
+            <param name="includeAlpha">Should the alpha channel be normalized.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.NormalizeIntensity(System.Boolean)">
+            <summary>
+            Normalize each pixels rgba values by intensity in the image to be between (inclusive) 0 and 1.
+            </summary>
+            <param name="includeAlpha">Should the alpha channel be normalized.</param>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Max(System.Single)">
             <summary>
             Make each value in image the larger of the two values.
@@ -231,9 +243,9 @@
             Access a element at index x,y.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.ColorImage2D.Item(Common.Core.Numerics.Point2i)">
+        <member name="P:ImageProcessing.Images.ColorImage2D.Item(System.Int32,System.Int32,System.Int32)">
             <summary>
-            Access a element at index x,y.
+            Access a element at index x,y and mipmap m.
             </summary>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.ToString">
@@ -277,6 +289,43 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The value at index x,y.</returns>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetValue(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetValue(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first index.</param>
+            <param name="v">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <returns>The pixel at index x,y.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the channel value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="c">The channel index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetValue(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+            <param name="value">The value.</param>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.GetPixel(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Get a pixel from the image at index x,y.
@@ -306,16 +355,6 @@
             <param name="blend">The mode pixels are blended based on there alpha value. 
             Only applies to images with a alpha channel.</param>
         </member>
-        <member name="M:ImageProcessing.Images.ColorImage2D.SetChannel(System.Int32,System.Int32,System.Int32,System.Single,ImageProcessing.Images.WRAP_MODE)">
-            <summary>
-            Set the channel value at index x,y.
-            </summary>
-            <param name="x">The first index.</param>
-            <param name="y">The second index.</param>
-            <param name="c">The channel index.</param>
-            <param name="mode">The wrap mode for indices outside image bounds.</param>
-            <param name="value">The value.</param>
-        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Copy">
             <summary>
             Return a copy of the image.
@@ -329,6 +368,16 @@
             <param name="i">The mipmap level.</param>
             <returns>The mipmap at index i.</returns>
             <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
+        </member>
+        <member name="P:ImageProcessing.Images.ColorImage2D.FirstMipmap">
+            <summary>
+            Get the first mipmap.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.ColorImage2D.LastMipmap">
+            <summary>
+            Get the last mipmap.
+            </summary>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.GetMipmapInterface(System.Int32)">
             <summary>
@@ -345,6 +394,18 @@
             <param name="mode">The wrap mode to use.</param>
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MinMaxRGBA(Common.Core.Colors.ColorRGBA@,Common.Core.Colors.ColorRGBA@)">
+            <summary>
+            The minimum and maximum values in the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MinMaxIntensity(System.Single@,System.Single@)">
+            <summary>
+            The minimum and maximum values in the image.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Sum">
             <summary>
@@ -657,9 +718,9 @@
             Access a element at index x,y.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.GreyScaleImage2D.Item(Common.Core.Numerics.Point2i)">
+        <member name="P:ImageProcessing.Images.GreyScaleImage2D.Item(System.Int32,System.Int32,System.Int32)">
             <summary>
-            Access a element at index x,y.
+            Access a element at index x,y and mipmap m.
             </summary>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.ToString">
@@ -863,6 +924,16 @@
             <returns>The mipmap at index i.</returns>
             <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
         </member>
+        <member name="P:ImageProcessing.Images.GreyScaleImage2D.FirstMipmap">
+            <summary>
+            Get the first mipmap.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.GreyScaleImage2D.LastMipmap">
+            <summary>
+            Get the last mipmap.
+            </summary>
+        </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.GetMipmapInterface(System.Int32)">
             <summary>
             Get the mipmap at index i.
@@ -973,7 +1044,7 @@
             <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMax">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMax(System.Single@,System.Single@)">
             <summary>
             The minimum and maximum values in the image.
             </summary>
@@ -1213,12 +1284,12 @@
             id the image if needed. May change at any point.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.Image2D`1.Item(System.Int32,System.Int32)">
+        <member name="P:ImageProcessing.Images.Image2D`1.Name">
             <summary>
-            Access a element at index x,y.
+            The images optional name.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.Image2D`1.Item(Common.Core.Numerics.Point2i)">
+        <member name="P:ImageProcessing.Images.Image2D`1.Item(System.Int32,System.Int32)">
             <summary>
             Access a element at index x,y.
             </summary>
@@ -1308,7 +1379,7 @@
             </summary>
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
-            <param name="c">The pixels channel index (0-2).</param>
+            <param name="c">The pixels channel index (0-3).</param>
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
@@ -1318,7 +1389,25 @@
             </summary>
             <param name="u">The first normalized (0-1) index.</param>
             <param name="v">The second normalized (0-1) index.</param>
-            <param name="c">The pixels channel index (0-2).</param>
+            <param name="c">The pixels channel index (0-3).</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetValue(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
+            <param name="mode">The wrap mode for indices outside image bounds</param>
+            <returns>The pixels channel at index x,y,c.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetValue(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Get a value from the image at normalized index u,v.
+            </summary>
+            <param name="u">The first normalized (0-1) index.</param>
+            <param name="v">The second normalized (0-1) index.</param>
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
@@ -1352,6 +1441,15 @@
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
             <param name="c">The pixels channel index (0-2).</param>
+            <param name="value">The pixels channel value.</param>
+            <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.SetValue(System.Int32,System.Int32,`0,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Set the value at index x,y.
+            </summary>
+            <param name="x">The first index.</param>
+            <param name="y">The second index.</param>
             <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
@@ -1419,13 +1517,14 @@
             Fill the array with the value.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(`0[0:,0:],System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(`0[0:,0:],System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             
             </summary>
             <param name="source"></param>
             <param name="x"></param>
             <param name="y"></param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.Fill(`0[])">
             <summary>
@@ -1433,48 +1532,69 @@
             </summary>
             <param name="source"></param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(ImageProcessing.Images.IImage2D,System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(ImageProcessing.Images.Image2D{`0},System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             
             </summary>
             <param name="source"></param>
             <param name="x"></param>
             <param name="y"></param>
+            <param name="image_wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="source_wrap">The wrap mode for indices outside source bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(ImageProcessing.Images.IImage2D,Common.Core.Shapes.Box2i)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(ImageProcessing.Images.Image2D{`0},Common.Core.Shapes.Box2i,ImageProcessing.Images.WRAP_MODE,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             
             </summary>
             <param name="source"></param>
             <param name="bounds"></param>
+            <param name="image_wrap">The wrap mode for indices outside image bounds.</param>
+            <param name="source_wrap">The wrap mode for indices outside source bounds.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.Fill(System.Func{System.Int32,System.Int32,`0})">
             <summary>
             Fill the array with the value from the function.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(System.Collections.Generic.IList{ImageProcessing.Pixels.PixelIndex2D{`0}})">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(System.Collections.Generic.IList{ImageProcessing.Pixels.PixelIndex2D{`0}},ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the image with the values at the provided indices.
             </summary>
             <param name="indices">The indices and value to fill.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(System.Collections.Generic.IList{Common.Core.Numerics.Point2i},`0)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(System.Collections.Generic.IList{Common.Core.Numerics.Point2i},`0,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the image with the value at the provided indices.
             </summary>
             <param name="indices">The indices to fill.</param>
             <param name="value">The value to fill.</param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.ParallelFill(System.Func{System.Int32,System.Int32,`0})">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(Common.Core.Shapes.Box2i,`0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+            <summary>
+            Fill the image with the value at the provided indices.
+            </summary>
+            <param name="bounds">The area to fill.</param>
+            <param name="value">The value to fill.</param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.ParallelFill(System.Func{System.Int32,System.Int32,`0},ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the array with the value from the function in parallel.
             </summary>
+            <param name="func"></param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.ParallelFill(System.Int32,System.Func{System.Int32,System.Int32,`0})">
+        <member name="M:ImageProcessing.Images.Image2D`1.ParallelFill(System.Int32,System.Func{System.Int32,System.Int32,`0},ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the array with the value from the function in parallel.
             </summary>
+            <param name="blockSize"></param>
+            <param name="func"></param>
+            <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.Modify(System.Func{`0,`0})">
             <summary>
@@ -2008,16 +2128,17 @@
             <param name="image">The image to rotate.</param>
             <returns>The rotated image.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Crop``1(``0,Common.Core.Shapes.Box2i,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Crop``1(``0,Common.Core.Shapes.Box2i,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Return a copy of the image cropped to the bounds.
             </summary>
             <param name="image">The image to crop.</param>
             <param name="bounds">The bounds to crop.</param>
+            <param name="overlap">The amount to overlap with the previous images.</param>
             <param name="mode">The wrap mode to use for pixels outside the bounds.</param>
             <returns>The cropped image.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Crop``1(``0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Crop``1(``0,System.Int32,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Cut a image into smaller images.
             </summary>
@@ -2025,6 +2146,7 @@
             <param name="image">The image to cut.</param>
             <param name="numX">The number of images to cut on the x axis.</param>
             <param name="numY">The number of images to cut on the y axis.</param>
+            <param name="overlap">The amount to overlap with the previous images.</param>
             <param name="mode">The wrap mode</param>
             <returns>A list of the new images.</returns>
         </member>
@@ -2134,11 +2256,6 @@
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.BinaryImage2D.Item(System.Int32,System.Int32)">
-            <summary>
-            Access a element at index x,y.
-            </summary>
-        </member>
-        <member name="P:ImageProcessing.Images.BinaryImage2D.Item(Common.Core.Numerics.Point2i)">
             <summary>
             Access a element at index x,y.
             </summary>
@@ -2263,6 +2380,16 @@
             <param name="i">The mipmap level.</param>
             <returns>The mipmap at index i.</returns>
             <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.FirstMipmap">
+            <summary>
+            Get the first mipmap.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.BinaryImage2D.LastMipmap">
+            <summary>
+            Get the last mipmap.
+            </summary>
         </member>
         <member name="M:ImageProcessing.Images.BinaryImage2D.GetMipmapInterface(System.Int32)">
             <summary>
@@ -2708,9 +2835,9 @@
             Access a element at index x,y.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.VectorImage2D.Item(Common.Core.Numerics.Point2i)">
+        <member name="P:ImageProcessing.Images.VectorImage2D.Item(System.Int32,System.Int32,System.Int32)">
             <summary>
-            Access a element at index x,y.
+            Access a element at index x,y and mipmap m.
             </summary>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.ToString">
@@ -2763,7 +2890,7 @@
             <param name="c">The channel index.</param>
             <param name="value">The value.</param>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.GetVector(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetValue(System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Get a vector from the image at index x,y.
             </summary>
@@ -2772,7 +2899,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The vector at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.GetVector(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetValue(System.Single,System.Single,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Get a vector from the image at normalized index u,v.
             </summary>
@@ -2781,7 +2908,7 @@
             <param name="mode">The wrap mode for indices outside image bounds.</param>
             <returns>The vector at index x,y.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.SetVector(System.Int32,System.Int32,Common.Core.Numerics.Vector2f,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetValue(System.Int32,System.Int32,Common.Core.Numerics.Vector2f,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Set the vector at index x,y.
             </summary>
@@ -2842,6 +2969,16 @@
             <param name="i">The mipmap level.</param>
             <returns>The mipmap at index i.</returns>
             <exception cref="T:System.IndexOutOfRangeException">If the index is out of bounds or if there are no mipmaps.</exception>
+        </member>
+        <member name="P:ImageProcessing.Images.VectorImage2D.FirstMipmap">
+            <summary>
+            Get the first mipmap.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.VectorImage2D.LastMipmap">
+            <summary>
+            Get the last mipmap.
+            </summary>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.GetMipmapInterface(System.Int32)">
             <summary>
@@ -2969,7 +3106,7 @@
             </summary>
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
-            <param name="c">The pixels channel index (0-2).</param>
+            <param name="c">The pixels channel index (0-3).</param>
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
@@ -2979,7 +3116,7 @@
             </summary>
             <param name="u">The first normalized (0-1) index.</param>
             <param name="v">The second normalized (0-1) index.</param>
-            <param name="c">The pixels channel index (0-2).</param>
+            <param name="c">The pixels channel index (0-3).</param>
             <param name="mode">The wrap mode for indices outside image bounds</param>
             <returns>The pixels channel at index x,y,c.</returns>
         </member>
@@ -3012,7 +3149,7 @@
             </summary>
             <param name="x">The first index.</param>
             <param name="y">The second index.</param>
-            <param name="c">The pixels channel index (0-2).</param>
+            <param name="c">The pixels channel index (0-3).</param>
             <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
         </member>
