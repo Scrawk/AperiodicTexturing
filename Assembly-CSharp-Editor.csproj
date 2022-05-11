@@ -61,6 +61,7 @@
     <Compile Include="Assets\Editor\CreateAperiodicTilesWindow.cs" />
     <Compile Include="Assets\Editor\CreateTileMappingWindow.cs" />
     <Compile Include="Assets\Editor\CreateTileablesWindow.cs" />
+    <Compile Include="Assets\Editor\AperiodicTilesEditorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

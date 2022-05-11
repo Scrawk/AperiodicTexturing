@@ -22,13 +22,13 @@ namespace AperiodicTexturing
     public static partial class ImageSynthesis
     {
 
-        public static void CreateWangTileImage(WangTileSet tileSet, IList<Tile> tileables, ExemplarSet exemplarSet, int sinkOffset, ThreadingToken token = null)
+        public static void CreateWangTileImage(WangTileSet tileSet, IList<Tile> tileables, ExemplarSet exemplarSet, ThreadingToken token = null)
         {
             var tiles = tileSet.ToFlattenedList();
 
             if (token != null)
             {
-                token.EnqueueMessage("Stage 1 of 2");
+                token.EnqueueMessage("Stage 1 of 1");
                 token.Steps = tiles.Count;
             }
                 
@@ -36,78 +36,111 @@ namespace AperiodicTexturing
 
             ThreadingBlock1D.ParallelAction(tiles.Count, blockSize, (i) =>
             {
-                CreateWangTileImageStage1(tiles[i], tileables);
-
-            }, token);
-
-            var exemplars = FindBestMatches(tileSet, exemplarSet);
-
-            if (token != null)
-            {
-                token.EnqueueMessage("Stage 2 of 2");
-                token.ResetProgress();
-            }
-
-            ThreadingBlock1D.ParallelAction(tiles.Count, blockSize, (i) =>
-            {
-                var tile = tiles[i];
-                int index = tile.Index1;
-                var exemplar = exemplars[index];
-                CreateWangTileImageStage2(tile, exemplar.Tile, sinkOffset);
+                CreateWangTileImageStage1(tiles[i], tileables, exemplarSet);
 
             }, token);
 
         }
 
-        private static void CreateWangTileImageStage1(WangTile tile, IList<Tile> tileables)
+        private static void CreateWangTileImageStage1(WangTile wtile, IList<Tile> tileables, ExemplarSet set)
         {
-            
-            var colors = GetSortedColors(tile);
-            var search = new GridFlowSearch(tile.Width, tile.Height);
+            var colors = GetSortedColors(wtile);
+            var rng = new System.Random(0);
 
             for (int i = 0; i < colors.Count; i++)
             {
                 if(i == 0)
                 {
                     int color = colors[i];
-                    tile.Fill(tileables[color].Images);
+                    wtile.Fill(tileables[color].Images);
                 }
                 else
                 {
-                    search.Clear();
                     int color = colors[i];
-                    var tileable = tileables[color];
+                    var tile = wtile.Tile;
 
-                    var map = CreateMap(tile);
+                    var map = CreateMap(wtile);
                     var mask = CreateMask(map, color, 3);
 
-                    var graph = CreateGraph(tile.Tile.Image, tileable.Image, mask, true);
+                    FillFromMap(map, tile.Image, tileables);
 
-                    MarkSourceAndSink(graph, color, map, mask);
+                    var points = GetMaskedPoints_WANG(mask);
+                    points.Shuffle(rng);
 
-                    graph.Calculate(search);
-                    BlendImages(graph, tile.Tile, tileable, null);
+                    FillWithRandom_WANG(0, points, tile.Image, set, rng);
 
-                    BlurGraphCutSeams(tile.Tile.Image, graph, 2, 0.75f);
+                    FillPatches_WANG(points, set, mask, tile.Image);
+
+                    //tile.Image.SaveAsRaw(DEUB_FOLDER + "tile" + wtile.Index1);
+                    //map.SaveAsRaw(DEUB_FOLDER + "map" + wtile.Index1);
+                    //mask.SaveAsRaw(DEUB_FOLDER + "mask" + wtile.Index1)
+
                 }
             }
 
         }
 
-        private static void CreateWangTileImageStage2(WangTile tile, Tile match, int sinkOffset)
+        private static List<Point2i> GetMaskedPoints_WANG(BinaryImage2D mask)
         {
-            int width = tile.Width;
-            int height = tile.Height;
-            int sourceOffset = 2;
+            var points = new List<Point2i>();
+            mask.Iterate((x, y) =>
+            {
+                if (mask[x, y])
+                {
+                    points.Add(new Point2i(x, y));
+                }
+            });
 
-            var sinkBounds = new Box2i(sinkOffset, sinkOffset, width - 1 - sinkOffset, height - 1 - sinkOffset);
+            return points;
+        }
 
-            var graph = CreateGraph(tile.Tile.Image, match.Image, null, true);
-            MarkSourceAndSink(graph, sourceOffset, sinkBounds);
+        private static void FillWithRandom_WANG(int index, List<Point2i> points, ColorImage2D image, ExemplarSet set, System.Random rng)
+        {
+            foreach (var p in points)
+            {
+                var pixel = set.GetRandomSourcePixel(index, rng);
+                image[p.x, p.y] = pixel;
+            }
 
-            graph.Calculate();
-            var blend = CreateMaskFromGraph(graph, 5, 0.75f);
-            BlendImages(graph, tile.Tile.Image, match.Image, blend);
+        }
+
+        private static void FillPatches_WANG(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
+        {
+            int exemplarSize = set.ExemplarSize;
+            int halfExemplarSize = exemplarSize / 2;
+            int quaterExemplarSize = exemplarSize / 4;
+
+            foreach (var p in points)
+            {
+                int x = p.x;
+                int y = p.y;
+
+                if (x < quaterExemplarSize || x > image.Width - quaterExemplarSize - 1)
+                    continue;
+
+                if (y < quaterExemplarSize || y > image.Height - quaterExemplarSize - 1)
+                    continue;
+
+                if (!mask[x, y]) continue;
+
+                var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
+                var crop = ColorImage2D.Crop(image, box, 0, WRAP_MODE.WRAP);
+
+                var match = FindBestMatch_TEST(crop, set, mask);
+
+                var graph = PerformGraphCut_TEST(crop, match, halfExemplarSize);
+
+                var blendMask = CreateMaskFromGraph_TEST(graph, 2, 0.5f);
+
+                var blendedImage = BlendImages_TEST(graph, crop, match, blendMask);
+
+                var m = blendMask.ToBinaryImage();
+                m.Invert();
+
+                image.Fill(blendedImage, box, WRAP_MODE.WRAP);
+                mask.Fill(box, m, false, WRAP_MODE.WRAP);
+
+            };
         }
 
         private static List<int> GetSortedColors(WangTile tile)
@@ -123,22 +156,6 @@ namespace AperiodicTexturing
             colors.Sort();
 
             return colors;
-        }
-
-        private static Exemplar[] FindBestMatches(WangTileSet tileSet, ExemplarSet set)
-        {
-            var exemplars = new Exemplar[tileSet.NumTiles];
-
-            foreach(var wtile in tileSet.Tiles)
-            {
-                Exemplar exemplar = FindBestMatch(wtile.Tile, set, null);
-                exemplar.IncrementUsed();
-
-                var index = wtile.Index1;
-                exemplars[index] = exemplar;
-            }
-
-            return exemplars;
         }
 
         private static GreyScaleImage2D CreateMap(WangTile tile)
@@ -166,6 +183,15 @@ namespace AperiodicTexturing
             }
 
             return map;
+        }
+
+        private static void FillFromMap(GreyScaleImage2D map, ColorImage2D image, IList<Tile> tileables)
+        {
+            image.Fill((x, y) =>
+            {
+                int index = (int)map[x, y];
+                return tileables[index].Image[x, y];
+            });
         }
 
         private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color, int thickness)
@@ -203,35 +229,6 @@ namespace AperiodicTexturing
             }
 
             return mask;
-        }
-
-        private static void MarkSourceAndSink(GridFlowGraph graph, int color, GreyScaleImage2D map, BinaryImage2D mask)
-        {
-            graph.Iterate((x, y) =>
-            {
-                if (mask[x, y]) return;
-
-                if (map[x, y] == color)
-                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SINK, 255);
-                else
-                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
-            });
-        }
-
-        private static void BlurGraphCutSeams(WangTile tile, GridFlowGraph graph, float strength)
-        {
-            var image = tile.Tile.Image;
-            int width = image.Width;
-            int height = image.Height;
-            var binary = new BinaryImage2D(width, height);
-
-            var points = graph.FindBoundaryPoints(true, true);
-            binary.Fill(points, true);
-            binary = BinaryImage2D.Dilate(binary, 2);
-
-            var mask = binary.ToGreyScaleImage();
-            var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
-            image.Fill(blurred);
         }
 
     }

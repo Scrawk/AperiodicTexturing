@@ -214,6 +214,20 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// Get a random pixel from the source image.
+        /// </summary>
+        /// <param name="i">The source images index.</param>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns></returns>
+        public ColorRGBA GetRandomSourcePixel(int i, System.Random rnd)
+        {
+            int x = rnd.Next(0, Sources[i].Width);
+            int y = rnd.Next(0, Sources[i].Height);
+
+            return Sources[i][x, y];
+        }
+
+        /// <summary>
         /// Get a list of random exemplars.
         /// </summary>
         /// <param name="count">The number of exemplars to get. 

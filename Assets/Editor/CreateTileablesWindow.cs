@@ -28,7 +28,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The number of tiles to be created.
         /// </summary>
-        private static int m_numTiles = 1;
+        private static int m_numTiles = 2;
 
         /// <summary>
         /// THe tiles size.
@@ -36,7 +36,7 @@ namespace AperiodicTexturing
         private static int m_tileSize = 256;
 
         /// <summary>
-        /// 
+        /// The size of the exemplats used when filling patches.
         /// </summary>
         private static int m_exemplarSize = 16;
 
@@ -141,9 +141,9 @@ namespace AperiodicTexturing
             {
                 if(Validate())
                 {
-                    CreateImages();
-                    CreateTiles();
-                    CreateExemplarSet();
+                    m_images = AperiodicTilesEditorUtility.CreateImages(m_source);
+                    m_tiles = AperiodicTilesEditorUtility.CreateTilesByRandomSampling(m_images, m_sourceIsTileable, m_tileSize, m_numTiles, m_seed);
+
                     ResetBeforeRunning();
                     Run();
                 }
@@ -356,10 +356,10 @@ namespace AperiodicTexturing
                     m_token.StartTimer();
 
                     //Create the exemplar set used to patch the tiles.
-                    var set = CreateExemplarSet();
+                    var set = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
 
                     //Make the tiles tileable.
-                    m_tileables = ImageSynthesis.CreateTileableImages_TEST(m_tiles, set, m_token);
+                    m_tileables = ImageSynthesis.CreateTileableImages(m_tiles, set, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -381,7 +381,7 @@ namespace AperiodicTexturing
                 }
                 else
                 {
-                    SaveTiles();
+                    AperiodicTilesEditorUtility.SaveTiles(m_tileables, m_folderName, m_fileNames);
                 }
 
                 m_isRunning = false;
@@ -389,34 +389,6 @@ namespace AperiodicTexturing
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SaveTiles()
-        {
-            string folderName = Application.dataPath + "/" + m_folderName;
-
-            for (int i = 0; i < m_tileables.Length; i++)
-            {
-                var tile = m_tileables[i];
-
-                for (int j = 0; j < tile.Count; j++)
-                {
-                    var tex = ToTexture(tile.Images[j]);
-                    var id = i.ToString() + j.ToString();
-
-                    string fileName = folderName + "/" + m_fileNames[j] + id + ".png";
-
-                    System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
-
-                    Debug.Log("Saved texture " + fileName);
-                }
-
-            }
-
-            AssetDatabase.Refresh();
         }
 
         /// <summary>
@@ -430,100 +402,6 @@ namespace AperiodicTexturing
             m_token = new ThreadingToken();
             m_token.UseThreading = m_useThreading;
             m_token.TimePeriodFormat = TIME_PERIOD.SECONDS;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private ExemplarSet CreateExemplarSet()
-        {
-            //Create the exemplars from the images.
-            var set = new ExemplarSet(m_images, m_sourceIsTileable, m_exemplarSize);
-
-            //Create the required number of tiles by cropping source  image.
-            set.CreateExemplarsFromCrop();
-
-            //Create the variants from the exempars in the set.
-            set.CreateVariants(m_varients);
-
-            return set;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void CreateTiles()
-        {
-            var set = new ExemplarSet(m_images, m_sourceIsTileable, m_tileSize);
-
-            set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.1f);
-            m_tiles = set.GetRandomTiles(m_numTiles, m_seed);
-
-            //Name the images (for debugging).
-            for (int i = 0; i < m_tiles.Count; i++)
-            {
-                var tile = m_tiles[i];
-
-                for (int j = 0; j < tile.Images.Count; j++)
-                {
-                    tile.Images[j].Name = $"Tile{i}_Image{j}";
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private void CreateImages()
-        {
-            m_images = new List<ColorImage2D>();
-            for (int i = 0; i < m_source.Length; i++)
-            {
-                if (m_source[i] == null) continue;
-                m_images.Add(ToImage(m_source[i]));
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tex"></param>
-        /// <returns></returns>
-        private ColorImage2D ToImage(Texture2D tex)
-        {
-            var image = new ColorImage2D(tex.width, tex.height);
-
-            image.Fill((x, y) =>
-            {
-                return tex.GetPixel(x, y).ToColorRGBA();
-            });
-
-            image.Name = tex.name;
-
-            return image;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        private Texture2D ToTexture(ColorImage2D image)
-        {
-            var tex = new Texture2D(image.Width, image.Height, TextureFormat.ARGB32, false);
-
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    tex.SetPixel(x, y, image[x, y].ToColor());
-                }
-            }
-
-            tex.Apply();
-
-            return tex;
         }
 
     }

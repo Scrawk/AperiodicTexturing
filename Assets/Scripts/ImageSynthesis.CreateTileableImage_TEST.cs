@@ -16,7 +16,7 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
-        public static Tile[] CreateTileableImages_TEST(IList<Tile> tiles, ExemplarSet set, ThreadingToken token = null)
+        public static Tile[] CreateTileableImages(IList<Tile> tiles, ExemplarSet set, ThreadingToken token = null)
         {
             //For each tiles a new tileable tile will be created.
             int count = tiles.Count;
@@ -26,20 +26,20 @@ namespace AperiodicTexturing
             // Each step represents a tile being created on its own thread.
             if (token != null)
             {
-                token.EnqueueMessage("Stage 1 of 3");
+                token.EnqueueMessage("Stage 1 of 1");
                 token.Steps = count;
             }
 
             //For each tile run a run stage 1 on its own thread.
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
-                tileables[i] = CreateTileableImageStage1_TEST(tiles[i], set);
+                tileables[i] = CreateTileableImage(tiles[i], set);
             }, token);
 
             return tileables;
         }
 
-        private static Tile CreateTileableImageStage1_TEST(Tile tile, ExemplarSet set)
+        private static Tile CreateTileableImage(Tile tile, ExemplarSet set)
         {
             int width = tile.Width;
             int height = tile.Height;
@@ -57,27 +57,46 @@ namespace AperiodicTexturing
 
             //Create a mask that covers the seem in the tile.
             //This is the area that will be blurred.
-            var mask = CreateOffsetSeamsMask(width, height, horzontal, vertical, thickness);
+            var mask = CreateOffsetSeamsMask_TEST(width, height, horzontal, vertical, thickness);
 
-            var rnd = new System.Random(0);
+            var rng = new System.Random(0);
 
+            var points = GetMaskedPoints_TEST(mask);
+            points.Shuffle(rng);
+
+            FillWithRandom_TEST(0, points, tileable.Image, set, rng);
+
+            FillPatches_TEST(points, set, mask, tileable.Image);
+
+            return tileable;
+        }
+
+        private static List<Point2i> GetMaskedPoints_TEST(BinaryImage2D mask)
+        {
             var points = new List<Point2i>();
-            tileable.Image.Iterate((x, y) =>
+            mask.Iterate((x, y) =>
             {
                 if (mask[x, y])
                 {
                     points.Add(new Point2i(x, y));
-
-                    int i = rnd.Next(0, width);
-                    int j = rnd.Next(0, height);
-
-                    var pixel = tileable.Image[i, j];
-                    tileable.Image[x, y] = ColorRGBA.Black;
                 }
             });
 
-            points.Shuffle(rnd);
+            return points;
+        }
 
+        private static void FillWithRandom_TEST(int index, List<Point2i> points, ColorImage2D image, ExemplarSet set, System.Random rng)
+        {
+            foreach(var p in points)
+            {
+                var pixel = set.GetRandomSourcePixel(index, rng);
+                image[p.x, p.y] = pixel;
+            }
+
+        }
+
+        private static void FillPatches_TEST(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
+        {
             int exemplarSize = set.ExemplarSize;
             int halfExemplarSize = set.ExemplarSize / 2;
 
@@ -89,13 +108,11 @@ namespace AperiodicTexturing
                 if (!mask[x, y]) continue;
 
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
-                var crop = ColorImage2D.Crop(tileable.Image, box, 0, WRAP_MODE.WRAP);
+                var crop = ColorImage2D.Crop(image, box, 0, WRAP_MODE.WRAP);
 
                 var match = FindBestMatch_TEST(crop, set, mask);
 
-                var graph = CreateGraph(crop, match, null, false);
-                MarkSourceAndSink(graph, 2, halfExemplarSize - 4);
-                graph.Calculate();
+                var graph = PerformGraphCut_TEST(crop, match, halfExemplarSize);
 
                 var blendMask = CreateMaskFromGraph_TEST(graph, 2, 0.5f);
 
@@ -104,15 +121,24 @@ namespace AperiodicTexturing
                 var m = blendMask.ToBinaryImage();
                 m.Invert();
 
-                tileable.Image.Fill(blendedImage, box, WRAP_MODE.WRAP);
+                image.Fill(blendedImage, box, WRAP_MODE.WRAP);
                 mask.Fill(box, m, false, WRAP_MODE.WRAP);
 
             };
-
-            return tileable;
         }
 
-        private static BinaryImage2D CreateOffsetSeamsMask(int width, int height, Segment2f horzontal, Segment2f vertical, int thickness)
+        private static GridFlowGraph PerformGraphCut_TEST(ColorImage2D image, ColorImage2D match, int sinkOffset)
+        {
+            var graph = CreateGraph(image, match, null, false);
+            MarkSourceAndSink(graph, 2, sinkOffset - 4);
+            graph.Calculate();
+
+            //CreateImageFromGraph(graph, ColorRGBA.Red, ColorRGBA.Green).SaveAsRaw(DEUB_FOLDER + "graph");
+
+            return graph;
+        }
+
+        private static BinaryImage2D CreateOffsetSeamsMask_TEST(int width, int height, Segment2f horzontal, Segment2f vertical, int thickness)
         {
             var binary = new BinaryImage2D(width, height);
 
