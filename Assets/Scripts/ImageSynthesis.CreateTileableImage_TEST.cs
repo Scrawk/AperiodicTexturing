@@ -16,7 +16,7 @@ namespace AperiodicTexturing
 {
     public static partial class ImageSynthesis
     {
-        public static Tile[] CreateTileableImages_TEST(IList<Tile> tiles, ExemplarSet set, int sinkOffset, ThreadingToken token = null)
+        public static Tile[] CreateTileableImages_TEST(IList<Tile> tiles, ExemplarSet set, ThreadingToken token = null)
         {
             //For each tiles a new tileable tile will be created.
             int count = tiles.Count;
@@ -45,7 +45,7 @@ namespace AperiodicTexturing
             int height = tile.Height;
             int xoffset = width / 2;
             int yoffset = height / 2;
-            int thickness = 5;
+            int thickness = 10;
 
             //Copy the tile and offset
             var tileable = tile.Copy();
@@ -59,7 +59,7 @@ namespace AperiodicTexturing
             //This is the area that will be blurred.
             var mask = CreateOffsetSeamsMask(width, height, horzontal, vertical, thickness);
 
-            mask.SaveAsRaw(DEUB_FOLDER + tile.Image.Name + "_mask");
+            var rnd = new System.Random(0);
 
             var points = new List<Point2i>();
             tileable.Image.Iterate((x, y) =>
@@ -67,12 +67,17 @@ namespace AperiodicTexturing
                 if (mask[x, y])
                 {
                     points.Add(new Point2i(x, y));
+
+                    int i = rnd.Next(0, width);
+                    int j = rnd.Next(0, height);
+
+                    var pixel = tileable.Image[i, j];
+                    tileable.Image[x, y] = ColorRGBA.Black;
                 }
             });
 
-            points.Shuffle(0);
+            points.Shuffle(rnd);
 
-            int count = 0;
             int exemplarSize = set.ExemplarSize;
             int halfExemplarSize = set.ExemplarSize / 2;
 
@@ -85,33 +90,24 @@ namespace AperiodicTexturing
 
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
                 var crop = ColorImage2D.Crop(tileable.Image, box, 0, WRAP_MODE.WRAP);
-                crop.CreateMipmaps();
-
-                //crop.SaveAsRaw(DEUB_FOLDER + "Crop" + count);
 
                 var match = FindBestMatch_TEST(crop, set, mask);
-
-                //match.SaveAsRaw(DEUB_FOLDER + "Match" + count);
 
                 var graph = CreateGraph(crop, match, null, false);
                 MarkSourceAndSink(graph, 2, halfExemplarSize - 4);
                 graph.Calculate();
 
-                //CreateImageFromGraph(graph, ColorRGBA.Red, ColorRGBA.Green).SaveAsRaw(DEUB_FOLDER + "Graph" + count);
-
                 var blendMask = CreateMaskFromGraph_TEST(graph, 2, 0.5f);
-
-                //blendMask.SaveAsRaw(DEUB_FOLDER + "BlendMask" + count);
 
                 var blendedImage = BlendImages_TEST(graph, crop, match, blendMask);
 
+                var m = blendMask.ToBinaryImage();
+                m.Invert();
+
                 tileable.Image.Fill(blendedImage, box, WRAP_MODE.WRAP);
-                mask.Fill(box, false, 0, 0, WRAP_MODE.WRAP);
+                mask.Fill(box, m, false, WRAP_MODE.WRAP);
 
-                count++;
             };
-
-            tileable.Image.SaveAsRaw(DEUB_FOLDER + tile.Image.Name);
 
             return tileable;
         }
@@ -191,33 +187,16 @@ namespace AperiodicTexturing
 
         private static ColorImage2D FindBestMatch_TEST(ColorImage2D image, ExemplarSet set, BinaryImage2D mask)
         {
-            /*
+
             var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
-            var tiles_pixel = image.LastMipmap.GetPixel(0, 0);
 
-            for (int e = 0; e < set.ExemplarCount; e++)
+            for (int e = 0; e < costs.Length; e++)
             {
-                var exemplar = set[e];
-                var exemplar_image = exemplar.Tile.Image;
-                var exemplars_pixel = exemplar_image.LastMipmap[0, 0];
-
-                float cost = ColorRGBA.SqrDistance(exemplars_pixel, tiles_pixel);
-                costs[e] = new Tuple<float, Exemplar>(cost, exemplar);
-            }
-
-            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
-            */
-
-            var trimmed_costs = new Tuple<float, Exemplar>[set.ExemplarCount];
-
-            for (int e = 0; e < trimmed_costs.Length; e++)
-            {
-                //var exemplar = costs[e].Item2;
                 var exemplar = set[e];
 
                 if (exemplar == null)
                 {
-                    trimmed_costs[e] = new Tuple<float, Exemplar>(float.PositiveInfinity, null);
+                    costs[e] = new Tuple<float, Exemplar>(float.PositiveInfinity, null);
                     continue;
                 }
 
@@ -241,23 +220,23 @@ namespace AperiodicTexturing
                 else
                     cost = float.PositiveInfinity;
 
-                trimmed_costs[e] = new Tuple<float, Exemplar>(cost, exemplar);
+                costs[e] = new Tuple<float, Exemplar>(cost, exemplar);
             }
 
-            Array.Sort(trimmed_costs, (x, y) => x.Item1.CompareTo(y.Item1));
+            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
 
             Exemplar bestMatch = null;
             float bestCost = float.PositiveInfinity;
 
-            for (int i = 0; i < trimmed_costs.Length; i++)
+            for (int i = 0; i < costs.Length; i++)
             {
-                if (trimmed_costs[i].Item1 == float.PositiveInfinity) continue;
-                if (trimmed_costs[i].Item2 == null) continue;
+                if (costs[i].Item1 == float.PositiveInfinity) continue;
+                if (costs[i].Item2 == null) continue;
 
-                if (trimmed_costs[i].Item1 < bestCost)
+                if (costs[i].Item1 < bestCost)
                 {
-                    bestCost = trimmed_costs[i].Item1;
-                    bestMatch = trimmed_costs[i].Item2;
+                    bestCost = costs[i].Item1;
+                    bestMatch = costs[i].Item2;
                 }
             }
 
@@ -266,88 +245,6 @@ namespace AperiodicTexturing
             else
                 return bestMatch.Tile.Image;
         }
-
-        /*
-        private static Exemplar FindBestMatch_TEST(int x, int y, Tile tile, ExemplarSet set, BinaryImage2D mask)
-        {
-            var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
-            var tiles_pixel = tile.Image.GetPixel(x, y, WRAP_MODE.WRAP);
-
-            for (int e = 0; e < set.ExemplarCount; e++)
-            {
-                var exemplar = set[e];
-
-                int m = exemplar.Tile.Image.MipmapLevels - 1;
-                var exemplars_pixel = exemplar.Tile.Image[0,0, m];
-                
-                float cost = ColorRGBA.SqrDistance(exemplars_pixel, tiles_pixel);
-                costs[e] = new Tuple<float, Exemplar>(cost, exemplar);
-            }
-
-            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
-
-            var trimmed_costs = new Tuple<float, Exemplar>[Math.Min(100, costs.Length)];
-
-            for (int e = 0; e < trimmed_costs.Length; e++)
-            {
-                var exemplar = costs[e].Item2;
-                if (exemplar == null)
-                {
-                    trimmed_costs[e] = new Tuple<float, Exemplar>(float.PositiveInfinity, null);
-                    continue;
-                }
-
-                float cost = 0;
-                int count = 0;
-
-                int half_width = exemplar.Width / 2;
-                int half_height = exemplar.Height / 2;
-
-                for (int j = 0; j < exemplar.Height; j++)
-                {
-                    for (int i = 0; i < exemplar.Width; i++)
-                    {
-                        int xi = x + i - half_width;
-                        int yj = y + j - half_height;
-
-                        if (mask != null && !mask.GetValue(xi, yj, WRAP_MODE.WRAP)) continue;
-
-                        var exemplars_pixel = exemplar.Tile.Image[i, j];
-                        tiles_pixel = tile.Image.GetPixel(xi, yj, WRAP_MODE.WRAP);
-
-                        count++;
-                        cost += ColorRGBA.SqrDistance(exemplars_pixel, tiles_pixel);
-                    }
-                }
-
-                if (count != 0)
-                    cost = cost / count;
-                else
-                    cost = float.PositiveInfinity;
-
-                trimmed_costs[e] = new Tuple<float, Exemplar>(cost, exemplar);
-            }
-
-            Array.Sort(trimmed_costs, (x, y) => x.Item1.CompareTo(y.Item1));
-
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
-
-            for (int i = 0; i < trimmed_costs.Length; i++)
-            {
-                if (trimmed_costs[i].Item1 == float.PositiveInfinity) continue;
-                if (trimmed_costs[i].Item2 == null) continue;
-
-                if (trimmed_costs[i].Item1 < bestCost)
-                {
-                    bestCost = trimmed_costs[i].Item1;
-                    bestMatch = trimmed_costs[i].Item2;
-                }
-            }
-
-            return bestMatch;
-        }
-        */
 
     }
 

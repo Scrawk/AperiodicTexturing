@@ -9332,6 +9332,16 @@
             A base class for generating a random number.
             </summary>
         </member>
+        <member name="F:Common.Core.RandomNum.RandomGenerator.INV_MAX">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Common.Core.RandomNum.RandomGenerator.m_useLast">
+            <summary>
+            Used by NextGaussian.
+            </summary>
+        </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.#ctor">
             <summary>
             Create a random number with a randow seed.
@@ -9374,21 +9384,178 @@
             <summary>
             A random int greater than or equal to 0 and less than max.
             </summary>
+            <param name="max"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.Next(System.Int32,System.Int32)">
             <summary>
             A random int greater than or equal to min and less than max.
             </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.NextDouble(System.Double,System.Double)">
             <summary>
             A random double greater than or equal to min and less than max.
             </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.NextDouble">
             <summary>
             A random double greater than or equal to 0 and less than 1.
             </summary>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextFloat(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextFloat">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextBool">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextVector2f(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextVector2d(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextVector3f(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextVector3d(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint2f(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint2f(Common.Core.Shapes.IShape2f)">
+            <summary>
+            
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint2d(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint2d(Common.Core.Shapes.IShape2d)">
+            <summary>
+            
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint3f(System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint3f(Common.Core.Shapes.IShape3f)">
+            <summary>
+            
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint3d(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoint3d(Common.Core.Shapes.IShape3d)">
+            <summary>
+            
+            </summary>
+            <param name="shape"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextColorRGB">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextColorRGBA">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextColorHSV">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextGaussian(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="mean"></param>
+            <param name="sigma"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoisson(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="lambda"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.SystemRandom.ToString">
             <summary>
@@ -9919,10 +10086,11 @@
             <param name="width">The width of the perimeter.</param>
             <returns></returns>
         </member>
-        <member name="M:Common.Core.Shapes.Box2i.EnumerateBounds">
+        <member name="M:Common.Core.Shapes.Box2i.EnumerateBounds(System.Boolean)">
             <summary>
             Enumerate each point in the box.
             </summary>
+            <param name="inclusive">Should the max values be included.</param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.Shapes.Box2i.Equals(System.Object)">

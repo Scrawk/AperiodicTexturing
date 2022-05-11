@@ -36,23 +36,9 @@ namespace AperiodicTexturing
         private static int m_tileSize = 256;
 
         /// <summary>
-        /// The area around the tiles border that
-        /// can be blended with another tile.
-        /// Has a big effect on how fast the algorithm will.
+        /// 
         /// </summary>
-        private static int m_blendArea = 16;
-
-        /// <summary>
-        /// Number of times to sample the source 
-        /// image when creating the exemplar set.
-        /// </summary>
-        private static int m_samples = 100;
-
-        /// <summary>
-        /// The weights used for each source image and are 
-        /// used to adjust its contribution when comparing tiles.
-        /// </summary>
-        private static float[] m_weights;
+        private static int m_exemplarSize = 16;
 
         /// <summary>
         /// The seed used for the random generator.
@@ -104,11 +90,6 @@ namespace AperiodicTexturing
         /// </summary>
         private Tile[] m_tileables;
 
-        /// <summary>
-        /// The exemplar set the tiles are created from.
-        /// </summary>
-        private ExemplarSet m_set;
-
         private bool m_isRunning;
 
         private Exception m_exception;
@@ -147,10 +128,6 @@ namespace AperiodicTexturing
             EditorGUILayout.Space();
 
             DrawFileNames();
-
-            EditorGUILayout.Space();
-
-            DrawWeights();
 
             EditorGUILayout.Space();
             EditorGUILayout.BeginHorizontal();
@@ -234,8 +211,7 @@ namespace AperiodicTexturing
         {
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
-            m_blendArea = Mathf.Clamp(EditorGUILayout.IntField("Blend area", m_blendArea), 8, 32);
-            m_samples = Mathf.Max(EditorGUILayout.IntField("Samples", m_samples), 4);
+            m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar Size", m_exemplarSize), 16, 32);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
             m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
@@ -271,23 +247,6 @@ namespace AperiodicTexturing
 
             for (int i = 0; i < 4; i++)
                 m_fileNames[i] = EditorGUILayout.TextField("File name " + i, m_fileNames[i]);
-        }
-
-        /// <summary>
-        /// Draw the weights that will be assigned to each tile.
-        /// </summary>
-        private void DrawWeights()
-        {
-            if (m_weights == null)
-            {
-                m_weights = new float[]
-                {
-                    1, 0, 0, 0
-                };
-            }
-                
-            for (int i = 0; i < m_weights.Length; i++)
-                m_weights[i] = Math.Max(0, EditorGUILayout.FloatField("Weights", m_weights[i]));
         }
 
         /// <summary>
@@ -369,18 +328,6 @@ namespace AperiodicTexturing
 
             }
 
-            //Check that the weights are not all 0.
-
-            float sum = 0;
-            foreach (var w in m_weights)
-                sum += w;
-
-            if(sum == 0)
-            {
-                Debug.Log("At least one tile must have a weight greater than 0.");
-                return false;
-            }
-
             //Check that the output foldere exists.
 
             string folderName = Application.dataPath + "/" + m_folderName;
@@ -408,8 +355,11 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
 
+                    //Create the exemplar set used to patch the tiles.
+                    var set = CreateExemplarSet();
+
                     //Make the tiles tileable.
-                    m_tileables = ImageSynthesis.CreateTileableImages_TEST(m_tiles, m_set, m_blendArea, m_token);
+                    m_tileables = ImageSynthesis.CreateTileableImages_TEST(m_tiles, set, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -485,29 +435,23 @@ namespace AperiodicTexturing
         /// <summary>
         /// 
         /// </summary>
-        private void CreateExemplarSet()
+        private ExemplarSet CreateExemplarSet()
         {
             //Create the exemplars from the images.
-            m_set = new ExemplarSet(m_images, m_sourceIsTileable, 16);
+            var set = new ExemplarSet(m_images, m_sourceIsTileable, m_exemplarSize);
 
-            //Create the required number of tiles needed by randomly sampling frm the exemplar.
-            //m_set.CreateExemplarsFromRandom(m_samples, m_seed, 0.25f);
-            m_set.CreateExemplarsFromCrop();
-            m_set.CreateMipmaps();
+            //Create the required number of tiles by cropping source  image.
+            set.CreateExemplarsFromCrop();
 
             //Create the variants from the exempars in the set.
-            //m_set.CreateVariants(m_varients);
+            set.CreateVariants(m_varients);
 
-            //Check if the required number of tiles have been created.
-            //if (m_set.Count < m_numTiles)
-            //{
-            //    Debug.Log("Failed to find the required number of tiles in sources texture. Use a larger source texture or a smaller tile size.");
-            //    return;
-            //}
-
-            Debug.Log("m_set " + m_set);
+            return set;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateTiles()
         {
             var set = new ExemplarSet(m_images, m_sourceIsTileable, m_tileSize);
@@ -515,19 +459,16 @@ namespace AperiodicTexturing
             set.CreateExemplarsFromRandom(m_numTiles, m_seed, 0.1f);
             m_tiles = set.GetRandomTiles(m_numTiles, m_seed);
 
-            //Assign the weights to the tiles and name the images (for debugging).
+            //Name the images (for debugging).
             for (int i = 0; i < m_tiles.Count; i++)
             {
                 var tile = m_tiles[i];
-                tile.SetWeights(m_weights);
 
                 for (int j = 0; j < tile.Images.Count; j++)
                 {
                     tile.Images[j].Name = $"Tile{i}_Image{j}";
                 }
             }
-
-            Debug.Log("set " + set);
         }
 
         /// <summary>

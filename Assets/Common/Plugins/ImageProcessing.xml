@@ -546,6 +546,25 @@
             Inverts the values in the image.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Sqrt(System.Boolean)">
+            <summary>
+            Take the sqrt of each value in the image
+            with the option of taking the abs value first.
+            </summary>
+            <param name="abs">Should the value be made abs first.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Log(System.Boolean)">
+            <summary>
+            Take the log of each value in the image
+            with the option of taking the abs value first.
+            </summary>
+            <param name="abs">Should the value be made abs first.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Abs">
+            <summary>
+            Apply th abs fuction to each value in the image.
+            </summary>
+        </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.Add(System.Single)">
             <summary>
             Add the values in the image.
@@ -1193,50 +1212,6 @@
             <param name="min">The min value found.</param>
             <param name="max">The max value found.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
-            <summary>
-            Create a image filled with randow values.
-            </summary>
-            <typeparam name="IMAGE">The images generic type</typeparam>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
-            <param name="seed">The random generators seed.</param>
-            <param name="min">The min value generated.</param>
-            <param name="max">The max value generated.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Random``1(System.Int32,System.Int32,System.Random,System.Single,System.Single)">
-            <summary>
-            Create a image filled with randow values.
-            </summary>
-            <typeparam name="IMAGE">The images generic type</typeparam>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
-            <param name="rnd">The random generator.</param>
-            <param name="min">The min value generated.</param>
-            <param name="max">The max value generated.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,System.Single)">
-            <summary>
-            Create a image filled with a single value.
-            </summary>
-            <typeparam name="IMAGE">The images generic type</typeparam>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
-            <param name="value">The constant value.</param>
-            <returns>The new image.</returns>
-        </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Const``1(System.Int32,System.Int32,Common.Core.Colors.ColorRGBA)">
-            <summary>
-            Create a image filled with a single value.
-            </summary>
-            <typeparam name="IMAGE">The images generic type</typeparam>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
-            <param name="value">The constant value.</param>
-            <returns>The new image.</returns>
-        </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Count">
             <summary>
             The number of elements in the array.
@@ -1571,14 +1546,13 @@
             <param name="value">The value to fill.</param>
             <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(Common.Core.Shapes.Box2i,`0,System.Int32,System.Int32,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(Common.Core.Shapes.Box2i,ImageProcessing.Images.BinaryImage2D,`0,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the image with the value at the provided indices.
             </summary>
             <param name="bounds">The area to fill.</param>
+            <param name="mask">A area in the bounds to not fill if true. Optional and can be null.</param>
             <param name="value">The value to fill.</param>
-            <param name="x"></param>
-            <param name="y"></param>
             <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.ParallelFill(System.Func{System.Int32,System.Int32,`0},ImageProcessing.Images.WRAP_MODE)">
@@ -1655,6 +1629,12 @@
         <member name="M:ImageProcessing.Images.Image2D`1.ToColorImage">
             <summary>
             Convert to a color image.
+            </summary>
+            <returns>The color image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.ToVectorImage">
+            <summary>
+            Convert to a vector image.
             </summary>
             <returns>The color image.</returns>
         </member>
@@ -1771,6 +1751,15 @@
             <param name="filename">The filename.</param>
             <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bitDepth">The bitdepth of the file.</param>
+            <param name="bigEndian">The endianness if 16 bits.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.LoadFromRaw(System.String,System.Boolean,ImageProcessing.Images.BIT_DEPTH,System.Boolean)">
+            <summary>
+            Load from a byte array.
+            </summary>
+            <param name="filename">The file name.</param>
+            <param name="includeAlpha">Is the alpha channel included.</param>
+            <param name="bitDepth">The bytes bit depth.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.ToBytes(ImageProcessing.Images.BIT_DEPTH,System.Boolean,System.Boolean)">
@@ -2962,6 +2951,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.ToGreyScaleImage">
+            <summary>
+            Convert to a greyscale image.
+            </summary>
+            <returns>The greayscale image.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.GetMipmap(System.Int32)">
             <summary>
             Get the mipmap at index i.
@@ -3796,6 +3791,218 @@
             Calcuate the centriod of the set.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:ImageProcessing.Statistics.ColorHistogram">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="binSize"></param>
+        </member>
+        <member name="P:ImageProcessing.Statistics.ColorHistogram.BinSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.ColorHistogram.Channels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.ColorHistogram.Histograms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.Clear">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.Load(ImageProcessing.Images.ColorImage2D,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="inculdeAlpha"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.HistogramToImage(System.Int32,Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="channel"></param>
+            <param name="color"></param>
+            <param name="background"></param>
+            <param name="height"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.CumulativeHistogramToImage(System.Int32,Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="channel"></param>
+            <param name="color"></param>
+            <param name="background"></param>
+            <param name="height"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.CreateCumulativeHistograms">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="T:ImageProcessing.Statistics.Histogram">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="bins"></param>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.BinSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.HasCulumativeHistogram">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.Bins">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.CumulativeBins">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Clear">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.GetBinCount(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.MaxBinCount">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.BinLength">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Load(ImageProcessing.Images.GreyScaleImage2D)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Load(ImageProcessing.Images.ColorImage2D,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="channel"></param>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.HistogramToImage(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+            <param name="background"></param>
+            <param name="height"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.CumulativeHistogramToImage(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+            <param name="background"></param>
+            <param name="height"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.CreateCumulativeHistogram">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.CreateBins(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="bins"></param>
+        </member>
+        <member name="T:ImageProcessing.Statistics.HistogramBin">
+            <summary>
+            A bin in a histogram that holds the pixels from a image.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor">
+            <summary>
+            Create a new bin.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.HistogramBin.Count">
+            <summary>
+            THe number of pixels in the bin.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.HistogramBin.Pixels">
+            <summary>
+            THe bins pixels.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.Clear">
+            <summary>
+            Clear the bin of all pixels.
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.Add(ImageProcessing.Pixels.PixelIndex2D{System.Single})">
+            <summary>
+            Add a pixel index to the bin.
+            </summary>
+            <param name="pixel"></param>
         </member>
         <member name="T:ImageProcessing.Statistics.KMeansCluster">
             <summary>
