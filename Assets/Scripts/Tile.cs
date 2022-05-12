@@ -226,6 +226,19 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// Offset each image in the tile by half.
+        /// </summary>
+        /// <param name="forwards">The offset direction.</param>
+        public void HalfOffset(bool forwards)
+        {
+            foreach (var image in Images)
+            {
+                var offset = ColorImage2D.HalfOffset(image, forwards);
+                image.Fill(offset);
+            }
+        }
+
+        /// <summary>
         /// Blur the tile.
         /// </summary>
         /// <param name="mask">The mask that determines what areas will be blurred and the blur strength. 

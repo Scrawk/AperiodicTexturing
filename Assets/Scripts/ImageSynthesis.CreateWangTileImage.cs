@@ -44,7 +44,7 @@ namespace AperiodicTexturing
 
         private static void CreateWangTileImageStage1(WangTile wtile, IList<Tile> tileables, ExemplarSet set)
         {
-            var colors = GetSortedColors(wtile);
+            var colors = CreateWangTiles_GetSortedColors(wtile);
             var rng = new System.Random(0);
 
             for (int i = 0; i < colors.Count; i++)
@@ -59,17 +59,17 @@ namespace AperiodicTexturing
                     int color = colors[i];
                     var tile = wtile.Tile;
 
-                    var map = CreateMap(wtile);
-                    var mask = CreateMask(map, color, 3);
+                    var map = CreateWangTiles_CreateMapFromWangTile(wtile);
+                    var mask = CreateWangTiles_CreateMask(map, color, 3);
 
-                    FillFromMap(map, tile.Image, tileables);
+                    CreateWangTiles_FillFromMap(map, tile.Image, tileables);
 
-                    var points = GetMaskedPoints_WANG(mask);
+                    var points = GetMaskedPoints(mask);
                     points.Shuffle(rng);
 
-                    FillWithRandom_WANG(0, points, tile.Image, set, rng);
+                    FillWithRandomFromExemplarSource(0, points, tile.Image, set, rng);
 
-                    FillPatches_WANG(points, set, mask, tile.Image);
+                    CreateWangTiles_FillPatches(points, set, mask, tile.Image);
 
                     //tile.Image.SaveAsRaw(DEUB_FOLDER + "tile" + wtile.Index1);
                     //map.SaveAsRaw(DEUB_FOLDER + "map" + wtile.Index1);
@@ -80,31 +80,7 @@ namespace AperiodicTexturing
 
         }
 
-        private static List<Point2i> GetMaskedPoints_WANG(BinaryImage2D mask)
-        {
-            var points = new List<Point2i>();
-            mask.Iterate((x, y) =>
-            {
-                if (mask[x, y])
-                {
-                    points.Add(new Point2i(x, y));
-                }
-            });
-
-            return points;
-        }
-
-        private static void FillWithRandom_WANG(int index, List<Point2i> points, ColorImage2D image, ExemplarSet set, System.Random rng)
-        {
-            foreach (var p in points)
-            {
-                var pixel = set.GetRandomSourcePixel(index, rng);
-                image[p.x, p.y] = pixel;
-            }
-
-        }
-
-        private static void FillPatches_WANG(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
+        private static void CreateWangTiles_FillPatches(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
         {
             int exemplarSize = set.ExemplarSize;
             int halfExemplarSize = exemplarSize / 2;
@@ -124,15 +100,17 @@ namespace AperiodicTexturing
                 if (!mask[x, y]) continue;
 
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
-                var crop = ColorImage2D.Crop(image, box, 0, WRAP_MODE.WRAP);
+                var crop = ColorImage2D.Crop(image, box, WRAP_MODE.WRAP);
 
-                var match = FindBestMatch_TEST(crop, set, mask);
+                var match = FindBestMatch(crop, set);
 
-                var graph = PerformGraphCut_TEST(crop, match, halfExemplarSize);
+                var graph = CreateGraph(image, match, false);
+                MarkSourceAndSink(graph, 2, halfExemplarSize - 4);
+                graph.Calculate();
 
-                var blendMask = CreateMaskFromGraph_TEST(graph, 2, 0.5f);
+                var blendMask = CreateMaskFromGraph(graph, 2, 0.5f);
 
-                var blendedImage = BlendImages_TEST(graph, crop, match, blendMask);
+                var blendedImage = BlendImages(graph, crop, match, blendMask);
 
                 var m = blendMask.ToBinaryImage();
                 m.Invert();
@@ -143,7 +121,7 @@ namespace AperiodicTexturing
             };
         }
 
-        private static List<int> GetSortedColors(WangTile tile)
+        private static List<int> CreateWangTiles_GetSortedColors(WangTile tile)
         {
             var colors = new List<int>();
 
@@ -158,7 +136,7 @@ namespace AperiodicTexturing
             return colors;
         }
 
-        private static GreyScaleImage2D CreateMap(WangTile tile)
+        private static GreyScaleImage2D CreateWangTiles_CreateMapFromWangTile(WangTile tile)
         {
             int width = tile.Width;
             int height = tile.Height;
@@ -185,7 +163,7 @@ namespace AperiodicTexturing
             return map;
         }
 
-        private static void FillFromMap(GreyScaleImage2D map, ColorImage2D image, IList<Tile> tileables)
+        private static void CreateWangTiles_FillFromMap(GreyScaleImage2D map, ColorImage2D image, IList<Tile> tileables)
         {
             image.Fill((x, y) =>
             {
@@ -194,7 +172,7 @@ namespace AperiodicTexturing
             });
         }
 
-        private static BinaryImage2D CreateMask(GreyScaleImage2D map, int color, int thickness)
+        private static BinaryImage2D CreateWangTiles_CreateMask(GreyScaleImage2D map, int color, int thickness)
         {
             var mask = new BinaryImage2D(map.Size);
 

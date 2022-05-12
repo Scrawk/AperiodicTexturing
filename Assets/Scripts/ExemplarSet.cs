@@ -367,7 +367,7 @@ namespace AperiodicTexturing
                 for(int i = 0; i < Sources.Count; i++)
                 {
                     var box = new Box2i(x, y, x + ExemplarSize, y + ExemplarSize);
-                    var image = ColorImage2D.Crop(Sources[i], box, 0, WRAP_MODE.WRAP);
+                    var image = ColorImage2D.Crop(Sources[i], box, WRAP_MODE.WRAP);
                     image.Name = "RandomImage" + i;
 
                     exemplar_images.Add(image);

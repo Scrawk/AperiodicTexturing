@@ -230,6 +230,14 @@
             color as a string.
             </summary>
         </member>
+        <member name="M:Common.Core.Colors.ColorRGB.RGBA(System.Single)">
+            <summary>
+            Create a rgba color form this colors rgb 
+            values and the provided alpha value.
+            </summary>
+            <param name="a">The alpha value.</param>
+            <returns>THe RGBA color.</returns>
+        </member>
         <member name="M:Common.Core.Colors.ColorRGB.AlphaBlend(Common.Core.Colors.ColorRGB,Common.Core.Colors.ColorRGB,System.Single,System.Single)">
             <summary>
             Alpha blend the two pixels.
@@ -9544,17 +9552,17 @@
         </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.NextGaussian(System.Double,System.Double)">
             <summary>
-            
+            Get a random number with a gaussian ditribution.
             </summary>
-            <param name="mean"></param>
-            <param name="sigma"></param>
+            <param name="mean">The mean value of the noise.</param>
+            <param name="sigma">The std of the noise.</param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.RandomGenerator.NextPoisson(System.Double)">
             <summary>
-            
+            Get a random number with a possion ditribution.
             </summary>
-            <param name="lambda"></param>
+            <param name="mean">The mean value of the noise.</param>
             <returns></returns>
         </member>
         <member name="M:Common.Core.RandomNum.SystemRandom.ToString">

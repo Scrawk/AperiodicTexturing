@@ -20,52 +20,68 @@ namespace AperiodicTexturing
     {
         private const string DEUB_FOLDER = "C:/Users/Justin/OneDrive/Desktop/";
 
-        private static void BlendImages(GridFlowGraph graph, ColorImage2D source, ColorImage2D sink, GreyScaleImage2D mask)
+        private static List<Point2i> GetMaskedPoints(BinaryImage2D mask)
         {
-            graph.Iterate((x, y) =>
+            var points = new List<Point2i>();
+            mask.Iterate((x, y) =>
             {
-                if(mask == null)
+                if (mask[x, y])
                 {
-                    if (graph.IsSink(x, y))
-                        source[x, y] = sink[x, y];
-                }
-                else
-                {
-                    float a = mask[x, y];
-                    source[x, y] = ColorRGBA.Lerp(source[x, y], sink[x, y], a);
+                    points.Add(new Point2i(x, y));
                 }
             });
 
+            return points;
         }
 
-        private static void BlendImages(GridFlowGraph graph, Tile source, Tile sink, GreyScaleImage2D mask)
+        private static void FillWithRandomFromExemplarSource(int index, List<Point2i> points, ColorImage2D image, ExemplarSet set, System.Random rng)
         {
+            foreach (var p in points)
+            {
+                var pixel = set.GetRandomSourcePixel(index, rng);
+                image[p.x, p.y] = pixel;
+            }
+        }
+
+        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph, int dilation, float strength)
+        {
+            var mask = new GreyScaleImage2D(graph.Width, graph.Height);
+
+            mask.Iterate((x, y) =>
+            {
+                if (graph.IsSink(x, y))
+                    mask[x, y] = 1;
+            });
+
+            if (dilation > 0)
+                mask = GreyScaleImage2D.Dilate(mask, dilation);
+
+            if (strength > 0)
+                mask = GreyScaleImage2D.GaussianBlur(mask, strength, null, null, WRAP_MODE.WRAP);
+
+            return mask;
+        }
+
+        private static ColorImage2D BlendImages(GridFlowGraph graph, ColorImage2D source, ColorImage2D sink, GreyScaleImage2D mask)
+        {
+            var image = new ColorImage2D(graph.Width, graph.Height);
+            image.Fill(source);
+
             graph.Iterate((x, y) =>
             {
                 if (mask == null)
                 {
                     if (graph.IsSink(x, y))
-                    {
-                        for(int i = 0; i < source.Count; i++)
-                        {
-                            var image1 = source.Images[i];
-                            var image2 = sink.Images[i];
-                            image1[x, y] = image2[x, y];
-                        }
-                    }
+                        image[x, y] = sink[x, y];
                 }
                 else
                 {
                     float a = mask[x, y];
-
-                    for (int i = 0; i < source.Count; i++)
-                    {
-                        var image1 = source.Images[i];
-                        var image2 = sink.Images[i];
-                        image1[x, y] = ColorRGBA.Lerp(image1[x, y], image2[x, y], a);
-                    }
+                    image[x, y] = ColorRGBA.Lerp(source[x, y], sink[x, y], a);
                 }
             });
+
+            return image;
         }
 
         private static GridFlowGraph MarkSourceAndSink(GridFlowGraph graph, int sourceArea, Box2i sinkArea)
@@ -111,135 +127,12 @@ namespace AperiodicTexturing
             return graph;
         }
 
-        private static Exemplar FindBestMatch(Tile tile, ExemplarSet set, BinaryImage2D mask)
-        {
-            var costs = new float[set.ExemplarCount];
-
-            for(int i = 0; i < set.ExemplarCount; i++)
-            {
-                costs[i] = float.PositiveInfinity;
-
-                var exemplar = set[i];
-
-                float cost = 0;
-                int count = 0;
-                float costModifier = (exemplar.Used + 1.0f) * 1.5f;
-
-                for (int x = 0; x < exemplar.Width; x++)
-                {
-                    for (int y = 0; y < exemplar.Height; y++)
-                    {
-                        if (mask != null && !mask[x, y]) continue;
-
-                        var exemplars_pixel = exemplar.Tile.Image[x, y];
-
-                        for (int j = 0; j < tile.Count; j++)
-                        {
-                            var w = tile.GetWeight(j);
-                            if (w <= 0) continue;
-
-                            var tiles_pixel = tile.Images[j][x, y];
-    
-                            cost += ColorRGBA.SqrDistance(tiles_pixel, exemplars_pixel) * w;
-                            count++;
-                        }
-                    }
-                }
-
-                if (count != 0)
-                    costs[i] = (cost / count) * costModifier;
-            }
-
-            Exemplar bestMatch = null;
-            float bestCost = float.PositiveInfinity;
-
-            for (int i = 0; i < set.ExemplarCount; i++)
-            {
-                if(costs[i] < bestCost)
-                {
-                    bestCost = costs[i];
-                    bestMatch = set[i];
-                }
-            }
-
-            return bestMatch;
-        }
-
-        private static void BlurGraphCutSeams(ColorImage2D image, GridFlowGraph graph, int thickness, float strength)
-        {
-            int width = image.Width;
-            int height = image.Height;
-            var binary = new BinaryImage2D(width, height);
-
-            var points = graph.FindBoundaryPoints(true, true);
-            binary.Fill(points, true);
-            binary = BinaryImage2D.Dilate(binary, thickness);
-
-            var mask = binary.ToGreyScaleImage();
-            var blurred = ColorImage2D.GaussianBlur(image, strength, null, mask, WRAP_MODE.WRAP);
-            image.Fill(blurred);
-        }
-
-        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph, int thickness, float strength)
-        {
-            var binary = new BinaryImage2D(graph.Width, graph.Height);
-
-            var points = graph.FindBoundaryPoints(true, true);
-            binary.Fill(points, true);
-            binary = BinaryImage2D.Dilate(binary, thickness);
-
-            var mask = BinaryImage2D.ApproxEuclideanDistance(binary, WRAP_MODE.WRAP);
-            mask.Normalize();
-
-            mask.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                    mask[x, y] = 1;
-            });
-
-            mask = GreyScaleImage2D.GaussianBlur(mask, strength, null, null, WRAP_MODE.WRAP);
-
-            return mask;
-        }
-
-        private static ColorImage2D CreateImageFromGraph(GridFlowGraph graph, ColorRGBA source, ColorRGBA sink)
-        {
-            var image = new ColorImage2D(graph.Width, graph.Height);
-
-            image.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                    image[x, y] = sink;
-                else if (graph.IsSource(x, y))
-                    image[x, y] = source;
-            });
-
-            return image;
-        }
-
-        private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph, float source, float sink)
-        {
-            var mask = new GreyScaleImage2D(graph.Width, graph.Height);
-
-            mask.Iterate((x, y) =>
-            {
-                if (graph.IsSink(x, y))
-                    mask[x, y] = sink;
-                else if (graph.IsSource(x, y))
-                    mask[x, y] = source;
-            });
-
-            return mask;
-        }
-
-        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, BinaryImage2D mask, bool isOrthogonal)
+        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, bool isOrthogonal)
         {
             var graph = new GridFlowGraph(image1.Width, image1.Height, isOrthogonal);
  
             graph.Iterate((x, y) =>
             {
-                if (mask != null && !mask[x, y]) return;
-
                 var col1 = image1[x, y];
                 var col2 = image2[x, y];
 
@@ -260,6 +153,72 @@ namespace AperiodicTexturing
             });
 
             return graph;
+        }
+
+        private static ColorImage2D FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask = null)
+        {
+
+            var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
+
+            for (int k = 0; k < costs.Length; k++)
+            {
+                var exemplar = set[k];
+
+                if (exemplar == null)
+                {
+                    costs[k] = new Tuple<float, Exemplar>(float.PositiveInfinity, null);
+                    continue;
+                }
+
+                //float cost = image.SqrDistance(exemplar.Tile.Image);
+                //costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+
+                float cost = 0;
+                int count = 0;
+
+                for (int j = 0; j < exemplar.Height; j++)
+                {
+                    for (int i = 0; i < exemplar.Width; i++)
+                    {
+                        if (mask != null && mask[i, j]) continue;
+
+                        var exemplars_pixel = exemplar.Tile.Image[i, j];
+                        var tiles_pixel = image[i, j];
+
+                        count++;
+                        cost += ColorRGBA.SqrDistance(exemplars_pixel, tiles_pixel);
+                    }
+                }
+
+                if (count != 0)
+                    cost = cost / count;
+                else
+                    cost = float.PositiveInfinity;
+
+                costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+            }
+
+            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
+
+            Exemplar bestMatch = null;
+            float bestCost = float.PositiveInfinity;
+
+            for (int i = 0; i < costs.Length; i++)
+            {
+                if (costs[i].Item1 == float.PositiveInfinity) continue;
+                if (costs[i].Item2 == null) continue;
+
+                if (costs[i].Item1 < bestCost)
+                {
+                    bestCost = costs[i].Item1;
+                    bestMatch = costs[i].Item2;
+                }
+            }
+
+            if (bestMatch == null)
+                return null;
+            else
+                return bestMatch.Tile.Image;
         }
 
     }

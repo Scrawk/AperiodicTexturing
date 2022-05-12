@@ -68,7 +68,7 @@
     <Compile Include="Assets\Common\Extensions\QuaternionExtension.cs" />
     <Compile Include="Assets\Scripts\WangTileSet.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension3.cs" />
-    <Compile Include="Assets\Scripts\ImageSynthesis.CreateTileableImage_TEST.cs" />
+    <Compile Include="Assets\Scripts\ImageSynthesis.CreateTileableImage.cs" />
     <Compile Include="Assets\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />

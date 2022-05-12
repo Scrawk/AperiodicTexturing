@@ -28,7 +28,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The number of tiles to be created.
         /// </summary>
-        private static int m_numTiles = 2;
+        private static int m_numTiles = 1;
 
         /// <summary>
         /// THe tiles size.
@@ -142,8 +142,7 @@ namespace AperiodicTexturing
                 if(Validate())
                 {
                     m_images = AperiodicTilesEditorUtility.CreateImages(m_source);
-                    m_tiles = AperiodicTilesEditorUtility.CreateTilesByRandomSampling(m_images, m_sourceIsTileable, m_tileSize, m_numTiles, m_seed);
-
+           
                     ResetBeforeRunning();
                     Run();
                 }
@@ -355,11 +354,15 @@ namespace AperiodicTexturing
                 {
                     m_token.StartTimer();
 
+                    //Create the tiles that are going to be made tileable from random samples of the exemplar set.
+                    m_tiles = AperiodicTilesEditorUtility.CreateTilesByRandomSampling(m_images, m_sourceIsTileable, m_tileSize, m_numTiles, m_seed);
+
                     //Create the exemplar set used to patch the tiles.
                     var set = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    Debug.Log(set);
 
                     //Make the tiles tileable.
-                    m_tileables = ImageSynthesis.CreateTileableImages(m_tiles, set, m_token);
+                    m_tileables = ImageSynthesis.CreateTileableImages(m_tiles, set, m_seed, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
