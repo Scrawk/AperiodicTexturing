@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Common.Core.Colors;
+using Common.Core.Numerics;
 using ImageProcessing.Images;
 
 namespace AperiodicTexturing
@@ -24,63 +25,63 @@ namespace AperiodicTexturing
     /// </summary>
     public class Exemplar
     {
-        /// <summary>
-        /// Create a new exemplar.
-        /// </summary>
-        /// <param name="size">The tile width and height.</param>
-        public Exemplar(int size)
-        {
-            Tile = new Tile(size, size);
-            Sources = new List<ColorImage2D>();
-        }
 
         /// <summary>
-        /// Create a new exemplar.
+        /// 
         /// </summary>
-        /// <param name="image">The exemplars image.</param>
-        public Exemplar(ColorImage2D image, ColorImage2D source)
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="source"></param>
+        public Exemplar(Point2i index, int size, ColorImage2D source)
         {
-            Tile = new Tile(image);
+            Index = index;
+            ExemplarSize = size;
             Sources = new List<ColorImage2D>();
             Sources.Add(source);
         }
 
         /// <summary>
-        /// Create a new exemplar thats a variant of the original exemplar.
+        /// 
         /// </summary>
-        /// <param name="images">The exemplars imagse.</param>
-        public Exemplar(IList<ColorImage2D> images, IList<ColorImage2D> sources)
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="sources"></param>
+        public Exemplar(Point2i index, int size, IList<ColorImage2D> sources)
         {
-            Tile = new Tile(images);
+            Index = index;
+            ExemplarSize = size;
             Sources = new List<ColorImage2D>(sources);
         }
 
         /// <summary>
-        /// Create a new exemplar thats a variant of the original exemplar.
+        /// 
         /// </summary>
-        /// <param name="images">The exemplars imagse.</param>
-        /// <param name="original">The original exemplar this one is a variant of.</param>
-        public Exemplar(IList<ColorImage2D> images, IList<ColorImage2D> sources, Exemplar original)
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="sources"></param>
+        /// <param name="original"></param>
+        public Exemplar(Point2i index, int size, IList<ColorImage2D> sources, EXEMPLAR_VARIANT variant)
         {
-            Tile = new Tile(images);
+            Index = index;
+            ExemplarSize = size;
             Sources = new List<ColorImage2D>(sources);
-            Original = original;
+            Variant = variant;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Point2i Index { get; set; }
 
         /// <summary>
         /// The number of images in the tile.
         /// </summary>
-        public int Count => Tile.Count;
+        public int SourceCount => Sources.Count;
 
         /// <summary>
         /// The exemplars size on the x axis.
         /// </summary>
-        public int Width => Tile.Width;
-
-        /// <summary>
-        /// The exemplars size on the y axis.
-        /// </summary>
-        public int Height => Tile.Height;
+        public int ExemplarSize { get; private set; }
 
         /// <summary>
         /// Has this exemplar been used.
@@ -90,18 +91,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// Is the exemplar a variant of another one.
         /// </summary>
-        public bool IsVariant => Original != null;
-
-        /// <summary>
-        /// The exemplars images.
-        /// </summary>
-        private Tile Tile { get; set; }
-
-        /// <summary>
-        /// The original exemplar this one is a variant of.
-        /// If not a variant this image will be null.
-        /// </summary>
-        private Exemplar Original { get; set; }
+        public EXEMPLAR_VARIANT Variant { get; private set; }
 
         /// <summary>
         /// The exemplars source image.
@@ -114,46 +104,80 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[Exemplar: Count={0}, Width={1}, Height={2}, Used={3}, IsVariant={4}]",
-                Count, Width, Height, Used, IsVariant);
-        }
-
-        public ColorRGBA GetPixel(int i,  int x, int y, WRAP_MODE wrap = WRAP_MODE.CLAMP)
-        {
-            return Tile.Images[i].GetPixel(x, y, wrap);
-        }
-
-        public void CreateMipmaps()
-        {
-            foreach (var image in Tile.Images)
-                image.CreateMipmaps();
-        }
-
-        public void AddImages(IList<ColorImage2D> images, IList<ColorImage2D> sources)
-        {
-            Tile.Images.Clear();
-            Sources.Clear();
-
-            Tile.Images.AddRange(images);
-            Sources.AddRange(sources);
-        }
-        public Tile GetTileCopy()
-        {
-            return Tile.Copy();
-        }
-
-        public ColorImage2D GetImageCopy(int i)
-        {
-            return Tile.Images[i].Copy();
+            return String.Format("[Exemplar: SourceCount={0}, ExemplarSize={1}, Used={2}, Variant={3}]",
+                SourceCount, ExemplarSize, Used, Variant);
         }
 
         /// <summary>
-        /// Set the weights for each image in tile.
+        /// 
         /// </summary>
-        /// <param name="weights"></param>
-        public void SetWeights(IList<float> weights)
+        /// <returns></returns>
+        public Exemplar Copy()
         {
-            Tile.SetWeights(weights);
+            var copy = new Exemplar(Index, ExemplarSize, Sources, Variant);
+            return copy;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="wrap"></param>
+        /// <returns></returns>
+        public ColorRGBA GetPixel(int i,  int x, int y, WRAP_MODE wrap = WRAP_MODE.CLAMP)
+        {
+            if (i < 0 || i >= SourceCount)
+                throw new ArgumentOutOfRangeException("Index out of source images range.");
+
+            var index = GetIndex(x, y);
+            return Sources[i].GetPixel(index.x, index.y, wrap);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="sources"></param>
+        public void AddImages(Point2i index, IList<ColorImage2D> sources)
+        {
+            Index = index;
+            Sources.Clear();
+            Sources.AddRange(sources);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public ColorImage2D GetImageCopy(int i)
+        {
+            var image = new ColorImage2D(ExemplarSize, ExemplarSize);
+            var source = Sources[i];
+
+            image.Fill((x, y) =>
+            {
+                var index = GetIndex(x, y);
+                return source[index.x, index.y];
+            });
+
+            return image;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Tile GetTileCopy()
+        {
+            var images = new List<ColorImage2D>();
+
+            for (int i = 0; i < SourceCount; i++)
+                images.Add(GetImageCopy(i));
+
+            return new Tile(images);
         }
 
         /// <summary>
@@ -173,6 +197,38 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Point2i GetIndex(int x, int y)
+        {
+            var index = new Point2i(Index.x + x, Index.y + y);
+
+            switch (Variant)
+            {
+                case EXEMPLAR_VARIANT.NONE:
+                    return index;
+
+                case EXEMPLAR_VARIANT.ROTATE90:
+                    return new Point2i(index.y, ExemplarSize - 1 - index.x);
+
+                case EXEMPLAR_VARIANT.ROTATE180:
+                    return new Point2i(ExemplarSize - 1 - index.x, ExemplarSize - 1 - index.y);
+
+                case EXEMPLAR_VARIANT.ROTATE270:
+                    return new Point2i(ExemplarSize - 1 - index.y, index.x);
+
+                case EXEMPLAR_VARIANT.MIRROR_HORIZONTAL:
+                    return new Point2i(ExemplarSize - index.x - 1, index.y);
+         
+                case EXEMPLAR_VARIANT.MIRROR_VERTICAL:
+                    return new Point2i(index.x, ExemplarSize - index.y - 1);
+            }
+
+            return index;
+        }
+
+        /// <summary>
         /// Create new variants of this exemplar.
         /// </summary>
         /// <param name="flags">The type of variant to create.</param>
@@ -181,28 +237,20 @@ namespace AperiodicTexturing
         {
             var variants = new List<Exemplar>();
 
-            foreach(var image in Tile.Images)
-            {
-                var images = new List<ColorImage2D>();
+            if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE90))
+                variants.Add(new Exemplar(Index, ExemplarSize, Sources, EXEMPLAR_VARIANT.ROTATE90));
 
-                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE90))
-                    images.Add(ColorImage2D.Rotate90(image));
+            if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE180))
+                variants.Add(new Exemplar(Index, ExemplarSize, Sources, EXEMPLAR_VARIANT.ROTATE180));
 
-                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE180))
-                    images.Add(ColorImage2D.Rotate180(image));
+            if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE270))
+                variants.Add(new Exemplar(Index, ExemplarSize, Sources, EXEMPLAR_VARIANT.ROTATE270));
 
-                if (flags.HasFlag(EXEMPLAR_VARIANT.ROTATE270))
-                    images.Add(ColorImage2D.Rotate270(image));
+            if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_HORIZONTAL))
+                variants.Add(new Exemplar(Index, ExemplarSize, Sources, EXEMPLAR_VARIANT.MIRROR_HORIZONTAL));
 
-                if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_HORIZONTAL))
-                    images.Add(ColorImage2D.FlipHorizontal(image));
-
-                if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_VERTICAL))
-                    images.Add(ColorImage2D.FlipVertical(image));
-
-                if(images.Count > 0)
-                    variants.Add(new Exemplar(images, Sources, this));
-            }
+            if (flags.HasFlag(EXEMPLAR_VARIANT.MIRROR_VERTICAL))
+                variants.Add(new Exemplar(Index, ExemplarSize, Sources, EXEMPLAR_VARIANT.MIRROR_VERTICAL));
 
             return variants;
         }

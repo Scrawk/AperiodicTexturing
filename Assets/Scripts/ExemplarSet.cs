@@ -114,6 +114,20 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ExemplarSet Copy()
+        {
+            var copy = new ExemplarSet(Sources, SourceIsTileable, ExemplarSize);
+
+            foreach(var exemplar in Exemplars)
+                copy.Exemplars.Add(exemplar.Copy());
+
+            return copy;
+        }
+
+        /// <summary>
         /// Reset the used count of each exemplar in the set.
         /// </summary>
         public void ResetUsedCount()
@@ -137,15 +151,6 @@ namespace AperiodicTexturing
                     used++;
 
             return used / (float)ExemplarCount;
-        }
-
-        /// <summary>
-        /// Create the mipmaps for each exemplar is set.
-        /// </summary>
-        public void CreateMipmaps()
-        {
-            foreach (var exemplar in Exemplars)
-                exemplar.CreateMipmaps();
         }
 
         /// <summary>
@@ -201,16 +206,6 @@ namespace AperiodicTexturing
                 tiles.Add(exemplar.GetTileCopy());
 
             return tiles;
-        }
-
-        /// <summary>
-        /// Assign a weight to each tile in the set.
-        /// </summary>
-        /// <param name="weights">A array of floats contains values >= 0.</param>
-        public void SetWeights(IList<float> weights)
-        {
-            for (int i = 0; i < ExemplarCount; i++)
-                Exemplars[i].SetWeights(weights);
         }
 
         /// <summary>
@@ -284,58 +279,43 @@ namespace AperiodicTexturing
         /// Create a new set of exemplars by dividing the sources image into even parts.
         /// Presumes the exemplar size divides evenly in the source image size.
         /// </summary>
-        public void CreateExemplarsFromCrop(int overlap = 0)
+        public void CreateExemplarsFromCrop()
         {
             Clear();
 
             int width = Sources[0].Width;
             int height = Sources[0].Height;
 
-            var images = new List<List<ColorImage2D>>(Sources.Count);
+            var indices = GetCropIndices(width / ExemplarSize, height / ExemplarSize);
 
-            for(int i = 0; i < Sources.Count; i++)
-            {
-                var source = Sources[i];
-                var crop = ColorImage2D.Crop(source, width / ExemplarSize, height / ExemplarSize, overlap);
-
-                for (int j = 0; j < crop.Count; j++)
-                {
-                    crop[j].Name = source.Name + " _crop_" + j;
-                }
-
-                images.Add(crop);
-            }
-
-            if (images.Count == 0)
+            if (indices.Count == 0)
                 return;
 
-            int numExemplars = images[0].Count;
-
-            for (int i = 0; i < numExemplars; i++)
+            for (int i = 0; i < indices.Count; i++)
             {
-                var exemplar = new Exemplar(ExemplarSize);
+                var exemplar = new Exemplar(indices[i], ExemplarSize, Sources);
                 Exemplars.Add(exemplar);
             }
 
-            for (int i = 0; i < images.Count; i++)
+        }
+
+        private List<Point2i> GetCropIndices(int numX, int numY)
+        {
+            int width = ExemplarSize / numX;
+            int height = ExemplarSize / numY;
+
+            var indices = new List<Point2i>();
+
+            for (int x = 0; x < numX; x++)
             {
-                var exemplar_images = new List<ColorImage2D>[images[i].Count];
-
-                for (int j = 0; j < images[i].Count; j++)
+                for (int y = 0; y < numY; y++)
                 {
-                    if (exemplar_images[j] == null)
-                        exemplar_images[j] = new List<ColorImage2D>();
-
-                    exemplar_images[j].Add(images[i][j]);
-                }
-
-                for (int j = 0; j < images[i].Count; j++)
-                {
-                    var exemplar = Exemplars[j];
-                    exemplar.AddImages(exemplar_images[j], Sources);
+                    var index = new Point2i(x * width, y * height);
+                    indices.Add(index);
                 }
             }
 
+            return indices;
         }
 
         /// <summary>
@@ -385,18 +365,7 @@ namespace AperiodicTexturing
                 //Mark this area of the image as having been sampled.
                 AddCoverage(mask, x, y);
 
-                var exemplar_images = new List<ColorImage2D>();
-
-                for(int i = 0; i < Sources.Count; i++)
-                {
-                    var box = new Box2i(x, y, x + ExemplarSize, y + ExemplarSize);
-                    var image = ColorImage2D.Crop(Sources[i], box, WRAP_MODE.WRAP);
-                    image.Name = "RandomImage" + i;
-
-                    exemplar_images.Add(image);
-                }
-
-                Exemplars.Add(new Exemplar(exemplar_images, Sources));
+                Exemplars.Add(new Exemplar(new Point2i(x,y), ExemplarSize, Sources));
             }
 
         }

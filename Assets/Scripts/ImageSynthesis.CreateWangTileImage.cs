@@ -102,7 +102,11 @@ namespace AperiodicTexturing
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
                 var crop = ColorImage2D.Crop(image, box, WRAP_MODE.WRAP);
 
-                var match = FindBestMatch(crop, set);
+                var exemplar = FindBestMatch(crop, set);
+                if (exemplar == null) continue;
+
+                exemplar.IncrementUsed();
+                var match = exemplar.GetImageCopy(0);
 
                 var graph = CreateGraph(image, match, false);
                 MarkSourceAndSink(graph, 2, halfExemplarSize - 4);

@@ -21,15 +21,20 @@ namespace AperiodicTexturing
         /// Creates a copy of each tile and makes all the tiles images tileable.
         /// </summary>
         /// <param name="tiles">The tiles to make tilable.</param>
-        /// <param name="set">The exemplar set to sample from when filling patches.</param>
+        /// <param name="exemplarSet">The exemplar set to sample from when filling patches.</param>
         /// <param name="seed"></param>
         /// <param name="token"></param>
         /// <returns>A array of tiles with tileable images.</returns>
-        public static Tile[] CreateTileableImages(IList<Tile> tiles, ExemplarSet set, int seed, ThreadingToken token = null)
+        public static Tile[] CreateTileableImages(IList<Tile> tiles, ExemplarSet exemplarSet, int seed, ThreadingToken token = null)
         {
             //For each tiles a new tileable tile will be created.
             int count = tiles.Count;
             var tileables = new Tile[count];
+            var sets = new ExemplarSet[count];
+
+            //Create a set for each tile for thread safety.
+            for (int i = 0; i < count; i++)
+                sets[i] = exemplarSet.Copy();
 
             //If a token is being used set how many steps there are.
             // Each step represents a tile being created on its own thread.
@@ -43,6 +48,8 @@ namespace AperiodicTexturing
             ThreadingBlock1D.ParallelAction(count, 1, (i) =>
             {
                 var rng = new System.Random(seed + i);
+                var set = sets[i];
+
                 tileables[i] = CreateTileableImage(i, tiles[i], set, rng);
 
             }, token);
@@ -135,7 +142,11 @@ namespace AperiodicTexturing
                 var maskCrop = ColorImage2D.Crop(mask, box, WRAP_MODE.WRAP);
 
                 //Findd the exemplar in the set that best fits the cropped image.
-                var match = FindBestMatch(imageCrop, set, maskCrop);
+                var exemplar = FindBestMatch(imageCrop, set, maskCrop);
+                if (exemplar == null) continue;
+
+                exemplar.IncrementUsed();
+                var match = exemplar.GetImageCopy(0);
 
                 //Create the cut that should best blend the
                 //match and the crop image together.

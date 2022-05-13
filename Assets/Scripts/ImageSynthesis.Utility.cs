@@ -155,7 +155,7 @@ namespace AperiodicTexturing
             return graph;
         }
 
-        private static ColorImage2D FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask = null)
+        private static Exemplar FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask = null)
         {
 
             var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
@@ -173,9 +173,9 @@ namespace AperiodicTexturing
                 float cost = 0;
                 int count = 0;
 
-                for (int j = 0; j < exemplar.Height; j++)
+                for (int j = 0; j < exemplar.ExemplarSize; j++)
                 {
-                    for (int i = 0; i < exemplar.Width; i++)
+                    for (int i = 0; i < exemplar.ExemplarSize; i++)
                     {
                         if (mask != null && mask[i, j]) continue;
 
@@ -218,8 +218,7 @@ namespace AperiodicTexturing
                 return null;
             else
             {
-                bestMatch.IncrementUsed();
-                return bestMatch.GetImageCopy(0);
+                return bestMatch;
             }
                 
         }
