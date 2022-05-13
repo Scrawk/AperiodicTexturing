@@ -145,7 +145,7 @@ namespace AperiodicTexturing
         public void CreateMipmaps()
         {
             foreach (var exemplar in Exemplars)
-                exemplar.Tile.CreateMipmaps();
+                exemplar.CreateMipmaps();
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace AperiodicTexturing
             var tiles = new List<Tile>(ExemplarCount);
 
             foreach (var exemplar in Exemplars)
-                tiles.Add(exemplar.Tile.Copy());
+                tiles.Add(exemplar.GetTileCopy());
 
             return tiles;
         }
@@ -198,7 +198,7 @@ namespace AperiodicTexturing
             var tiles = new List<Tile>(exemplars.Count);
 
             foreach (var exemplar in exemplars)
-                tiles.Add(exemplar.Tile.Copy());
+                tiles.Add(exemplar.GetTileCopy());
 
             return tiles;
         }
@@ -210,7 +210,7 @@ namespace AperiodicTexturing
         public void SetWeights(IList<float> weights)
         {
             for (int i = 0; i < ExemplarCount; i++)
-                Exemplars[i].Tile.SetWeights(weights);
+                Exemplars[i].SetWeights(weights);
         }
 
         /// <summary>
@@ -225,6 +225,21 @@ namespace AperiodicTexturing
             int y = rnd.Next(0, Sources[i].Height);
 
             return Sources[i][x, y];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxUsedCount()
+        {
+            int max = 0;
+
+            foreach (var exemplar in Exemplars)
+                if (exemplar.Used > max)
+                    max = exemplar.Used;
+
+            return max;
         }
 
         /// <summary>
@@ -304,12 +319,20 @@ namespace AperiodicTexturing
 
             for (int i = 0; i < images.Count; i++)
             {
+                var exemplar_images = new List<ColorImage2D>[images[i].Count];
+
                 for (int j = 0; j < images[i].Count; j++)
                 {
-                    var image = images[i][j];
-                    var exemplar = Exemplars[j];
+                    if (exemplar_images[j] == null)
+                        exemplar_images[j] = new List<ColorImage2D>();
 
-                    exemplar.Tile.Images.Add(image);
+                    exemplar_images[j].Add(images[i][j]);
+                }
+
+                for (int j = 0; j < images[i].Count; j++)
+                {
+                    var exemplar = Exemplars[j];
+                    exemplar.AddImages(exemplar_images[j], Sources);
                 }
             }
 
@@ -373,7 +396,7 @@ namespace AperiodicTexturing
                     exemplar_images.Add(image);
                 }
 
-                Exemplars.Add(new Exemplar(exemplar_images));
+                Exemplars.Add(new Exemplar(exemplar_images, Sources));
             }
 
         }

@@ -38,7 +38,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The size of the exemplats used when filling patches.
         /// </summary>
-        private static int m_exemplarSize = 16;
+        private static int m_exemplarSize = 32;
 
         /// <summary>
         /// The seed used for the random generator.
@@ -61,7 +61,7 @@ namespace AperiodicTexturing
         /// Is the source image provided tileable.
         /// This can makes sampling the texture easier if true.
         /// </summary>
-        private static bool m_sourceIsTileable = true;
+        private static bool m_sourceIsTileable;
 
         /// <summary>
         /// Folder the results will be output to.
@@ -210,7 +210,7 @@ namespace AperiodicTexturing
         {
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
-            m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar Size", m_exemplarSize), 16, 32);
+            m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar Size", m_exemplarSize), 8, 64);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
             m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
@@ -363,6 +363,8 @@ namespace AperiodicTexturing
 
                     //Make the tiles tileable.
                     m_tileables = ImageSynthesis.CreateTileableImages(m_tiles, set, m_seed, m_token);
+
+                    Debug.Log("Max used " + set.GetMaxUsedCount());
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }

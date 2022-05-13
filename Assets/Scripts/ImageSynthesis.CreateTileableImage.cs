@@ -115,6 +115,8 @@ namespace AperiodicTexturing
             //Will help reduce the number garbage objects created.
             var search = new GridFlowSearch(exemplarSize, exemplarSize);
 
+            int count = 0;
+
             foreach (var p in points)
             {
                 int x = p.x;
@@ -122,6 +124,8 @@ namespace AperiodicTexturing
 
                 //If already been fill continue.
                 if (!mask[x, y]) continue;
+
+                if (count++ > 0) return;
 
                 //Create a box covering the area that needs to be filled.
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);

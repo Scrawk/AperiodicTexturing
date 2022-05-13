@@ -170,9 +170,6 @@ namespace AperiodicTexturing
                     continue;
                 }
 
-                //float cost = image.SqrDistance(exemplar.Tile.Image);
-                //costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
-
                 float cost = 0;
                 int count = 0;
 
@@ -182,7 +179,7 @@ namespace AperiodicTexturing
                     {
                         if (mask != null && mask[i, j]) continue;
 
-                        var exemplars_pixel = exemplar.Tile.Image[i, j];
+                        var exemplars_pixel = exemplar.GetPixel(0, i, j);
                         var tiles_pixel = image[i, j];
 
                         count++;
@@ -190,8 +187,10 @@ namespace AperiodicTexturing
                     }
                 }
 
+                float modifier = 1.0f + exemplar.Used * 0.25f;
+
                 if (count != 0)
-                    cost = cost / count;
+                    cost = (cost / count) * modifier;
                 else
                     cost = float.PositiveInfinity;
 
@@ -218,7 +217,11 @@ namespace AperiodicTexturing
             if (bestMatch == null)
                 return null;
             else
-                return bestMatch.Tile.Image;
+            {
+                bestMatch.IncrementUsed();
+                return bestMatch.GetImageCopy(0);
+            }
+                
         }
 
     }
