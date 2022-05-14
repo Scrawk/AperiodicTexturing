@@ -348,6 +348,7 @@ namespace AperiodicTexturing
         private async void Run()
         {
 
+            //Run the task on a seperate thread as to not block main thread.
             await Task.Run(() =>
             {
                 try
@@ -364,14 +365,14 @@ namespace AperiodicTexturing
                     //Make the tiles tileable.
                     m_tileables = ImageSynthesis.CreateTileableImages(m_tiles, set, m_seed, m_token);
 
-                    Debug.Log("Max used " + set.GetMaxUsedCount());
-
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
                 catch(Exception e)
                 {
                     m_exception = e;
                 }
+
+                //Once finshed continue back onto main thread.
 
             }).ContinueWith((task) =>
             {

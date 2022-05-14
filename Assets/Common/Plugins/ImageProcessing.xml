@@ -491,12 +491,30 @@
             <param name="y">The column index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetRow(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Get the values of a row in the image. 
+            </summary>
+            <param name="row">The array to hold the values.</param>
+            <param name="y">The column index.</param>
+            <param name="c">The channels index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.SetRow(Common.Core.Colors.ColorRGBA[],System.Int32)">
             <summary>
             Set the values of a row in the image. 
             </summary>
             <param name="row">The array to holding the values.</param>
             <param name="y">The column index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetRow(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Set the values of a row in the image. 
+            </summary>
+            <param name="row">The array to holding the values.</param>
+            <param name="y">The column index.</param>
+            <param name="c">The channels index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.GetColumn(Common.Core.Colors.ColorRGBA[],System.Int32)">
@@ -507,6 +525,15 @@
             <param name="x">The column index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.GetColumn(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Get the values of a column in the image. 
+            </summary>
+            <param name="column">The array to hold the values.</param>
+            <param name="x">The column index.</param>
+            <param name="c">The channels index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.SetColumn(Common.Core.Colors.ColorRGBA[],System.Int32)">
             <summary>
             Set the values of a column in the image. 
@@ -515,11 +542,27 @@
             <param name="x">The column index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.SetColumn(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Set the values of a column in the image. 
+            </summary>
+            <param name="column">The array to holding the values.</param>
+            <param name="x">The column index.</param>
+            <param name="c">The channels index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Copy">
             <summary>
             Return a copy of the image.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.ToGreyScaleImage(System.Int32)">
+            <summary>
+            Convert to a greyscale image.
+            </summary>
+            <param name="c">The channel to use.</param>
+            <returns>The greayscale image.</returns>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.GetMipmap(System.Int32)">
             <summary>
@@ -554,6 +597,25 @@
             <param name="mode">The wrap mode to use.</param>
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.DFT(ImageProcessing.Images.ColorImage2D,System.Collections.Generic.List{ImageProcessing.Images.VectorImage2D})">
+            <summary>
+            Calculate the 2D DFT on a greayscale image.
+            Here we are using a vector to store the complex numbers
+            where the x component is the real part and the y component is the imaginary part.
+            </summary>
+            <param name="image">The image to transform.</param>
+            <param name="dft">A list to hold each transformed channel of the image.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.DFT(ImageProcessing.Images.ColorImage2D,System.Int32)">
+            <summary>
+            Calculate the 2D DFT on a greayscale image.
+            Here we are using a vector to store the complex numbers
+            where the x component is the real part and the y component is the imaginary part.
+            </summary>
+            <param name="image">The image to transform.</param>
+            <param name="channel">The channel to transform</param>
+            <returns>A vector image containing the spectrum as complex numbers.</returns>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.MinMaxRGBA(Common.Core.Colors.ColorRGBA@,Common.Core.Colors.ColorRGBA@)">
             <summary>
@@ -713,19 +775,17 @@
             Inverts the values in the image.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Sqrt(System.Boolean)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Sqrt">
             <summary>
             Take the sqrt of each value in the image
             with the option of taking the abs value first.
             </summary>
-            <param name="abs">Should the value be made abs first.</param>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Log(System.Boolean)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.Log">
             <summary>
             Take the log of each value in the image
             with the option of taking the abs value first.
             </summary>
-            <param name="abs">Should the value be made abs first.</param>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.Abs">
             <summary>
@@ -1357,7 +1417,7 @@
             <param name="wrap">The wrap mode for out of bounds indices, Defaluts to clamp.</param>
             <returns></returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.DFT">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.DFT(ImageProcessing.Images.GreyScaleImage2D)">
             <summary>
             Calculate the 2D DFT on a greayscale image.
             Here we are using a vector to store the complex numbers
@@ -1555,15 +1615,15 @@
             The size of the image as a box.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Images.Image2D`1.Tag">
-            <summary>
-            Tag for algorithms on the image can mark or 
-            id the image if needed. May change at any point.
-            </summary>
-        </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Name">
             <summary>
             The images optional name.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Images.Image2D`1.Properties">
+            <summary>
+            A optional properties.
+            Will remain null until a property is added.
             </summary>
         </member>
         <member name="P:ImageProcessing.Images.Image2D`1.Item(System.Int32,System.Int32)">
@@ -1766,6 +1826,13 @@
             <param name="x">The index on the x axis.</param>
             <param name="y">The index on the y axis.</param>
             <param name="mode">The wrapping mode.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.Copy(ImageProcessing.Images.Image2D{`0})">
+            <summary>
+            Can be called from a derived class to
+            set any data found in the base class.
+            </summary>
+            <param name="copy">The copy of this image.</param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.BlockSize(System.Int32)">
             <summary>
@@ -1996,6 +2063,32 @@
             <param name="maxLevel">The max level of mipmaps to create.</param>
             <param name="mode">The wrap mode to use.</param>
             <param name="method">The interpolation method to use.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.AddProperty(System.String,System.Object)">
+            <summary>
+            Add a property to the image. Could be any object.
+            </summary>
+            <param name="name">The name of the property.</param>
+            <param name="value">The properties value.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.GetProperty(System.String)">
+            <summary>
+            Get a property by its name.
+            </summary>
+            <param name="name">The properties name.</param>
+            <returns>The property if found or null if not.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.RemoveProperty(System.String)">
+            <summary>
+            Remove a property.
+            </summary>
+            <param name="name">The properties name.</param>
+            <returns>True if tthe property was removed.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.ClearProperties">
+            <summary>
+            Clear all properties.
+            </summary>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.GetInterpolatedPixel(System.Single,System.Single,ImageProcessing.Interpolation.InterpolationFunction,ImageProcessing.Images.WRAP_MODE)">
             <summary>
@@ -2386,6 +2479,20 @@
             <param name="g">The untransformed complex numbers.</param>
             <param name="G">The transformed complex numbers.</param>
             <param name="forward">Is this a forward or inverse transformation.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.DCT1D(System.Single[],System.Single[])">
+            <summary>
+            
+            </summary>
+            <param name="g"></param>
+            <param name="G"></param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.iDCT1D(System.Single[],System.Single[])">
+            <summary>
+            
+            </summary>
+            <param name="g"></param>
+            <param name="G"></param>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.HalfOffset``1(``0,System.Boolean)">
             <summary>
@@ -3310,12 +3417,30 @@
             <param name="y">The column index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetRow(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Get the values of a row in the image. 
+            </summary>
+            <param name="row">The array to hold the values.</param>
+            <param name="y">The column index.</param>
+            <param name="c">The channels index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.SetRow(Common.Core.Numerics.Vector2f[],System.Int32)">
             <summary>
             Set the values of a row in the image. 
             </summary>
             <param name="row">The array to holding the values.</param>
             <param name="y">The column index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetRow(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Set the values of a row in the image. 
+            </summary>
+            <param name="row">The array to holding the values.</param>
+            <param name="y">The column index.</param>
+            <param name="c">The channels index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the row length does not match the images width.</exception>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.GetColumn(Common.Core.Numerics.Vector2f[],System.Int32)">
@@ -3326,12 +3451,30 @@
             <param name="x">The column index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.GetColumn(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Get the values of a column in the image. 
+            </summary>
+            <param name="column">The array to hold the values.</param>
+            <param name="x">The column index.</param>
+            <param name="c">The channels index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.SetColumn(Common.Core.Numerics.Vector2f[],System.Int32)">
             <summary>
             Set the values of a column in the image. 
             </summary>
             <param name="column">The array to holding the values.</param>
             <param name="x">The column index.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.SetColumn(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Set the values of a column in the image. 
+            </summary>
+            <param name="column">The array to holding the values.</param>
+            <param name="x">The column index.</param>
+            <param name="c">The channels index.</param>
             <exception cref="T:System.ArgumentException">Thrown if the column length does not match the images height.</exception>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Copy">
@@ -3344,6 +3487,13 @@
             <summary>
             Convert to a greyscale image.
             </summary>
+            <returns>The greayscale image.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.ToGreyScaleImage(System.Int32)">
+            <summary>
+            Convert to a greyscale image.
+            </summary>
+            <param name="c">The channel to use.</param>
             <returns>The greayscale image.</returns>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.GetMipmap(System.Int32)">
@@ -3380,12 +3530,32 @@
             <param name="method">The interpolation method to use.</param>
             <exception cref="T:System.ArgumentException">If max levels is not greater than 0.</exception>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.iDFT">
+        <member name="M:ImageProcessing.Images.VectorImage2D.DFT(ImageProcessing.Images.VectorImage2D,System.Collections.Generic.List{ImageProcessing.Images.VectorImage2D})">
+            <summary>
+            Calculate the 2D DFT on a greayscale image.
+            Here we are using a vector to store the complex numbers
+            where the x component is the real part and the y component is the imaginary part.
+            </summary>
+            <param name="image">The image to transform.</param>
+            <param name="dft">A list to hold each transformed channel of the image.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.DFT(ImageProcessing.Images.VectorImage2D,System.Int32)">
+            <summary>
+            Calculate the 2D DFT on a greayscale image.
+            Here we are using a vector to store the complex numbers
+            where the x component is the real part and the y component is the imaginary part.
+            </summary>
+            <param name="image">The image to transform.</param>
+            <param name="channel">The channel to transform</param>
+            <returns>A vector image containing the spectrum as complex numbers.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.iDFT(ImageProcessing.Images.VectorImage2D)">
             <summary>
             Calculate the 2D inverse DFT on a vector image.
             Here we are using a vector to store the complex numbers
             where the x component is the real part and the y component is the imaginary part.
             </summary>
+            <param name="image">The image to transform.</param>
             <returns>THe real part of the transform in a greyscale image.</returns>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.MinMax(Common.Core.Numerics.Vector2f@,Common.Core.Numerics.Vector2f@)">
@@ -3582,6 +3752,32 @@
             <param name="includeAlpha">Should the alpha channel be included.</param>
             <param name="bigEndian">The endianness if 16 bits.</param>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.AddProperty(System.String,System.Object)">
+            <summary>
+            Add a property to the image. Could be any object.
+            </summary>
+            <param name="name">The name of the property.</param>
+            <param name="value">The properties value.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.GetProperty(System.String)">
+            <summary>
+            Get a property by its name.
+            </summary>
+            <param name="name">The properties name.</param>
+            <returns>The property if found or null if not.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.RemoveProperty(System.String)">
+            <summary>
+            Remove a property.
+            </summary>
+            <param name="name">The properties name.</param>
+            <returns>True if tthe property was removed.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.IImage2D.ClearProperties">
+            <summary>
+            Clear all properties.
+            </summary>
         </member>
         <member name="T:ImageProcessing.Images.StructureElement2D">
             <summary>
@@ -4263,6 +4459,12 @@
             Clear the histogram of all data.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.Copy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ImageProcessing.Statistics.ColorHistogram.GetChannel(System.Int32)">
             <summary>
             Get the histogram for a channel.
@@ -4420,6 +4622,12 @@
             Clear the histogram of all data.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Copy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ImageProcessing.Statistics.Histogram.GetBinCount(System.Int32)">
             <summary>
             Get the number of pixels in the bin at the index.
@@ -4567,6 +4775,11 @@
             Create a new bin.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Single}})">
+            <summary>
+            Create a new bin.
+            </summary>
+        </member>
         <member name="P:ImageProcessing.Statistics.HistogramBin.Count">
             <summary>
             THe number of pixels in the bin.
@@ -4587,6 +4800,12 @@
             <summary>
             Clear the bin of all pixels.
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.Copy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:ImageProcessing.Statistics.HistogramBin.GetPixel(System.Int32)">
             <summary>

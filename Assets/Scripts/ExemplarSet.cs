@@ -238,6 +238,24 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void CreateExemplarImages()
+        {
+            foreach (var exemplar in Exemplars)
+                exemplar.CreateImages();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CreateExemplarHistograms()
+        {
+            foreach (var exemplar in Exemplars)
+                exemplar.CreateHistograms();
+        }
+
+        /// <summary>
         /// Get a list of random exemplars.
         /// </summary>
         /// <param name="count">The number of exemplars to get. 
@@ -299,10 +317,17 @@ namespace AperiodicTexturing
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="numX"></param>
+        /// <param name="numY"></param>
+        /// <returns></returns>
         private List<Point2i> GetCropIndices(int numX, int numY)
         {
-            int width = ExemplarSize / numX;
-            int height = ExemplarSize / numY;
+            var source = Sources[0];
+            int width = source.Width / numX;
+            int height = source.Height / numY;
 
             var indices = new List<Point2i>();
 
@@ -311,6 +336,10 @@ namespace AperiodicTexturing
                 for (int y = 0; y < numY; y++)
                 {
                     var index = new Point2i(x * width, y * height);
+
+                    if (!SourceIsTileable && source.NotInBounds(index.x, index.y))
+                        continue;
+
                     indices.Add(index);
                 }
             }

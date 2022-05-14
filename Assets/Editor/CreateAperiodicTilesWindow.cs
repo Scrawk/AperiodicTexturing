@@ -44,7 +44,7 @@ namespace AperiodicTexturing
         /// <summary>
         /// The size of the exemplats used when filling patches.
         /// </summary>
-        private static int m_exemplarSize = 16;
+        private static int m_exemplarSize = 32;
 
         /// <summary>
         /// What variants should the exemplar set create.
@@ -84,6 +84,8 @@ namespace AperiodicTexturing
         private bool m_isRunning;
 
         private List<Tile> m_tiles;
+
+        private List<ColorImage2D> m_images;
 
         private WangTileSet m_tileSet;
 
@@ -150,14 +152,7 @@ namespace AperiodicTexturing
                 if (Validate())
                 {
 
-                    var images = AperiodicTilesEditorUtility.CreateImages(m_source);
-
-                    m_exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(images, m_sourceIsTileable, m_exemplarSize, m_varients);
-                    Debug.Log(m_exemplarSet);
-
-                    m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
-                    Debug.Log(m_tileSet);
-
+                    m_images = AperiodicTilesEditorUtility.CreateImages(m_source);
                     m_tiles = AperiodicTilesEditorUtility.CreateTiles(m_textures);
 
                     ResetBeforeRunning();
@@ -392,14 +387,22 @@ namespace AperiodicTexturing
 
         private async void Run()
         {
-
+            //Run the task on a seperate thread as to not block main thread.
             await Task.Run(() =>
             {
                 try
                 {
                     m_token.StartTimer();
-     
-                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, m_exemplarSet, m_token);
+
+                    //Create the exemplar set that will be used to fill patchs in the tiles.
+                    m_exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    Debug.Log(m_exemplarSet);
+
+                    //Create the wang tile set that contains the tiles to patch
+                    m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
+                    Debug.Log(m_tileSet);
+
+                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, m_exemplarSet, m_seed, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
@@ -408,8 +411,14 @@ namespace AperiodicTexturing
                     m_exception = e;
                 }
 
+                //Once finshed continue back onto main thread.
+
             }).ContinueWith((task) =>
             {
+                //Once the tiles have been created then continue onto the main thread.
+                //Check if the algorithm had a exception while running.
+                //If not save the tiles.
+
                 if (m_exception != null)
                 {
                     Debug.Log("Failed to create textures due to a exception.");

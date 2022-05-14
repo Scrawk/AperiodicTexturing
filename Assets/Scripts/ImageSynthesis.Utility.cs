@@ -13,6 +13,7 @@ using Common.Core.Extensions;
 using Common.GraphTheory.GridGraphs;
 
 using ImageProcessing.Images;
+using ImageProcessing.Statistics;
 
 namespace AperiodicTexturing
 {
@@ -20,6 +21,11 @@ namespace AperiodicTexturing
     {
         private const string DEUB_FOLDER = "C:/Users/Justin/OneDrive/Desktop/";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private static List<Point2i> GetMaskedPoints(BinaryImage2D mask)
         {
             var points = new List<Point2i>();
@@ -34,6 +40,14 @@ namespace AperiodicTexturing
             return points;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="points"></param>
+        /// <param name="image"></param>
+        /// <param name="set"></param>
+        /// <param name="rng"></param>
         private static void FillWithRandomFromExemplarSource(int index, List<Point2i> points, ColorImage2D image, ExemplarSet set, System.Random rng)
         {
             foreach (var p in points)
@@ -43,6 +57,13 @@ namespace AperiodicTexturing
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <param name="dilation"></param>
+        /// <param name="strength"></param>
+        /// <returns></returns>
         private static GreyScaleImage2D CreateMaskFromGraph(GridFlowGraph graph, int dilation, float strength)
         {
             var mask = new GreyScaleImage2D(graph.Width, graph.Height);
@@ -62,49 +83,13 @@ namespace AperiodicTexturing
             return mask;
         }
 
-        private static ColorImage2D BlendImages(GridFlowGraph graph, ColorImage2D source, ColorImage2D sink, GreyScaleImage2D mask)
-        {
-            var image = new ColorImage2D(graph.Width, graph.Height);
-            image.Fill(source);
-
-            graph.Iterate((x, y) =>
-            {
-                if (mask == null)
-                {
-                    if (graph.IsSink(x, y))
-                        image[x, y] = sink[x, y];
-                }
-                else
-                {
-                    float a = mask[x, y];
-                    image[x, y] = ColorRGBA.Lerp(source[x, y], sink[x, y], a);
-                }
-            });
-
-            return image;
-        }
-
-        private static GridFlowGraph MarkSourceAndSink(GridFlowGraph graph, int sourceArea, Box2i sinkArea)
-        {
-            graph.Iterate((x, y) =>
-            {
-                if (x < sourceArea ||
-                    y < sourceArea ||
-                    x > graph.Width - 1 - sourceArea ||
-                    y > graph.Height - 1 - sourceArea)
-                {
-                    graph.SetLabelAndCapacity(x, y, FLOW_GRAPH_LABEL.SOURCE, 255);
-                }
-            });
-
-            foreach (var p in sinkArea.EnumerateBounds())
-            {
-                graph.SetLabelAndCapacity(p.x, p.y, FLOW_GRAPH_LABEL.SINK, 255);
-            }
-
-            return graph;
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <param name="sourceOffset"></param>
+        /// <param name="sinkOffset"></param>
+        /// <returns></returns>
         private static GridFlowGraph MarkSourceAndSink(GridFlowGraph graph, int sourceOffset, int sinkOffset)
         {
 
@@ -127,6 +112,13 @@ namespace AperiodicTexturing
             return graph;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image1"></param>
+        /// <param name="image2"></param>
+        /// <param name="isOrthogonal"></param>
+        /// <returns></returns>
         private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, bool isOrthogonal)
         {
             var graph = new GridFlowGraph(image1.Width, image1.Height, isOrthogonal);
@@ -155,20 +147,39 @@ namespace AperiodicTexturing
             return graph;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="set"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private static Exemplar FindBestMatch(ColorImage2D image, ExemplarSet set, BinaryImage2D mask = null)
         {
 
+            var histo = new ColorHistogram(image, 256);
             var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
 
             for (int k = 0; k < costs.Length; k++)
             {
                 var exemplar = set[k];
 
-                if (exemplar == null)
-                {
-                    costs[k] = new Tuple<float, Exemplar>(float.PositiveInfinity, null);
-                    continue;
-                }
+                float cost = exemplar.SqrDistance(0, histo);
+
+                float modifier = 1.0f + exemplar.Used * 0.25f;
+                cost *= modifier;
+
+                costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+            }
+
+            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
+
+            int trimmed_costs_len = Math.Min(100, costs.Length);
+            var trimmed_costs = new Tuple<float, Exemplar>[trimmed_costs_len];
+
+            for (int k = 0; k < trimmed_costs_len; k++)
+            {
+                var exemplar = costs[k].Item2;
 
                 float cost = 0;
                 int count = 0;
@@ -188,39 +199,34 @@ namespace AperiodicTexturing
                 }
 
                 float modifier = 1.0f + exemplar.Used * 0.25f;
+                cost *= modifier;
 
                 if (count != 0)
                     cost = (cost / count) * modifier;
                 else
                     cost = float.PositiveInfinity;
 
-                costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+                trimmed_costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
             }
 
-            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
+            Array.Sort(trimmed_costs, (x, y) => x.Item1.CompareTo(y.Item1));
 
             Exemplar bestMatch = null;
             float bestCost = float.PositiveInfinity;
 
-            for (int i = 0; i < costs.Length; i++)
+            for (int i = 0; i < trimmed_costs.Length; i++)
             {
-                if (costs[i].Item1 == float.PositiveInfinity) continue;
-                if (costs[i].Item2 == null) continue;
+                if (trimmed_costs[i].Item1 == float.PositiveInfinity) continue;
+                if (trimmed_costs[i].Item2 == null) continue;
 
-                if (costs[i].Item1 < bestCost)
+                if (trimmed_costs[i].Item1 < bestCost)
                 {
-                    bestCost = costs[i].Item1;
-                    bestMatch = costs[i].Item2;
+                    bestCost = trimmed_costs[i].Item1;
+                    bestMatch = trimmed_costs[i].Item2;
                 }
             }
 
-            if (bestMatch == null)
-                return null;
-            else
-            {
-                return bestMatch;
-            }
-                
+            return bestMatch;
         }
 
     }

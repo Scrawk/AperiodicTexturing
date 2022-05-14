@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Common.Core.Colors;
 using Common.Core.Numerics;
 using ImageProcessing.Images;
+using ImageProcessing.Statistics;
 
 namespace AperiodicTexturing
 {
@@ -99,13 +100,23 @@ namespace AperiodicTexturing
         private List<ColorImage2D> Sources { get; set; }
 
         /// <summary>
+        /// The exemplars optional images. Null and not created by default.
+        /// </summary>
+        private List<ColorImage2D> Images { get; set; }
+
+        /// <summary>
+        /// The exemplars optional histograms. Null and not created by default.
+        /// </summary>
+        private List<ColorHistogram> Histograms { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[Exemplar: SourceCount={0}, ExemplarSize={1}, Used={2}, Variant={3}]",
-                SourceCount, ExemplarSize, Used, Variant);
+            return String.Format("[Exemplar: Index={0}, SourceCount={1}, ExemplarSize={2}, Used={3}, Variant={4}]",
+                Index, SourceCount, ExemplarSize, Used, Variant);
         }
 
         /// <summary>
@@ -115,6 +126,21 @@ namespace AperiodicTexturing
         public Exemplar Copy()
         {
             var copy = new Exemplar(Index, ExemplarSize, Sources, Variant);
+
+            if(Images != null)
+            {
+                copy.Images = new List<ColorImage2D>(SourceCount);
+                foreach (var image in Images)
+                    copy.Images.Add(image.Copy());
+            }
+
+            if (Histograms != null)
+            {
+                copy.Histograms = new List<ColorHistogram>(SourceCount);
+                foreach (var histo in Histograms)
+                    copy.Histograms.Add(histo.Copy());
+            }
+
             return copy;
         }
 
@@ -131,8 +157,17 @@ namespace AperiodicTexturing
             if (i < 0 || i >= SourceCount)
                 throw new ArgumentOutOfRangeException("Index out of source images range.");
 
-            var index = GetIndex(x, y);
-            return Sources[i].GetPixel(index.x, index.y, wrap);
+            if(Images != null)
+            {
+                var index = GetIndex(x, y, false);
+                return Images[i].GetPixel(index.x, index.y, wrap);
+            }
+            else
+            {
+                var index = GetIndex(x, y, true);
+                return Sources[i].GetPixel(index.x, index.y, wrap);
+            }
+
         }
 
         /// <summary>
@@ -150,20 +185,72 @@ namespace AperiodicTexturing
         /// <summary>
         /// 
         /// </summary>
+        public void CreateImages()
+        {
+            Images = new List<ColorImage2D>(SourceCount);
+
+            for (int i = 0; i < SourceCount; i++)
+                Images.Add(GetImageCopy(i));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CreateHistograms()
+        {
+            Histograms = new List<ColorHistogram>(SourceCount);
+
+            for (int i = 0; i < SourceCount; i++)
+            {
+                ColorImage2D image = null;
+
+                if (Images != null)
+                    image = Images[i];
+                else
+                    image = GetImageCopy(i);
+
+                Histograms.Add(new ColorHistogram(image, 256));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="histo"></param>
+        /// <returns></returns>
+        public float SqrDistance(int i, ColorHistogram histo)
+        {
+            if (Histograms == null)
+                throw new NullReferenceException("Histograms have not been created.");
+
+            return Histograms[i].SqrDistance(histo);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
         public ColorImage2D GetImageCopy(int i)
         {
-            var image = new ColorImage2D(ExemplarSize, ExemplarSize);
-            var source = Sources[i];
-
-            image.Fill((x, y) =>
+            if(Images != null)
             {
-                var index = GetIndex(x, y);
-                return source[index.x, index.y];
-            });
+                return Images[i].Copy();
+            }
+            else
+            {
+                var image = new ColorImage2D(ExemplarSize, ExemplarSize);
+                var source = Sources[i];
 
-            return image;
+                image.Fill((x, y) =>
+                {
+                    var index = GetIndex(x, y, true);
+                    return source[index.x, index.y];
+                });
+
+                return image;
+            }
         }
 
         /// <summary>
@@ -200,9 +287,14 @@ namespace AperiodicTexturing
         /// 
         /// </summary>
         /// <returns></returns>
-        private Point2i GetIndex(int x, int y)
+        private Point2i GetIndex(int x, int y, bool isSource)
         {
-            var index = new Point2i(Index.x + x, Index.y + y);
+            Point2i index;
+
+            if(isSource)
+                index = new Point2i(Index.x + x, Index.y + y);
+            else
+                index = new Point2i(x, y);
 
             switch (Variant)
             {

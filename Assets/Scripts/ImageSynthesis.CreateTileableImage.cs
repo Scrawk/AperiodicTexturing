@@ -32,6 +32,8 @@ namespace AperiodicTexturing
             var tileables = new Tile[count];
             var sets = new ExemplarSet[count];
 
+            exemplarSet.CreateExemplarHistograms();
+
             //Create a set for each tile for thread safety.
             for (int i = 0; i < count; i++)
                 sets[i] = exemplarSet.Copy();
@@ -70,18 +72,19 @@ namespace AperiodicTexturing
         {
             int width = tile.Width;
             int height = tile.Height;
+            int halfWidth = width / 2;
+            int halfHeight = height / 2;
             int seamsMaskThickness = 0;
 
             //Copy the tile and offset
             var tileable = tile.Copy();
-            tileable.HalfOffset(true);
+            tileable.Offset(halfWidth, halfHeight);
 
             //Create the lines that will cover the seems in the tile.
-            var horzontal = new Segment2f(0, height / 2, width, height / 2);
-            var vertical = new Segment2f(width / 2, 0, width / 2, height);
+            var horzontal = new Segment2f(0, halfHeight, width, halfHeight);
+            var vertical = new Segment2f(halfWidth, 0, halfWidth, height);
 
             //Create a mask that covers the seams in the tile.
-            //This is the area that will be blurred.
             var mask = CreateTiles_CreateOffsetSeamsMask(width, height, horzontal, vertical, seamsMaskThickness);
 
             //Get a list of all the masked points in the mask.
@@ -90,11 +93,11 @@ namespace AperiodicTexturing
             points.Shuffle(rng);
 
             //Fill the areas of the image with random pixels that match the source image.
-            //FillWithRandomFromExemplarSource(0, points, tileable.Image, set, rng);
+            FillWithRandomFromExemplarSource(0, points, tileable.Image, set, rng);
 
             //Fill the areas of the image that need to be filled to black
             //For debugging so its easy to see if a area has been missed.
-            tileable.Image.Fill(points, ColorRGBA.Black);
+            //tileable.Image.Fill(points, ColorRGBA.Black);
 
             //Patch any parts of the images that 
             CreateTiles_FillPatches(points, set, mask, tileable.Image);
@@ -115,14 +118,12 @@ namespace AperiodicTexturing
             int halfExemplarSize = exemplarSize / 2;
             int sourceOffset = 2;
             int sinkOffset = halfExemplarSize - 4;
-            int blendMaskDilation = 0;
-            float blendMaskBlur = 0;
+            int blendMaskDilation = 2;
+            float blendMaskBlur = 0.5f;
 
             //create a reusable search object for the graph cut.
             //Will help reduce the number garbage objects created.
             var search = new GridFlowSearch(exemplarSize, exemplarSize);
-
-            int count = 0;
 
             foreach (var p in points)
             {
@@ -131,8 +132,6 @@ namespace AperiodicTexturing
 
                 //If already been fill continue.
                 if (!mask[x, y]) continue;
-
-                if (count++ > 0) return;
 
                 //Create a box covering the area that needs to be filled.
                 var box = new Box2i(x - halfExemplarSize, y - halfExemplarSize, x + halfExemplarSize, y + halfExemplarSize);
@@ -159,17 +158,10 @@ namespace AperiodicTexturing
                 graph.Calculate(search);
 
                 //Create the mask used to blend the match and crop together.
-                var blendMask = CreateMaskFromGraph(graph, blendMaskDilation, blendMaskBlur);
-
-                //Blend the match and crop together.
-                var blendedImage = BlendImages(graph, imageCrop, match, blendMask);
+                var blend = CreateMaskFromGraph(graph, blendMaskDilation, blendMaskBlur);
 
                 //Fill the image with blended match
-                image.Fill(blendedImage, box, WRAP_MODE.WRAP);
-
-                //Update the areas of the mask that have been filled.
-                CreateTiles_FillMask(box, mask, blendMask);
-
+                CreateTiles_UpdateImageAndMask(box, image, imageCrop, match, mask, blend);
             };
         }
 
@@ -198,21 +190,36 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// Updates the mask by setting any areas of the mask that have been filled to false value.
+        /// 
         /// </summary>
         /// <param name="bounds"></param>
+        /// <param name="crop"></param>
+        /// <param name="match"></param>
         /// <param name="mask"></param>
-        /// <param name="blendMask"></param>
-        private static void CreateTiles_FillMask(Box2i bounds, BinaryImage2D mask, GreyScaleImage2D blendMask)
+        /// <param name="blend"></param>
+        private static void CreateTiles_UpdateImageAndMask(Box2i bounds, ColorImage2D image, ColorImage2D crop, ColorImage2D match, BinaryImage2D mask, GreyScaleImage2D blend)
         {
             for (int y = bounds.Min.y, j = 0; y < bounds.Max.y; y++, j++)
             {
                 for (int x = bounds.Min.x, i = 0; x < bounds.Max.x; x++, i++)
                 {
-                    if (blendMask.GetValue(x, y, WRAP_MODE.WRAP) == 0)
-                        continue;
+                    var p1 = crop[i, j];
+                    var p2 = match[i, j];
+                    var a = blend[i, j];
 
-                    mask.SetValue(i, j, false, WRAP_MODE.WRAP);
+                    if (mask[i, j] || a >= 1)
+                    {
+                        mask.SetValue(x, y, false, WRAP_MODE.WRAP);
+                        image.SetPixel(x, y, p2, WRAP_MODE.WRAP, BLEND_MODE.NONE);
+                    }
+                    else if(a > 0)
+                    {
+                        var p = ColorRGBA.Lerp(p1, p2, a);
+
+                        mask.SetValue(x, y, false, WRAP_MODE.WRAP);
+                        image.SetPixel(x, y, p, WRAP_MODE.WRAP, BLEND_MODE.NONE);
+                    }
+
                 }
             }
         }
