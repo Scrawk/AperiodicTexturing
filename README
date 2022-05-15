@@ -28,4 +28,6 @@ if you need to generate the textures you can use the editor script.
 
 Go to windows->aperiodical texturing->create tileables
 
+![tileableEditorWindow](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/CreateTileableTexturesWindow.png)
+
 Press create to make the textures. The results will be saved in the results folder. 
