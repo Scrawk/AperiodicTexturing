@@ -158,19 +158,71 @@ namespace AperiodicTexturing
 			Tile.Fill(images);
         }
 
+		public GreyScaleImage2D CreateMap()
+		{
+			var map = new GreyScaleImage2D(Width, Height);
+
+			if (IsConst)
+			{
+				map.Fill(Left);
+			}
+			else
+			{
+				var c00 = new Point2i(0, 0);
+				var c01 = new Point2i(0, Height);
+				var c10 = new Point2i(Width, 0);
+				var c11 = new Point2i(Width, Height);
+				var mid = new Point2i(Width / 2, Height / 2);
+
+				map.DrawTriangle(mid, c00, c01, new ColorRGBA(Left, 1), true);
+				map.DrawTriangle(mid, c00, c10, new ColorRGBA(Bottom, 1), true);
+				map.DrawTriangle(mid, c10, c11, new ColorRGBA(Right, 1), true);
+				map.DrawTriangle(mid, c01, c11, new ColorRGBA(Top, 1), true);
+			}
+
+			return map;
+		}
+
 		/// <summary>
 		/// Colors the edges of the image according to its edge color id.
 		/// </summary>
 		/// <param name="thickness">The thickness of the border.</param>
 		/// <param name="alpha">The colors alpha.</param>
-		public void AddEdgeColor(int thickness, float alpha)
+		public ColorImage2D CreateEdgeColorMap(int thickness, float alpha)
 		{
 			ColorRGBA a = new ColorRGBA(1, 1, 1, alpha);
 
-			Tile.Images[0].DrawBox(0, thickness+1, thickness, Width - thickness - 1, Colors[Left] * a, true);
-			Tile.Images[0].DrawBox(thickness+1, 0, Width - thickness - 1, thickness, Colors[Bottom] * a, true);
-			Tile.Images[0].DrawBox(Width - thickness, thickness+1, Width, Height - thickness - 1, Colors[Right] * a, true);
-			Tile.Images[0].DrawBox(thickness+1, Height - thickness, Width - thickness - 1, Height, Colors[Top] * a, true);
+			var image = new ColorImage2D(Width, Height);
+
+			image.DrawBox(0, thickness+1, thickness, Width - thickness - 1, Colors[Left] * a, true);
+			image.DrawBox(thickness+1, 0, Width - thickness - 1, thickness, Colors[Bottom] * a, true);
+			image.DrawBox(Width - thickness, thickness+1, Width, Height - thickness - 1, Colors[Right] * a, true);
+			image.DrawBox(thickness+1, Height - thickness, Width - thickness - 1, Height, Colors[Top] * a, true);
+
+			return image;
+		}
+
+		/// <summary>
+		/// Colors the image according to its edge color id.
+		/// </summary>
+		/// <param name="alpha"></param>
+		public ColorImage2D CreateColorMap(float alpha)
+		{
+			ColorRGBA a = new ColorRGBA(1, 1, 1, alpha);
+
+			var map = CreateMap();
+			var image = new ColorImage2D(Width, Height);
+
+			image.Fill((x,y) =>
+			{
+				int index = (int)map[x, y];
+				return Colors[index] * a;
+			});
+
+			//Add a border of blak pixels around image.
+			image.DrawBox(image.Bounds, ColorRGBA.Black, false);
+
+			return image;
 		}
 
 	}

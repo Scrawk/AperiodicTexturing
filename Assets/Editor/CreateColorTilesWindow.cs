@@ -12,17 +12,25 @@ using ImageProcessing.Images;
 
 namespace AperiodicTexturing
 {
+    public enum WANG_TILE_COLOR_STYLE
+    {
+        EDGES,
+        SOLID
+    }
+
     class CreateColorTilesWidow : EditorWindow
     {
         private static int m_numHColors = 2;
 
         private static int m_numVColors = 2;
 
-        private static int m_tileSize = 128;
+        private static int m_tileSize = 256;
 
         private static int m_thickness = 4;
 
         private static float m_alpha = 1;
+
+        private static WANG_TILE_COLOR_STYLE m_style = WANG_TILE_COLOR_STYLE.EDGES;
 
         private static string m_folderName = "Textures Results";
 
@@ -53,6 +61,7 @@ namespace AperiodicTexturing
             m_thickness = Mathf.Clamp(EditorGUILayout.IntField("Thickness", m_thickness), 1, 32);
             m_alpha = Mathf.Clamp(EditorGUILayout.FloatField("Aplha", m_alpha), 0, 1);
             m_backGroundColor = EditorGUILayout.ColorField("Back ground color", m_backGroundColor);
+            m_style = (WANG_TILE_COLOR_STYLE)EditorGUILayout.EnumPopup("Style", m_style);
 
             m_folderName = EditorGUILayout.TextField("Output folder", m_folderName);
             m_tileFileName = EditorGUILayout.TextField("Tile file name", m_tileFileName);
@@ -88,7 +97,6 @@ namespace AperiodicTexturing
         {
 
             var set = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
-            set.AddEdgeColor(m_thickness, 1);
 
             int tileTextureWidth = set.NumHTiles;
             int tileTextureHeight = set.NumVTiles;
@@ -104,6 +112,13 @@ namespace AperiodicTexturing
                 {
                     var tile = set.Tiles[x, y];
 
+                    ColorImage2D image = null;
+                    
+                    if(m_style == WANG_TILE_COLOR_STYLE.EDGES)
+                        image = tile.CreateEdgeColorMap(m_thickness, m_alpha);
+                    else
+                        image = tile.CreateColorMap(m_alpha);
+
                     for (int i = 0; i < m_tileSize; i++)
                     {
                         for (int j = 0; j < m_tileSize; j++)
@@ -111,7 +126,7 @@ namespace AperiodicTexturing
                             int xi = x * m_tileSize + i;
                             int yj = y * m_tileSize + j;
 
-                            var col = tile.Tile.Images[0][i, j].ToColor();
+                            var col = image[i, j].ToColor();
 
                             if (col == Color.black)
                                 pixels[xi + yj * width] = m_backGroundColor;

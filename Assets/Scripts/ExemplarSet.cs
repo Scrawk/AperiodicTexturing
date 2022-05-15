@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Common.Core.Numerics;
 using Common.Core.Colors;
 using Common.Core.Shapes;
-using Common.Core.Directions;
+using Common.Core.Extensions;
 
 using ImageProcessing.Images;
 using System.Collections;
@@ -265,7 +265,7 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Create the exemplar images from the source images.
         /// </summary>
         public void CreateExemplarImages()
         {
@@ -274,12 +274,33 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Create the exemplar histograms from there images.
         /// </summary>
         public void CreateExemplarHistograms()
         {
             foreach (var exemplar in Exemplars)
                 exemplar.CreateHistograms();
+        }
+
+        /// <summary>
+        /// Shuffles the exemplars and trims the list size.
+        /// </summary>
+        /// <param name="trim">The size the exemplar list should be trimmmed to.</param>
+        /// <param name="seed">The random generators seed used to shuffle exemplars.</param>
+        public void ShuffleAndTrim(int trim, int seed)
+        {
+            Exemplars.Shuffle(seed);
+
+            if (Exemplars.Count < trim)
+                return;
+
+            var tmp = new List<Exemplar>(Exemplars);
+            Exemplars.Clear();
+
+            for (int i= 0; i < trim; i++)
+            {
+                Exemplars.Add(tmp[i]);
+            }
         }
 
         /// <summary>

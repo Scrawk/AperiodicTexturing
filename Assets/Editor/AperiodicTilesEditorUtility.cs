@@ -132,13 +132,13 @@ namespace AperiodicTexturing
                 tex.SetPixels(pixels);
                 tex.Apply();
 
-                folderName = Application.dataPath + "/" + folderName;
+                string folder = Application.dataPath + "/" + folderName;
                 string hv = tileSet.NumHColors + "x" + tileSet.NumVColors;
-                fileName = folderName + "/" + fileName + k + "_" + hv + ".png";
+                string name = folder + "/" + fileName + k + "_" + hv + ".png";
 
-                System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
+                System.IO.File.WriteAllBytes(name, tex.EncodeToPNG());
 
-                Debug.Log("Saved texture " + fileName);
+                Debug.Log("Saved texture " + name);
             }
 
             AssetDatabase.Refresh();

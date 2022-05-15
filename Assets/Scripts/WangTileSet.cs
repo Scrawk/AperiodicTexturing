@@ -117,17 +117,6 @@ namespace AperiodicTexturing
 		}
 
 		/// <summary>
-		/// Add the edge colors to all the tiles in the set.
-		/// </summary>
-		/// <param name="thickness">The thickness of the border.</param>
-		/// <param name="alpha">The colors alpha.</param>
-		public void AddEdgeColor(int thickness, float alpha)
-        {
-			foreach (var tile in Tiles)
-				tile.AddEdgeColor(thickness, alpha);
-        }
-
-		/// <summary>
 		/// Create a new tile mapping where the mapping is a 2D array of 
 		/// randomly selected tiles with the constraint that each tiles 
 		/// edge colors must match is 4 neighbours colors.

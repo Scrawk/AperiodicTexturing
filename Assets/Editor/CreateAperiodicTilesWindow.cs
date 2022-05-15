@@ -47,6 +47,11 @@ namespace AperiodicTexturing
         private static int m_exemplarSize = 32;
 
         /// <summary>
+        /// The maximum number of exemplars to use.
+        /// </summary>
+        private static int m_maxExemplars = 1000;
+
+        /// <summary>
         /// What variants should the exemplar set create.
         /// Will results in more variations being create
         /// that could result in better matches.
@@ -223,6 +228,7 @@ namespace AperiodicTexturing
             m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
             m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar size", m_exemplarSize), 16, 32);
+            m_maxExemplars = Mathf.Max(EditorGUILayout.IntField("Max exemplars", m_maxExemplars), 10);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
             m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
@@ -396,6 +402,7 @@ namespace AperiodicTexturing
 
                     //Create the exemplar set that will be used to fill patchs in the tiles.
                     m_exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    m_exemplarSet.ShuffleAndTrim(m_maxExemplars, m_seed);
                     Debug.Log(m_exemplarSet);
 
                     //Create the wang tile set that contains the tiles to patch

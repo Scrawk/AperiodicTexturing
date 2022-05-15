@@ -41,6 +41,11 @@ namespace AperiodicTexturing
         private static int m_exemplarSize = 32;
 
         /// <summary>
+        /// The maximum number of exemplars to use.
+        /// </summary>
+        private static int m_maxExemplars = 1000;
+
+        /// <summary>
         /// The seed used for the random generator.
         /// </summary>
         private static int m_seed = 0;
@@ -211,6 +216,7 @@ namespace AperiodicTexturing
             m_numTiles = Mathf.Max(EditorGUILayout.IntField("Number of tiles", m_numTiles), 1);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
             m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar Size", m_exemplarSize), 8, 64);
+            m_maxExemplars = Mathf.Max(EditorGUILayout.IntField("Max exemplars", m_maxExemplars), 10);
             m_varients = (EXEMPLAR_VARIANT)EditorGUILayout.EnumFlagsField("Varients", m_varients);
             m_useThreading = EditorGUILayout.Toggle("Use multi-threading", m_useThreading);
             m_sourceIsTileable = EditorGUILayout.Toggle("Source is tileable", m_sourceIsTileable);
@@ -360,6 +366,7 @@ namespace AperiodicTexturing
 
                     //Create the exemplar set used to patch the tiles.
                     var set = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    set.ShuffleAndTrim(m_maxExemplars, m_seed);
                     Debug.Log(set);
 
                     //Make the tiles tileable.
