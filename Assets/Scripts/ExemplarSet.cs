@@ -66,6 +66,11 @@ namespace AperiodicTexturing
         public int ExemplarCount => Exemplars.Count;
 
         /// <summary>
+        /// The numer of source images in the set.
+        /// </summary>
+        public int SourceCount => Sources.Count;
+
+        /// <summary>
         /// The width and height of a exemplars image.
         /// </summary>
         public int ExemplarSize { get; private set; }
@@ -171,6 +176,28 @@ namespace AperiodicTexturing
             }
 
             Exemplars.AddRange(variants);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public List<Exemplar> GetVariants(int index, EXEMPLAR_VARIANT flags)
+        {
+            var variants = new List<Exemplar>();
+
+            if (flags == EXEMPLAR_VARIANT.NONE)
+                return variants;
+
+            var exemplar = Exemplars[index];
+            variants.Add(exemplar);
+
+            var v = exemplar.CreateVariants(flags);
+            variants.AddRange(v);
+
+            return variants;
         }
 
         /// <summary>

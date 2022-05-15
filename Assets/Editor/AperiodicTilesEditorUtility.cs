@@ -105,38 +105,41 @@ namespace AperiodicTexturing
             int width = tileSize * tileTextureWidth;
             int height = tileSize * tileTextureHeight;
 
-            Color[] pixels = new Color[width * height];
-
-            for (int x = 0; x < tileTextureWidth; x++)
+            for (int k = 0; k < tileSet.NumTileImages; k++)
             {
-                for (int y = 0; y < tileTextureHeight; y++)
+                Color[] pixels = new Color[width * height];
+
+                for (int x = 0; x < tileTextureWidth; x++)
                 {
-                    var tile = tileSet.Tiles[x, y];
-
-                    for (int i = 0; i < tileSize; i++)
+                    for (int y = 0; y < tileTextureHeight; y++)
                     {
-                        for (int j = 0; j < tileSize; j++)
-                        {
-                            int xi = x * tileSize + i;
-                            int yj = y * tileSize + j;
+                        var tile = tileSet.Tiles[x, y];
 
-                            pixels[xi + yj * width] = tile.Tile.Image[i, j].ToColor();
+                        for (int i = 0; i < tileSize; i++)
+                        {
+                            for (int j = 0; j < tileSize; j++)
+                            {
+                                int xi = x * tileSize + i;
+                                int yj = y * tileSize + j;
+
+                                pixels[xi + yj * width] = tile.Tile.Images[k][i, j].ToColor();
+                            }
                         }
                     }
                 }
+
+                var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+                tex.SetPixels(pixels);
+                tex.Apply();
+
+                folderName = Application.dataPath + "/" + folderName;
+                string hv = tileSet.NumHColors + "x" + tileSet.NumVColors;
+                fileName = folderName + "/" + fileName + k + "_" + hv + ".png";
+
+                System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
+
+                Debug.Log("Saved texture " + fileName);
             }
-
-            var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
-            tex.SetPixels(pixels);
-            tex.Apply();
-
-            folderName = Application.dataPath + "/" + folderName;
-            string hv = tileSet.NumHColors+ "x" + tileSet.NumVColors;
-            fileName = folderName + "/" + fileName + hv + ".png";
-
-            System.IO.File.WriteAllBytes(fileName, tex.EncodeToPNG());
-
-            Debug.Log("Saved texture " + fileName);
 
             AssetDatabase.Refresh();
         }

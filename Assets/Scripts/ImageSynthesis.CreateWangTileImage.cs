@@ -59,13 +59,13 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Patch each tile in the wang tile set.
         /// </summary>
-        /// <param name="wtile"></param>
-        /// <param name="tileables"></param>
-        /// <param name="set"></param>
-        /// <param name="seed"></param>
-        private static void CreateWangTileImage(WangTile wtile, IList<Tile> tileables, ExemplarSet set, int seed)
+        /// <param name="wtile">The wang tile to patch.</param>
+        /// <param name="tileables">The tileable images used to fill the tiles.</param>
+        /// <param name="set">The exemplars that contain the patches.</param>
+        /// <param name="seed">A seed for the random generator.</param>
+        private static void CreateWangTileImage(WangTile wtile, IList<Tile> tileables, ExemplarSet set, int seed, ThreadingToken token = null)
         {
             var colors = CreateWangTiles_GetSortedColors(wtile);
             var rng = new System.Random(seed);
@@ -74,6 +74,9 @@ namespace AperiodicTexturing
 
             for (int i = 0; i < colors.Count; i++)
             {
+                if (token != null && token.Cancelled)
+                    return;
+
                 if(i == 0)
                 {
                     //If this is the first tile it just consists of one image.
@@ -83,36 +86,36 @@ namespace AperiodicTexturing
                 }
                 else
                 {
-                    int color = colors[i];
-                    var tile = wtile.Tile;
-                    var image = tile.Image;
+                    //for each source image in set create a tileable image.
+                    for (int j = 0; j < set.SourceCount; j++)
+                    {
+                        int color = colors[i];
+                        var tile = wtile.Tile;
+                        var image = tile.Images[j];
 
-                    //Create a map the describes which pixels contain which tile.
-                    var map = CreateWangTiles_CreateMapFromWangTile(wtile);
+                        //Create a map the describes which pixels contain which tile.
+                        var map = CreateWangTiles_CreateMapFromWangTile(wtile);
 
-                    //Create a mask that covers the seams where different tiles meet.
-                    var mask = CreateWangTiles_CreateMask(map, color, maskThickness);
+                        //Create a mask that covers the seams where different tiles meet.
+                        var mask = CreateWangTiles_CreateMask(map, color, maskThickness);
 
-                    //Fill the tiles based on the map.
-                    CreateWangTiles_FillFromMap(map, image, tileables);
+                        //Fill the tiles based on the map.
+                        CreateWangTiles_FillFromMap(j, map, image, tileables);
 
-                    //Get a list of all the masked points in the mask.
-                    //Randomize the points. This is the order the patchs will be filled.
-                    var points = GetMaskedPoints(mask);
-                    points.Shuffle(rng);
+                        //Get a list of all the masked points in the mask.
+                        //Randomize the points. This is the order the patchs will be filled.
+                        var points = GetMaskedPoints(mask);
+                        points.Shuffle(rng);
 
-                    //Fill the areas of the image with random pixels that match the source image.
-                    FillWithRandomFromExemplarSource(0, points, image, set, rng);
+                        //Fill the areas of the image with random pixels that match the source image.
+                        FillWithRandomFromExemplarSource(j, points, image, set, rng);
 
-                    //Fill the areas of the image that need to be filled to black
-                    //For debugging so its easy to see if a area has been missed.
-                    //image.Fill(points, ColorRGBA.Black);
+                        //Reset the used count
+                        set.ResetUsedCount();
 
-                    CreateWangTiles_FillPatches(points, set, mask, image);
-
-                    //image.SaveAsRaw(DEUB_FOLDER + "tile" + wtile.Index1);
-                    //map.SaveAsRaw(DEUB_FOLDER + "map" + wtile.Index1);
-                    //mask.SaveAsRaw(DEUB_FOLDER + "mask" + wtile.Index1);
+                        //Fill the patched areas of the image
+                        CreateWangTiles_FillPatches(points, set, mask, image);
+                    }
 
                 }
             }
@@ -126,7 +129,7 @@ namespace AperiodicTexturing
         /// <param name="set"></param>
         /// <param name="mask"></param>
         /// <param name="image"></param>
-        private static void CreateWangTiles_FillPatches(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
+        private static void CreateWangTiles_FillPatches(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image, ThreadingToken token = null)
         {
             int exemplarSize = set.ExemplarSize;
             int halfExemplarSize = exemplarSize / 2;
@@ -135,12 +138,19 @@ namespace AperiodicTexturing
             int sinkOffset = halfExemplarSize - 4;
             int blendMaskDilation = 2;
             float blendMaskBlur = 0.5f;
+            int trimmedCostsSize = 100;
+            float costModifer = 0.25f;
 
             foreach (var p in points)
             {
+                //Check if cancelled.
+                if (token != null && token.Cancelled)
+                    return;
+
                 int x = p.x;
                 int y = p.y;
 
+                //Skip any points that are to close to the edge.
                 if (x < quaterExemplarSize || x > image.Width - quaterExemplarSize - 1)
                     continue;
 
@@ -153,7 +163,7 @@ namespace AperiodicTexturing
                 var imageCrop = ColorImage2D.Crop(image, box, WRAP_MODE.WRAP);
                 var maskCrop = ColorImage2D.Crop(mask, box, WRAP_MODE.WRAP);
 
-                var exemplar = FindBestMatch(imageCrop, set, maskCrop);
+                var exemplar = FindBestMatch(0, imageCrop, set, trimmedCostsSize, costModifer, maskCrop);
                 if (exemplar == null) continue;
 
                 exemplar.IncrementUsed();
@@ -228,12 +238,12 @@ namespace AperiodicTexturing
         /// <param name="map"></param>
         /// <param name="image"></param>
         /// <param name="tileables"></param>
-        private static void CreateWangTiles_FillFromMap(GreyScaleImage2D map, ColorImage2D image, IList<Tile> tileables)
+        private static void CreateWangTiles_FillFromMap(int index, GreyScaleImage2D map, ColorImage2D image, IList<Tile> tileables)
         {
             image.Fill((x, y) =>
             {
                 int index = (int)map[x, y];
-                return tileables[index].Image[x, y];
+                return tileables[index].Images[index][x, y];
             });
         }
 

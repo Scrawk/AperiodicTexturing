@@ -111,7 +111,7 @@ namespace AperiodicTexturing
                             int xi = x * m_tileSize + i;
                             int yj = y * m_tileSize + j;
 
-                            var col = tile.Tile.Image[i, j].ToColor();
+                            var col = tile.Tile.Images[0][i, j].ToColor();
 
                             if (col == Color.black)
                                 pixels[xi + yj * width] = m_backGroundColor;

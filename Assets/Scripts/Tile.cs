@@ -68,11 +68,6 @@ namespace AperiodicTexturing
         public int Count => Images.Count;
 
         /// <summary>
-        /// The tiles first images.
-        /// </summary>
-        public ColorImage2D Image => Images[0];
-
-        /// <summary>
         /// The tiles images.
         /// </summary>
         public List<ColorImage2D> Images { get; private set; }

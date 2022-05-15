@@ -19,12 +19,12 @@ namespace AperiodicTexturing
         /// <summary>
         /// The source images the tiles will be created from.
         /// </summary>
-        private static Texture2D[] m_source = new Texture2D[4];
+        private Texture2D[] m_source = new Texture2D[4];
 
         /// <summary>
         /// 
         /// </summary>
-        private static List<Texture2D[]> m_textures;
+        private List<Texture2D[]> m_textures;
 
         /// <summary>
         /// The number of horizontal colors used for the wang tiles.

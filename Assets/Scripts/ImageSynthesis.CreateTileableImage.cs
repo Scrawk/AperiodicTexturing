@@ -52,7 +52,7 @@ namespace AperiodicTexturing
                 var rng = new System.Random(seed + i);
                 var set = sets[i];
 
-                tileables[i] = CreateTileableImage(i, tiles[i], set, rng);
+                tileables[i] = CreateTileableImage(tiles[i], set, rng, token);
 
             }, token);
 
@@ -63,12 +63,11 @@ namespace AperiodicTexturing
         /// Create the tileable image by offsetting the image by half and 
         /// then patching the seams dividing the image.
         /// </summary>
-        /// <param name="index">The tile index in the tiles array.</param>
         /// <param name="tile">The tile containing the images to make tileable.</param>
         /// <param name="set">The exemplar set used for patching.</param>
         /// <param name="rng">A random number generator.</param>
         /// <returns>A new tile where all its images are tileable.</returns>
-        private static Tile CreateTileableImage(int index, Tile tile, ExemplarSet set, System.Random rng)
+        private static Tile CreateTileableImage(Tile tile, ExemplarSet set, System.Random rng, ThreadingToken token)
         {
             int width = tile.Width;
             int height = tile.Height;
@@ -84,23 +83,33 @@ namespace AperiodicTexturing
             var horzontal = new Segment2f(0, halfHeight, width, halfHeight);
             var vertical = new Segment2f(halfWidth, 0, halfWidth, height);
 
-            //Create a mask that covers the seams in the tile.
-            var mask = CreateTiles_CreateOffsetSeamsMask(width, height, horzontal, vertical, seamsMaskThickness);
+            //for each source image in set create a tileable image.
+            for(int i = 0; i < set.SourceCount; i++)
+            {
+                //Check if cancelled.
+                if (token != null && token.Cancelled)
+                    return null;
 
-            //Get a list of all the masked points in the mask.
-            //Randomize the points. This is the order the patchs will be filled.
-            var points = GetMaskedPoints(mask);
-            points.Shuffle(rng);
+                //The image to patch.
+                var image = tileable.Images[i];
 
-            //Fill the areas of the image with random pixels that match the source image.
-            FillWithRandomFromExemplarSource(0, points, tileable.Image, set, rng);
+                //Create a mask that covers the seams in the tile.
+                var mask = CreateTiles_CreateOffsetSeamsMask(width, height, horzontal, vertical, seamsMaskThickness);
 
-            //Fill the areas of the image that need to be filled to black
-            //For debugging so its easy to see if a area has been missed.
-            //tileable.Image.Fill(points, ColorRGBA.Black);
+                //Get a list of all the masked points in the mask.
+                //Randomize the points. This is the order the patchs will be filled.
+                var points = GetMaskedPoints(mask);
+                points.Shuffle(rng);
 
-            //Patch any parts of the images that 
-            CreateTiles_FillPatches(points, set, mask, tileable.Image);
+                //Fill the areas of the image with random pixels that match the source image.
+                FillWithRandomFromExemplarSource(i, points, image, set, rng);
+
+                //Reset the used count
+                set.ResetUsedCount();
+
+                //Fill the patched areas of the image
+                CreateTiles_FillPatches(i, points, set, mask, image, token);
+            }
 
             return tileable;
         }
@@ -112,14 +121,16 @@ namespace AperiodicTexturing
         /// <param name="set">The exemplar set to sample from.</param>
         /// <param name="mask">The mask determines if the pixels have been filled or not.</param>
         /// <param name="image">The image to patch.</param>
-        private static void CreateTiles_FillPatches(List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image)
+        private static void CreateTiles_FillPatches(int index, List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image, ThreadingToken token)
         {
             int exemplarSize = set.ExemplarSize;
             int halfExemplarSize = exemplarSize / 2;
             int sourceOffset = 2;
             int sinkOffset = halfExemplarSize - 4;
             int blendMaskDilation = 2;
-            float blendMaskBlur = 0.5f;
+            float blendMaskBlur = 0.75f;
+            int trimmedCostsSize = 100;
+            float costModifer = 0.25f;
 
             //create a reusable search object for the graph cut.
             //Will help reduce the number garbage objects created.
@@ -127,6 +138,10 @@ namespace AperiodicTexturing
 
             foreach (var p in points)
             {
+                //Check if cancelled.
+                if (token != null && token.Cancelled)
+                    return;
+
                 int x = p.x;
                 int y = p.y;
 
@@ -141,11 +156,11 @@ namespace AperiodicTexturing
                 var maskCrop = ColorImage2D.Crop(mask, box, WRAP_MODE.WRAP);
 
                 //Findd the exemplar in the set that best fits the cropped image.
-                var exemplar = FindBestMatch(imageCrop, set, maskCrop);
+                var exemplar = FindBestMatch(index, imageCrop, set, trimmedCostsSize, costModifer, maskCrop);
                 if (exemplar == null) continue;
 
                 exemplar.IncrementUsed();
-                var match = exemplar.GetImageCopy(0);
+                var match = exemplar.GetImageCopy(index);
 
                 //Create the cut that should best blend the
                 //match and the crop image together.

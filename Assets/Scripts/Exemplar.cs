@@ -246,7 +246,7 @@ namespace AperiodicTexturing
                 image.Fill((x, y) =>
                 {
                     var index = GetIndex(x, y, true);
-                    return source[index.x, index.y];
+                    return source.GetPixel(index.x, index.y, WRAP_MODE.WRAP);
                 });
 
                 return image;

@@ -167,10 +167,10 @@ namespace AperiodicTexturing
 		{
 			ColorRGBA a = new ColorRGBA(1, 1, 1, alpha);
 
-			Tile.Image.DrawBox(0, thickness+1, thickness, Width - thickness - 1, Colors[Left] * a, true);
-			Tile.Image.DrawBox(thickness+1, 0, Width - thickness - 1, thickness, Colors[Bottom] * a, true);
-			Tile.Image.DrawBox(Width - thickness, thickness+1, Width, Height - thickness - 1, Colors[Right] * a, true);
-			Tile.Image.DrawBox(thickness+1, Height - thickness, Width - thickness - 1, Height, Colors[Top] * a, true);
+			Tile.Images[0].DrawBox(0, thickness+1, thickness, Width - thickness - 1, Colors[Left] * a, true);
+			Tile.Images[0].DrawBox(thickness+1, 0, Width - thickness - 1, thickness, Colors[Bottom] * a, true);
+			Tile.Images[0].DrawBox(Width - thickness, thickness+1, Width, Height - thickness - 1, Colors[Right] * a, true);
+			Tile.Images[0].DrawBox(thickness+1, Height - thickness, Width - thickness - 1, Height, Colors[Top] * a, true);
 		}
 
 	}

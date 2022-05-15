@@ -74,6 +74,11 @@ namespace AperiodicTexturing
 		public int NumVTiles => NumVColors * NumVColors;
 
 		/// <summary>
+		/// The number of images in each tile.
+		/// </summary>
+		public int NumTileImages => Tiles[0, 0].Tile.Images.Count;
+
+		/// <summary>
 		/// The total number of tiles in the set.
 		/// </summary>
 		public int NumTiles { get; private set; }
