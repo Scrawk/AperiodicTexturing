@@ -161,35 +161,39 @@ namespace AperiodicTexturing
         {
             //Create a the images histogram.
             var histo = new ColorHistogram(image, 256);
-            //Create a array costs.
-            var costs = new Tuple<float, Exemplar>[set.ExemplarCount];
+            var exemplars = set.GetExemplars();
 
             costModifer = MathUtil.Clamp01(costModifer);
 
             //For each exemplar in the set find its cost to the images histogram.
-            for (int k = 0; k < costs.Length; k++)
+            for (int k = 0; k < exemplars.Count; k++)
             {
                 var exemplar = set[k];
-                float cost = exemplar.SqrDistance(index, histo);
+                float cost = exemplar.HistogramSqrDistance(index, histo);
 
                 //If a exemplar has  been used before apply a cost modifer.
                 float modifier = 1.0f + exemplar.Used * costModifer;
                 cost *= modifier;
 
-                costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+                exemplar.Cost = cost;
             }
 
-            //Sort the costs
-            Array.Sort(costs, (x, y) => x.Item1.CompareTo(y.Item1));
+            //Sort the exemplars by costs
+            exemplars.Sort();
 
             //Take the best matchs
-            int trimmed_costs_len = Math.Min(timmedCostsSize, costs.Length);
-            var trimmed_costs = new Tuple<float, Exemplar>[trimmed_costs_len];
+            int trimmed_costs_len = Math.Min(timmedCostsSize, exemplars.Count);
 
             //Now compare the full images for the best matchs
-            for (int k = 0; k < trimmed_costs_len; k++)
+            for (int k = 0; k < exemplars.Count; k++)
             {
-                var exemplar = costs[k].Item2;
+                var exemplar = exemplars[k];
+
+                if(k >= trimmed_costs_len)
+                {
+                    exemplar.Cost = float.PositiveInfinity;
+                    continue;
+                }
 
                 float cost = 0;
                 int count = 0;
@@ -216,14 +220,20 @@ namespace AperiodicTexturing
                 else
                     cost = float.PositiveInfinity;
 
-                trimmed_costs[k] = new Tuple<float, Exemplar>(cost, exemplar);
+                exemplar.Cost = cost;
             }
 
             //Sort the best matches
-            Array.Sort(trimmed_costs, (x, y) => x.Item1.CompareTo(y.Item1));
+            exemplars.Sort();
 
-            //Best match should be first exemplar.
-            return trimmed_costs[0].Item2;
+            if (exemplars.Count == 0)
+                return null;
+            else
+            {
+                //Best match should be first exemplar.
+                return exemplars[0];
+            }
+
         }
 
     }

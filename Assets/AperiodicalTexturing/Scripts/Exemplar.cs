@@ -24,7 +24,7 @@ namespace AperiodicTexturing
     /// A exemplar is a sub-image of a larger images and
     /// is used as a example image for image synthesis.
     /// </summary>
-    public class Exemplar
+    public class Exemplar : IComparable<Exemplar>
     {
 
         /// <summary>
@@ -70,9 +70,14 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// The exemplars pixel index in the source image.
         /// </summary>
         private Point2i Index { get; set; }
+
+        /// <summary>
+        /// The exemplars cost value that can be set to sort the exemplar.
+        /// </summary>
+        public float Cost { get; set; }
 
         /// <summary>
         /// The number of images in the tile.
@@ -214,17 +219,76 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Compare the exemplar to another by there costs.
         /// </summary>
-        /// <param name="i"></param>
-        /// <param name="histo"></param>
+        /// <param name="other"></param>
         /// <returns></returns>
-        public float SqrDistance(int i, ColorHistogram histo)
+        public int CompareTo(Exemplar other)
+        {
+            return Cost.CompareTo(other.Cost);
+        }
+
+        /// <summary>
+        /// Find the square distance between this exemplars histogram and the other.
+        /// </summary>
+        /// <param name="i">The images histogram index to compare to.</param>
+        /// <param name="histo">The other histogram.</param>
+        /// <returns>The square distance between the two.</returns>
+        public float HistogramSqrDistance(int i, ColorHistogram histo)
         {
             if (Histograms == null)
                 throw new NullReferenceException("Histograms have not been created.");
 
             return Histograms[i].SqrDistance(histo);
+        }
+
+        /// <summary>
+        /// Find the square distance between each images edges for each image in the exemplar.
+        /// This can help determine which exemplars will create better tileable textures.
+        /// </summary>
+        /// <returns>The square distance between the edges of the images.</returns>
+        public float EdgeSqrDistance()
+        {
+            float sqdist = 0;
+            int count = 0;
+
+            for(int i = 0; i < SourceCount; i++)
+            {
+                for(int x = 0; x < ExemplarSize; x++)
+                {
+                    var p1 = GetPixel(i, x, 0, WRAP_MODE.WRAP);
+                    var p2 = GetPixel(i, x, -1, WRAP_MODE.WRAP);
+
+                    var p3 = GetPixel(i, x, ExemplarSize - 1, WRAP_MODE.WRAP);
+                    var p4 = GetPixel(i, x, ExemplarSize, WRAP_MODE.WRAP);
+
+                    sqdist += ColorRGBA.SqrDistance(p1, p2);
+                    sqdist += ColorRGBA.SqrDistance(p3, p4);
+
+                    count += 2;
+                }
+
+                for (int y = 0; y < ExemplarSize; y++)
+                {
+                    var p1 = GetPixel(i, 0, y, WRAP_MODE.WRAP);
+                    var p2 = GetPixel(i, -1, y, WRAP_MODE.WRAP);
+
+                    var p3 = GetPixel(i, ExemplarSize - 1, y, WRAP_MODE.WRAP);
+                    var p4 = GetPixel(i, ExemplarSize, y, WRAP_MODE.WRAP);
+
+                    sqdist += ColorRGBA.SqrDistance(p1, p2);
+                    sqdist += ColorRGBA.SqrDistance(p3, p4);
+
+                    count += 2;
+                }
+            }
+
+            if (count > 0)
+                sqdist /= count;
+            else
+                sqdist = float.PositiveInfinity;
+
+            return sqdist;
         }
 
         /// <summary>

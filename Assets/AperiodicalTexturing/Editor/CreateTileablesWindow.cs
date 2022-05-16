@@ -335,7 +335,7 @@ namespace AperiodicTexturing
 
             //Check that the output foldere exists.
 
-            string folderName = Application.dataPath + "/" + m_folderName;
+            string folderName = Application.dataPath + "/AperiodicalTexturing/" + m_folderName;
 
             if (!System.IO.Directory.Exists(folderName))
             {
@@ -366,7 +366,7 @@ namespace AperiodicTexturing
 
                     //Create the exemplar set used to patch the tiles.
                     var set = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
-                    set.ShuffleAndTrim(m_maxExemplars, m_seed);
+                    set.TrimByBestEdgeCost(m_maxExemplars);
                     Debug.Log(set);
 
                     //Make the tiles tileable.

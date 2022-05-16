@@ -56,12 +56,12 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\EnforcePresetPostProcessor.cs" />
-    <Compile Include="Assets\Editor\CreateColorTilesWindow.cs" />
-    <Compile Include="Assets\Editor\CreateAperiodicTilesWindow.cs" />
-    <Compile Include="Assets\Editor\CreateTileMappingWindow.cs" />
-    <Compile Include="Assets\Editor\CreateTileablesWindow.cs" />
-    <Compile Include="Assets\Editor\AperiodicTilesEditorUtility.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\EnforcePresetPostProcessor.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\CreateColorTilesWindow.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\CreateAperiodicTilesWindow.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\CreateTileMappingWindow.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\CreateTileablesWindow.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Editor\AperiodicTilesEditorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

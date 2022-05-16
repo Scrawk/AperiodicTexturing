@@ -402,7 +402,8 @@ namespace AperiodicTexturing
 
                     //Create the exemplar set that will be used to fill patchs in the tiles.
                     m_exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
-                    m_exemplarSet.ShuffleAndTrim(m_maxExemplars, m_seed);
+                    m_exemplarSet.Shuffle(m_seed);
+                    m_exemplarSet.Trim(m_maxExemplars);
                     Debug.Log(m_exemplarSet);
 
                     //Create the wang tile set that contains the tiles to patch

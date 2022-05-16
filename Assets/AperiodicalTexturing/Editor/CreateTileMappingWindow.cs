@@ -18,9 +18,9 @@ namespace AperiodicTexturing
 
         private static int m_numVColors = 2;
 
-        private static int m_mappingWidth = 8;
+        private static int m_mappingWidth = 256;
 
-        private static int m_mappingHeight = 8;
+        private static int m_mappingHeight = 256;
 
         private static int m_seed = 0;
 

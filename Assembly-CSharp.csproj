@@ -57,31 +57,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Common\Extensions\PointExtension4.cs" />
-    <Compile Include="Assets\Scripts\Tile.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\Tile.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension4.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension3.cs" />
     <Compile Include="Assets\Common\Extensions\BoundsExtension.cs" />
-    <Compile Include="Assets\Scripts\ImageSynthesis.CreateWangTileImage.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\ImageSynthesis.CreateWangTileImage.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension2.cs" />
-    <Compile Include="Assets\Scripts\ImageSynthesis.Utility.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\ImageSynthesis.Utility.cs" />
     <Compile Include="Assets\Common\Extensions\ColorExtension.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension2.cs" />
-    <Compile Include="Assets\Scripts\WangTile.cs" />
-    <Compile Include="Assets\Scripts\ExemplarSet.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\WangTile.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\ExemplarSet.cs" />
     <Compile Include="Assets\Common\Extensions\QuaternionExtension.cs" />
-    <Compile Include="Assets\Scripts\WangTileSet.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\WangTileSet.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension3.cs" />
-    <Compile Include="Assets\Scripts\ImageSynthesis.CreateTileableImage.cs" />
-    <Compile Include="Assets\Scripts\Exemplar.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\ImageSynthesis.CreateTileableImage.cs" />
+    <Compile Include="Assets\AperiodicalTexturing\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Common\Plugins\Common.Collections.xml" />
-    <None Include="Assets\Shaders\AperiodicTexturingShader.shader" />
+    <None Include="Assets\AperiodicalTexturing\Shaders\AperiodicTexturingShader.shader" />
     <None Include="Assets\Common\Plugins\Common.Core.dll" />
     <None Include="Assets\Common\Plugins\Common.Core.xml" />
-    <None Include="Assets\Shaders\AperiodicTextureShader_Debug.shader" />
+    <None Include="Assets\AperiodicalTexturing\Shaders\AperiodicTextureShader_Debug.shader" />
     <None Include="Assets\Common\Plugins\ImageProcessing.xml" />
     <None Include="Assets\Common\Plugins\Common.Collections.dll" />
     <None Include="Assets\Common\Plugins\Common.GraphTheory.xml" />

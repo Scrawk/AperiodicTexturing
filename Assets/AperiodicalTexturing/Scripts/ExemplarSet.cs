@@ -133,6 +133,15 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// Get a copy of the list of exemplars in the set.
+        /// </summary>
+        /// <returns></returns>
+        public List<Exemplar> GetExemplars()
+        {
+            return new List<Exemplar>(Exemplars);
+        }
+
+        /// <summary>
         /// Reset the used count of each exemplar in the set.
         /// </summary>
         public void ResetUsedCount()
@@ -283,14 +292,20 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// Shuffles the exemplars and trims the list size.
+        /// Shuffles the exemplars.
         /// </summary>
-        /// <param name="trim">The size the exemplar list should be trimmmed to.</param>
         /// <param name="seed">The random generators seed used to shuffle exemplars.</param>
-        public void ShuffleAndTrim(int trim, int seed)
+        public void Shuffle(int seed)
         {
             Exemplars.Shuffle(seed);
+        }
 
+        /// <summary>
+        /// Trims the list size.
+        /// </summary>
+        /// <param name="trim">The size the exemplar list should be trimmmed to.</param>
+        public void Trim(int trim)
+        {
             if (Exemplars.Count < trim)
                 return;
 
@@ -298,6 +313,30 @@ namespace AperiodicTexturing
             Exemplars.Clear();
 
             for (int i= 0; i < trim; i++)
+            {
+                Exemplars.Add(tmp[i]);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trim"></param>
+        public void TrimByBestEdgeCost(int trim)
+        {
+            var tmp = new List<Exemplar>(Exemplars);
+            Exemplars.Clear();
+
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                var cost = tmp[i].EdgeSqrDistance();
+                tmp[i].Cost = cost;
+            }
+
+            tmp.Sort();
+            int size = Math.Min(trim, tmp.Count);
+
+            for (int i = 0; i < size; i++)
             {
                 Exemplars.Add(tmp[i]);
             }

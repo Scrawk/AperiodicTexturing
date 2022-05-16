@@ -132,7 +132,7 @@ namespace AperiodicTexturing
                 tex.SetPixels(pixels);
                 tex.Apply();
 
-                string folder = Application.dataPath + "/" + folderName;
+                string folder = Application.dataPath + "/AperiodicalTexturing/" + folderName;
                 string hv = tileSet.NumHColors + "x" + tileSet.NumVColors;
                 string name = folder + "/" + fileName + k + "_" + hv + ".png";
 
@@ -149,7 +149,7 @@ namespace AperiodicTexturing
         /// </summary>
         public static void SaveTiles(IList<Tile> tiles, string folderName, string[] fileNames)
         {
-            folderName = Application.dataPath + "/" + folderName;
+            folderName = Application.dataPath + "/AperiodicalTexturing/" + folderName;
 
             for (int i = 0; i < tiles.Count; i++)
             {
