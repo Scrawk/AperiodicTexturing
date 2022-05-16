@@ -125,9 +125,9 @@ Heres another example that just shows the edges.
 
 ![wangtileedge](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/ColorTile2x2_256.png)
 
-It can be hard to create a tile that has no artifacts or obvious repeating features. As a optional steep the textures can be cleaned up in photoshop and you can used this edge color texture as a guide of where you can edit and what areas can no be changed. Basically you can not change the pixels on the edges of the tile where they are color.
+It can be hard to create a tile that has no artifacts or obvious repeating features. As a optional steep the textures can be cleaned up in photoshop and you can used this edge color texture as a guide of where you can edit and what areas can no be changed. Basically you can not change the pixels on the edges of the tile where they are colored.
 
-I have included a bunch of pregenerated textures and materials whci you can use and they can be found in the textures and materials folder.
+I have included a bunch of pregenerated textures and materials which you can use and they can be found in the textures and materials folder.
 
 
 
