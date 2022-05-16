@@ -30,7 +30,7 @@ final tile will be 4 by 4. That means a 256 texture will end up being 1025 by 10
 
 If you need to generate the textures you can use the editor script. 
 
-#Tileable Texture Generation.
+# Tileable Texture Generation.
 
 Go to windows->Aperiodical texturing->Create tileable images
 
@@ -60,7 +60,7 @@ Go to windows->Aperiodical texturing->Create tileable images
 
 Press create to make the textures. The results will be saved in the results folder. This may take a long time to compute.
 
-#Aperiodic Texture Generation
+# Aperiodic Texture Generation
 
 The next stage requires using the tileable textures just generated to make the wang tile and mapping texture.
 
@@ -96,7 +96,7 @@ Go to windows->Aperiodical texturing->Create aperiodic tiles
 
 Press create to make the textures. The results will be saved in the results folder. This may take a long time to compute.
 
-#Creating the mapping texture
+# Creating the mapping texture
 
 Once you have created the wang tile all thats needed now is a mapping texture. You can create one using the provided editor script or you can use a pre-generated one found in the follow folder 'AperiodicalTexturing/Textures/Mappings'. You will need to pick one that matches the settings you used to create the wang tile. So if you picked 2 colors use the 2x2 texture. The number on end of the texture, ie 256 is just the size of the virtual texture the mapping creates. So for example if you used a tile size of 256 and a mapping texture size of 256 that means the virtual texture created is 256 by 256 = 65536 in size before it repeats.
 
@@ -122,7 +122,7 @@ To create you own mapping texture go to windows->aperiodical texturing->create t
 
 Press create to make the textures. The results will be saved in the results folder.
 
-#Creating the material.
+# Creating the material.
 
 The last step is to create the material. TODO
 
