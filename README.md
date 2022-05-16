@@ -29,4 +29,18 @@ Go to windows->aperiodical texturing->create tileables
 
 ![tileableEditorWindow](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/CreateTileableTexturesWindow.png)
 
+number of tiles: The number os tileable textures to create from the source images. you will need at least one for each tile color.
+Tile size: The size of the tiles created. 
+Exemplar size: The suze of the exemplars used to fill patcheswnen creating the tileable textures.
+Max exemplars: The max number of exemplars to create in the set.
+Variants: what variants of the exemplars should be generated n the set. theses can be rotations of the original and can increase the chance of finding better matches when patch filling.
+Use multi-threading: Should multi-threading be used. Can be turnned of for debugging.
+Source is tileable: are the source images tileable. If so this makes sampling the images easier when creating the exemplars.
+Seed: A seed used for the random generator. a different seed will produce different results.
+Output folder: where the resulting textures are output.
+File name: The resulting textues names.
+Source textures: these are the source images used to generate the tiles. The first is required and the following 3 are optional. All the textures must hace read/write enabled.
+
+
+
 Press create to make the textures. The results will be saved in the results folder. 
