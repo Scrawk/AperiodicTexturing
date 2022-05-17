@@ -366,6 +366,8 @@ namespace AperiodicTexturing
 
                     //Create the exemplar set used to patch the tiles.
                     var set = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    //Trim down to max exemplars by keeping the images that border pixels match there neighbours the best when wrapped.
+                    //These should make the better tileable textures.
                     set.TrimByBestEdgeCost(m_maxExemplars);
                     Debug.Log(set);
 

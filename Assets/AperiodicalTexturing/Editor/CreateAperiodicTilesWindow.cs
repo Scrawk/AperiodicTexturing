@@ -19,12 +19,12 @@ namespace AperiodicTexturing
         /// <summary>
         /// The source images the tiles will be created from.
         /// </summary>
-        private Texture2D[] m_source = new Texture2D[4];
+        private static Texture2D[] m_source = new Texture2D[4];
 
         /// <summary>
         /// 
         /// </summary>
-        private List<Texture2D[]> m_textures;
+        private static List<Texture2D[]> m_textures;
 
         /// <summary>
         /// The number of horizontal colors used for the wang tiles.
@@ -94,7 +94,7 @@ namespace AperiodicTexturing
 
         private WangTileSet m_tileSet;
 
-        private ExemplarSet m_exemplarSet;
+        //private ExemplarSet m_patchSet;
 
         private Exception m_exception;
 
@@ -379,7 +379,7 @@ namespace AperiodicTexturing
 
             //Check that the output foldere exists.
 
-            string folderName = Application.dataPath + "/" + m_folderName;
+            string folderName = Application.dataPath + "/AperiodicalTexturing/" + m_folderName;
 
             if (!System.IO.Directory.Exists(folderName))
             {
@@ -401,16 +401,23 @@ namespace AperiodicTexturing
                     m_token.StartTimer();
 
                     //Create the exemplar set that will be used to fill patchs in the tiles.
-                    m_exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
-                    m_exemplarSet.Shuffle(m_seed);
-                    m_exemplarSet.Trim(m_maxExemplars);
-                    Debug.Log(m_exemplarSet);
+                    var patchSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
+                    patchSet.Shuffle(m_seed);
+                    patchSet.Trim(m_maxExemplars);
+                    Debug.Log("Patch Set");
+                    Debug.Log(patchSet);
+
+                    var exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByRandomSampling(m_images, m_sourceIsTileable, m_tileSize, m_seed, m_varients);
+                    //exemplarSet.Shuffle(m_seed);
+                    //exemplarSet.Trim(20);
+                    Debug.Log("Exemplar Set");
+                    Debug.Log(exemplarSet);
 
                     //Create the wang tile set that contains the tiles to patch
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
                     Debug.Log(m_tileSet);
 
-                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, m_exemplarSet, m_seed, m_token);
+                    ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, patchSet, exemplarSet, m_seed, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }

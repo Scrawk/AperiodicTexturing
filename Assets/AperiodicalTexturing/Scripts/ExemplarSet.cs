@@ -61,11 +61,6 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// The numer of exemplars in the set.
-        /// </summary>
-        public int ExemplarCount => Exemplars.Count;
-
-        /// <summary>
         /// The numer of source images in the set.
         /// </summary>
         public int SourceCount => Sources.Count;
@@ -83,22 +78,12 @@ namespace AperiodicTexturing
         /// <summary>
         /// The exemplars
         /// </summary>
-        private List<Exemplar> Exemplars { get; set; }
+        public List<Exemplar> Exemplars { get; private set; }
 
         /// <summary>
         /// The exemplars source image.
         /// </summary>
         private List<ColorImage2D> Sources { get; set; }
-
-        /// <summary>
-        /// Get the exemplar at index i.
-        /// </summary>
-        /// <param name="i">The index of the exemplar to get.</param>
-        /// <returns>The exemplar at index i.</returns>
-        public Exemplar this[int i]
-        {
-            get { return Exemplars[i]; }
-        }
 
         /// <summary>
         /// 
@@ -107,7 +92,7 @@ namespace AperiodicTexturing
         public override string ToString()
         {
             return String.Format("[ExemplarSet: ExemplarCount={0}, ExemplarSize={1}, SourceIsTileable={2}]",
-                ExemplarCount, ExemplarSize, SourceIsTileable);
+                Exemplars.Count, ExemplarSize, SourceIsTileable);
         }
 
         /// <summary>
@@ -156,7 +141,7 @@ namespace AperiodicTexturing
         /// <returns>The percentage of used exemplars from 0 to 1.</returns>
         public float PercentageUsed()
         {
-            if (ExemplarCount == 0) return 0;
+            if (Exemplars.Count == 0) return 0;
 
             int used = 0;
 
@@ -164,7 +149,7 @@ namespace AperiodicTexturing
                 if (exemplar.Used > 0)
                     used++;
 
-            return used / (float)ExemplarCount;
+            return used / (float)Exemplars.Count;
         }
 
         /// <summary>
@@ -216,7 +201,7 @@ namespace AperiodicTexturing
         /// <returns>The list of tiles.</returns>
         public List<Tile> GetTiles()
         {
-            var tiles = new List<Tile>(ExemplarCount);
+            var tiles = new List<Tile>(Exemplars.Count);
 
             foreach (var exemplar in Exemplars)
                 tiles.Add(exemplar.GetTileCopy());
@@ -354,7 +339,7 @@ namespace AperiodicTexturing
             count = Math.Max(count, 0);
             var exemplars = new List<Exemplar>();
 
-            if (count >= ExemplarCount)
+            if (count >= Exemplars.Count)
             {
                 //If the requested number of exemplars to create is
                 //larger that the actual number then just return a

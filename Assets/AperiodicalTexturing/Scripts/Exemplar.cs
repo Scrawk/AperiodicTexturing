@@ -75,6 +75,11 @@ namespace AperiodicTexturing
         private Point2i Index { get; set; }
 
         /// <summary>
+        /// Optional name for exemplar.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// The exemplars cost value that can be set to sort the exemplar.
         /// </summary>
         public float Cost { get; set; }
@@ -120,8 +125,8 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[Exemplar: Index={0}, SourceCount={1}, ExemplarSize={2}, Used={3}, Variant={4}]",
-                Index, SourceCount, ExemplarSize, Used, Variant);
+            return String.Format("[Exemplar: Name={0}, Index={1}, SourceCount={2}, ExemplarSize={3}, Used={4}, Variant={5}]",
+                Name, Index, SourceCount, ExemplarSize, Used, Variant);
         }
 
         /// <summary>

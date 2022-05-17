@@ -1917,7 +1917,7 @@
             <param name="value">The value to fill.</param>
             <param name="wrap">The wrap mode for indices outside image bounds.</param>
         </member>
-        <member name="M:ImageProcessing.Images.Image2D`1.Fill(Common.Core.Shapes.Box2i,ImageProcessing.Images.BinaryImage2D,`0,ImageProcessing.Images.WRAP_MODE)">
+        <member name="M:ImageProcessing.Images.Image2D`1.Fill(Common.Core.Shapes.Box2i,`0,ImageProcessing.Images.BinaryImage2D,ImageProcessing.Images.WRAP_MODE)">
             <summary>
             Fill the image with the value at the provided indices.
             </summary>
@@ -4489,6 +4489,18 @@
             <param name="rng">The random number generator.</param>
             <returns>A random value that matchs the distribution of the histogram.</returns>
         </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.Equalize">
+            <summary>
+            Equalizes the histogram.
+            Attempts to make the histogram of a uniform distribution. 
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.Match(ImageProcessing.Statistics.ColorHistogram)">
+            <summary>
+            Attempts to match the hisogram to the other histogram.
+            </summary>
+            <param name="other">THe histogram to match.</param>
+        </member>
         <member name="M:ImageProcessing.Statistics.ColorHistogram.Load(ImageProcessing.Images.ColorImage2D,System.Boolean)">
             <summary>
             Load the color image into the histogram.
@@ -4501,12 +4513,10 @@
             Normalize the histogram.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Statistics.ColorHistogram.ToImage(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Statistics.ColorHistogram.ToImage">
             <summary>
             Convert the histogram back into a image.
             </summary>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
             <returns>The image.</returns>
         </member>
         <member name="M:ImageProcessing.Statistics.ColorHistogram.CreateHistogramBarGraph(System.Int32,Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
@@ -4596,7 +4606,17 @@
             The number of bins in the histogram.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Statistics.Histogram.HasCulumativeHistogram">
+        <member name="P:ImageProcessing.Statistics.Histogram.ImageWidth">
+            <summary>
+            The width of the image the histogram was created from.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.ImageHeight">
+            <summary>
+            The height of the image the histogram was created from.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.Histogram.HasCDF">
             <summary>
             Has the CFD been calculated.
             </summary>
@@ -4606,7 +4626,7 @@
             The histograms bins the pixels are divided up into.
             </summary>
         </member>
-        <member name="P:ImageProcessing.Statistics.Histogram.CumulativeBins">
+        <member name="P:ImageProcessing.Statistics.Histogram.CDF">
             <summary>
             The CFD bins the pixels are divided up into.
             </summary>
@@ -4621,6 +4641,14 @@
             <summary>
             Clear the histogram of all data.
             </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.GetCDF(System.Int32)">
+            <summary>
+            Get the cdf value for a bin in the histogram.
+            Will create the CDF if not already created.
+            </summary>
+            <param name="i">The bin index.</param>
+            <returns>The bins cdf value</returns>
         </member>
         <member name="M:ImageProcessing.Statistics.Histogram.Copy">
             <summary>
@@ -4653,7 +4681,7 @@
             </summary>
             <returns>The maximum value in the histogram.</returns>
         </member>
-        <member name="M:ImageProcessing.Statistics.Histogram.BinLength">
+        <member name="M:ImageProcessing.Statistics.Histogram.BinSum">
             <summary>
             The sum of all the bin sizes.
             </summary>
@@ -4675,6 +4703,18 @@
             <param name="rng">The random generator.</param>
             <returns>A random value that matchs the distribution of the histogram.</returns>
         </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Equalize">
+            <summary>
+            Equalizes the histogram.
+            Attempts to make the histograom of a uniform distribution. 
+            </summary>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.Match(ImageProcessing.Statistics.Histogram)">
+            <summary>
+            Attempts to match the hisograom to the other histogram.
+            </summary>
+            <param name="other">THe histogram to match.</param>
+        </member>
         <member name="M:ImageProcessing.Statistics.Histogram.Load(ImageProcessing.Images.GreyScaleImage2D)">
             <summary>
             Load the histogram with the data from a greyScale image.
@@ -4688,18 +4728,18 @@
             <param name="image">The color image.</param>
             <param name="channel">The channel to load.</param>
         </member>
-        <member name="M:ImageProcessing.Statistics.Histogram.Load(System.Collections.Generic.IList{ImageProcessing.Pixels.PixelIndex2D{System.Single}})">
+        <member name="M:ImageProcessing.Statistics.Histogram.Load(System.Collections.Generic.IList{ImageProcessing.Pixels.PixelIndex2D{System.Single}},System.Int32,System.Int32)">
             <summary>
             
             </summary>
             <param name="pixels"></param>
+            <param name="width"></param>
+            <param name="height"></param>
         </member>
-        <member name="M:ImageProcessing.Statistics.Histogram.ToImage(System.Int32,System.Int32)">
+        <member name="M:ImageProcessing.Statistics.Histogram.ToImage">
             <summary>
             Convert the histogram back into a image.
             </summary>
-            <param name="width">The images width.</param>
-            <param name="height">The images height.</param>
             <returns>The image.</returns>
         </member>
         <member name="M:ImageProcessing.Statistics.Histogram.FillChannel(ImageProcessing.Images.ColorImage2D,System.Int32)">
@@ -4712,6 +4752,8 @@
         <member name="M:ImageProcessing.Statistics.Histogram.Normalize">
             <summary>
             Normalize the histogram.
+            The range of the histogram will be modified
+            to start at 0 and go to the bin size.
             </summary>
         </member>
         <member name="M:ImageProcessing.Statistics.Histogram.CreateHistogramBarGraph(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA,System.Int32)">
@@ -4754,7 +4796,7 @@
             <param name="height">The images height. The width will be the bin size.</param>
             <returns>The line graph image.</returns>
         </member>
-        <member name="M:ImageProcessing.Statistics.Histogram.CreateCumulativeHistogram">
+        <member name="M:ImageProcessing.Statistics.Histogram.CreateCDF">
             <summary>
             Create the cumulative function distribution (CFD).
             </summary>
@@ -4765,19 +4807,38 @@
             </summary>
             <param name="bins"></param>
         </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.ToArray">
+            <summary>
+            Get the bins as a int array.
+            </summary>
+            <returns>The int array where each value represents 
+            the numper of pixels in the bin.</returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.Histogram.CreateMappingFunction(ImageProcessing.Statistics.Histogram)">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
         <member name="T:ImageProcessing.Statistics.HistogramBin">
             <summary>
             A bin in a histogram that holds the pixels from a image.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor">
+        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor(System.Int32)">
             <summary>
             Create a new bin.
             </summary>
         </member>
-        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor(System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Single}})">
+        <member name="M:ImageProcessing.Statistics.HistogramBin.#ctor(System.Int32,System.Collections.Generic.List{ImageProcessing.Pixels.PixelIndex2D{System.Single}})">
             <summary>
             Create a new bin.
+            </summary>
+        </member>
+        <member name="P:ImageProcessing.Statistics.HistogramBin.BinValue">
+            <summary>
+            The unnomalized value pixels for this bin.
             </summary>
         </member>
         <member name="P:ImageProcessing.Statistics.HistogramBin.Count">
@@ -4806,6 +4867,12 @@
             
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Statistics.HistogramBin.SetPixels(System.Single)">
+            <summary>
+            Sets all pixels in the bin.
+            </summary>
+            <param name="value">The pixels value.</param>
         </member>
         <member name="M:ImageProcessing.Statistics.HistogramBin.GetPixel(System.Int32)">
             <summary>

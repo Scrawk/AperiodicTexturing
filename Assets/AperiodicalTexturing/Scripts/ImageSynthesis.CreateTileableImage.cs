@@ -156,7 +156,7 @@ namespace AperiodicTexturing
                 var maskCrop = ColorImage2D.Crop(mask, box, WRAP_MODE.WRAP);
 
                 //Findd the exemplar in the set that best fits the cropped image.
-                var exemplar = FindBestMatch(index, imageCrop, set, trimmedCostsSize, costModifer, maskCrop);
+                var exemplar = FindBestMatchWithHistograms(index, imageCrop, set, trimmedCostsSize, costModifer, maskCrop);
                 if (exemplar == null) continue;
 
                 exemplar.IncrementUsed();
@@ -173,7 +173,7 @@ namespace AperiodicTexturing
                 graph.Calculate(search);
 
                 //Create the mask used to blend the match and crop together.
-                var blend = CreateMaskFromGraph(graph, blendMaskDilation, blendMaskBlur);
+                var blend = CreateBlendMaskFromGraph(graph, blendMaskDilation, blendMaskBlur);
 
                 //Fill the image with blended match
                 CreateTiles_UpdateImageAndMask(box, image, imageCrop, match, mask, blend);

@@ -113,7 +113,8 @@ namespace AperiodicTexturing
                 {
                     for (int y = 0; y < tileTextureHeight; y++)
                     {
-                        var tile = tileSet.Tiles[x, y];
+                        var wtile = tileSet.Tiles[x, y];
+                        var image = wtile.Tile.Images[k];
 
                         for (int i = 0; i < tileSize; i++)
                         {
@@ -122,7 +123,7 @@ namespace AperiodicTexturing
                                 int xi = x * tileSize + i;
                                 int yj = y * tileSize + j;
 
-                                pixels[xi + yj * width] = tile.Tile.Images[k][i, j].ToColor();
+                                pixels[xi + yj * width] = image[i, j].ToColor();
                             }
                         }
                     }
@@ -155,7 +156,7 @@ namespace AperiodicTexturing
             {
                 var tile = tiles[i];
 
-                for (int j = 0; j < tile.Count; j++)
+                for (int j = 0; j < tile.Images.Count; j++)
                 {
                     var tex = ToTexture(tile.Images[j]);
                     var id = i.ToString() + j.ToString();

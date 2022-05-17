@@ -158,6 +158,10 @@ namespace AperiodicTexturing
 			Tile.Fill(images);
         }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public GreyScaleImage2D CreateMap()
 		{
 			var map = new GreyScaleImage2D(Width, Height);

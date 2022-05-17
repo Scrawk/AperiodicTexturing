@@ -53,6 +53,11 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
+        /// Optional name for tile.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// The tiles size on the x axis.
         /// </summary>
         public int Width { get; private set; }
@@ -61,11 +66,6 @@ namespace AperiodicTexturing
         /// The tiles size on the y axis.
         /// </summary>
         public int Height { get; private set; }
-
-        /// <summary>
-        /// The number of images in the tile.
-        /// </summary>
-        public int Count => Images.Count;
 
         /// <summary>
         /// The tiles images.
@@ -78,8 +78,8 @@ namespace AperiodicTexturing
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("[Tile: Count={0}, Width={1}, Height={2}, Images={3}]",
-                Count, Width, Height, GetImageNames());
+            return string.Format("[Tile: Name={0}, ImageCount={1}, Width={2}, Height={3}, ImageNames={4}]",
+                Name, Images.Count, Width, Height, GetImageNames());
         }
 
         /// <summary>
@@ -127,6 +127,20 @@ namespace AperiodicTexturing
             for (int i = 0; i < images.Count; i++)
             {
                 Images.Add(images[i].Copy());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="count"></param>
+        public void CreateImages(int count)
+        {
+            Images.Clear();
+
+            for (int i = 0; i < count; i++)
+            {
+                Images.Add(new ColorImage2D(Width, Height));
             }
         }
 
