@@ -128,7 +128,7 @@ Press create to make the textures. The results will be saved in the results fold
 
 The last step is to create the material. 
 
-! [creatematerial](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/MaterialSettings.png)
+![creatematerial](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/MaterialSettings.png)
 
 
 
