@@ -126,7 +126,11 @@ Press create to make the textures. The results will be saved in the results fold
 
 # Creating the material.
 
-The last step is to create the material. TODO
+The last step is to create the material. 
+
+! [creatematerial(https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/MaterialSettings.png)
+
+
 
 At this point you maybe wondering how the wang tiles are created. Heres a example of a 2 by 2 color wang tile. You can see that it consists of 4 by 4 tiles and they always have the sample edge colors when they meet another tile.
 
