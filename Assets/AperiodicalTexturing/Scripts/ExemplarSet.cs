@@ -104,7 +104,8 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Creates a deep copy of the set.
+        /// Exemplars are deep copied. The source images are not deep copied.
         /// </summary>
         /// <returns></returns>
         public ExemplarSet Copy()
@@ -173,10 +174,11 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Create the variants for a exemplar and return in a list.
+        /// The list contains the original exemplar.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="flags"></param>
+        /// <param name="index">The exemplars index.</param>
+        /// <param name="flags">The variant flag that controls which variants to create.</param>
         /// <returns></returns>
         public List<Exemplar> GetVariants(int index, EXEMPLAR_VARIANT flags)
         {
@@ -244,7 +246,7 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Find the most times a exemplar has been used.
         /// </summary>
         /// <returns></returns>
         public int GetMaxUsedCount()
@@ -304,9 +306,9 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Trims the exemplars based on there edge costs.
         /// </summary>
-        /// <param name="trim"></param>
+        /// <param name="trim">The amount to trim by.</param>
         public void TrimByBestEdgeCost(int trim)
         {
             var tmp = new List<Exemplar>(Exemplars);

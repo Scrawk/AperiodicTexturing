@@ -166,6 +166,8 @@ namespace AperiodicTexturing
 
             if (m_isRunning && m_token != null)
             {
+                m_token.TimePeriodFormat = TIME_PERIOD.MINUTES;
+
                 //Find the amount of progress that has happened from the token.
                 float progress = m_token.PercentageProgress();
                 string estimatedTime = "";

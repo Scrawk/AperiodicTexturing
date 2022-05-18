@@ -177,6 +177,8 @@ namespace AperiodicTexturing
 
             if (m_isRunning && m_token != null)
             {
+                m_token.TimePeriodFormat = TIME_PERIOD.MINUTES;
+
                 //Find the amount of progress that has happened from the token.
                 float progress = m_token.PercentageProgress();
                 string estimatedTime = "";
@@ -404,25 +406,25 @@ namespace AperiodicTexturing
                     var patchSet = AperiodicTilesEditorUtility.CreateExemplarSetByCropping(m_images, m_sourceIsTileable, m_exemplarSize, m_varients);
                     patchSet.Shuffle(m_seed);
                     patchSet.Trim(m_maxExemplars);
-                    Debug.Log("Patch Set");
-                    Debug.Log(patchSet);
+                    //Debug.Log("Patch Set");
+                    //Debug.Log(patchSet);
 
                     var exemplarSet = AperiodicTilesEditorUtility.CreateExemplarSetByRandomSampling(m_images, m_sourceIsTileable, m_tileSize, m_seed, m_varients);
-                    //exemplarSet.Shuffle(m_seed);
-                    //exemplarSet.Trim(20);
-                    Debug.Log("Exemplar Set");
-                    Debug.Log(exemplarSet);
+                    //Debug.Log("Exemplar Set");
+                    //Debug.Log(exemplarSet);
 
                     //Create the wang tile set that contains the tiles to patch
                     m_tileSet = new WangTileSet(m_numHColors, m_numVColors, m_tileSize);
-                    Debug.Log(m_tileSet);
+                    //Debug.Log(m_tileSet);
 
+                    //Create the wang tiles.
                     ImageSynthesis.CreateWangTileImage(m_tileSet, m_tiles, patchSet, exemplarSet, m_seed, m_token);
 
                     Debug.Log("Tile creation time: " + m_token.StopTimer() + "s");
                 }
                 catch(Exception e)
                 {
+                    //Catch any exeception so it can be passed back to main thread.
                     m_exception = e;
                 }
 

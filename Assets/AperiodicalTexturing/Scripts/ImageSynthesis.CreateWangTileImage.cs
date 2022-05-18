@@ -143,7 +143,7 @@ namespace AperiodicTexturing
                     var image = tile.Images[j];
 
                     //Create a mask that covers the seams where different tiles meet.
-                    var mask = CreateWangTiles_CreateMask(map, color, maskThickness);
+                    var mask = CreateWangTiles_CreateSeamMask(map, color, maskThickness);
 
                     //Get a list of all the masked points in the mask.
                     //Randomize the points. This is the order the patchs will be filled.
@@ -245,11 +245,11 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Fill the points pixels and surrounding area with patches from the exemplar set.
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="set"></param>
-        /// <param name="mask"></param>
+        /// <param name="points">The pixels indices to fill.</param>
+        /// <param name="set">The exemplar set to take the patches from.</param>
+        /// <param name="mask">A mask used to tell if the pixels have areadlly been filled with a patch previously.</param>
         /// <param name="image"></param>
         private static void CreateWangTiles_FillPatches(int index, List<Point2i> points, ExemplarSet set, BinaryImage2D mask, ColorImage2D image, ThreadingToken token = null)
         {
@@ -308,10 +308,11 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Find all the edge colors in the tile and return as a uique sorted list.
+        /// A color is just defined as a number.
         /// </summary>
-        /// <param name="tile"></param>
-        /// <returns></returns>
+        /// <param name="tile">The tile to get the colors from.</param>
+        /// <returns>THe unique sorted list</returns>
         private static List<int> CreateWangTiles_GetSortedColors(WangTile tile)
         {
             var colors = new List<int>();
@@ -328,10 +329,11 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Creates a map image that defines where the pixels in a image come from.
+        /// Based on what the tiles edge colors are. There area in the image are triangle shaped.
         /// </summary>
-        /// <param name="tile"></param>
-        /// <returns></returns>
+        /// <param name="tile">The tile to get the edge colors from.</param>
+        /// <returns>A image that defines where the pixels in a image come from.</returns>
         private static GreyScaleImage2D CreateWangTiles_CreateMapFromWangTile(WangTile tile)
         {
             int width = tile.Width;
@@ -340,6 +342,8 @@ namespace AperiodicTexturing
 
             if (tile.IsConst)
             {
+                //If tile is cont all edges have the same color.
+                //Just fill with any edge. All the same.
                 map.Fill(tile.Left);
             }
             else
@@ -349,6 +353,9 @@ namespace AperiodicTexturing
                 var c10 = new Point2i(width, 0);
                 var c11 = new Point2i(width, height);
                 var mid = new Point2i(width / 2, height / 2);
+
+                //For each edge draw a triangle going from center to each of the edges corners
+                //and fill with the edge color.
 
                 map.DrawTriangle(mid, c00, c01, new ColorRGBA(tile.Left, 1), true);
                 map.DrawTriangle(mid, c00, c10, new ColorRGBA(tile.Bottom, 1), true);
@@ -360,36 +367,48 @@ namespace AperiodicTexturing
         }
 
         /// <summary>
-        /// 
+        /// Fills the image with pixels from a list of other images based on the map texture.
         /// </summary>
-        /// <param name="imageIndex"></param>
-        /// <param name="image"></param>
-        /// <param name="map"></param>
-        /// <param name="tileables"></param>
+        /// <param name="imageIndex">Which image in the tile to fill.</param>
+        /// <param name="image">The image to fill.</param>
+        /// <param name="map">The image containing which tileable image to use.</param>
+        /// <param name="tileables">The list of tileable images.</param>
         private static void CreateWangTiles_FillFromMap(int imageIndex, ColorImage2D image, GreyScaleImage2D map, IList<Tile> tileables)
         {
             image.Fill((x, y) =>
             {
+                //Get the map index.
                 int mapIndex = (int)map[x, y];
-                return tileables[mapIndex].Images[imageIndex][x, y];
+
+                //The map index defines which tile to use.
+                //The map index comes from the edge color.
+                Tile tile = tileables[mapIndex];
+
+                //Get which image from the tile to use.
+                ColorImage2D tileabeImage = tile.Images[imageIndex];
+
+                //fill the image with the pixel.
+                return tileabeImage[x, y];
             });
         }
 
         /// <summary>
-        /// 
+        /// Create a mask that covers the seams where pixels of different edge colors meet.
         /// </summary>
-        /// <param name="map"></param>
-        /// <param name="color"></param>
-        /// <param name="thickness"></param>
+        /// <param name="map">The map texture that contains the edge colors for those pixels.</param>
+        /// <param name="color">Which color defines where the masks should be created.</param>
+        /// <param name="thickness">The mask thickness.</param>
         /// <returns></returns>
-        private static BinaryImage2D CreateWangTiles_CreateMask(GreyScaleImage2D map, int color, int thickness)
+        private static BinaryImage2D CreateWangTiles_CreateSeamMask(GreyScaleImage2D map, int color, int thickness)
         {
             var mask = new BinaryImage2D(map.Size);
 
             mask.Iterate((x, y) =>
             {
+                //If the pixel is not the color the mask is tring to cover then skip.
                 if (map[x, y] != color) return;
 
+                //Look at a neighbour pixels
                 for (int i = 0; i < 8; i++)
                 {
                     int xi = x + D8.OFFSETS[i, 0];
@@ -397,6 +416,7 @@ namespace AperiodicTexturing
 
                     if (mask.NotInBounds(xi, yi)) continue;
 
+                    //If neighbour pixel is not the same then set the mask to true.
                     if (map[xi, yi] != color)
                     {
                         mask[x, y] = true;
@@ -405,9 +425,11 @@ namespace AperiodicTexturing
                 }
             });
 
+            //Dilate mask if needed.
             if(thickness > 0)
                 mask = BinaryImage2D.Dilate(mask, thickness);
 
+            /*  
             var bounds = mask.Bounds;
             var corners = bounds.GetCorners();
 
@@ -416,6 +438,7 @@ namespace AperiodicTexturing
                 if (!corners.Contains(p))
                     mask[p.x, p.y] = false;
             }
+            */
 
             return mask;
         }
