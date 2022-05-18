@@ -3,12 +3,14 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _TilesTexture("Tiles Texture", 2D) = "white" {}
+        _Albedo("Albedo", 2D) = "white" {}
+        _Glossiness("Smoothness", 2D) = "black" {}
+        _BumpMap("Bumpmap", 2D) = "bump" {}
         _TileMappingTexture("Tile Mapping Texture", 2D) = "black" {}
         _TileScale("Tile Scale", Vector) = (4, 4, 0, 0)
         _TileMappingScale("Tile Mapping Scale", Vector) = (256, 256, 0, 0)
-        _Glossiness ("Smoothness", Range(0, 1)) = 0.0
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _MetallicScale("Metallic Scale", Range(0,1)) = 0.0
+        _GlossinessScale("Smoothness Scale", Range(0,1)) = 0.0
     }
     SubShader
     {
@@ -20,7 +22,7 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
         #pragma surface surf Standard fullforwardshadows
         #pragma target 3.0
 
-        sampler2D _TilesTexture, _TileMappingTexture;
+        sampler2D _Albedo, _Glossiness, _BumpMap, _TileMappingTexture;
         float2 _TileMappingScale, _TileScale;
 
         struct Input
@@ -29,8 +31,7 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
             float2 uv_TileMappingTexture;
         };
 
-        half _Glossiness;
-        half _Metallic;
+        half _MetallicScale, _GlossinessScale;
         fixed4 _Color;
 
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -53,9 +54,19 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
             return tileUV;
         }
 
-        float4 SampleAperiodicTexture(float4 uv)
+        float4 SampleAlbedoTexture(float4 uv)
         {
-            return tex2D(_TilesTexture, uv.xy, uv.z, uv.w);
+            return tex2D(_Albedo, uv.xy, uv.z, uv.w) * _Color;
+        }
+
+        float SampleSmoothnessTexture(float4 uv)
+        {
+            return tex2D(_Glossiness, uv.xy, uv.z, uv.w).r * _GlossinessScale;
+        }
+
+        float3 SampleBumpTexture(float4 uv)
+        {
+            return UnpackNormal(tex2D(_BumpMap, uv));
         }
 
         void surf(Input IN, inout SurfaceOutputStandard o)
@@ -64,12 +75,15 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
 
             float4 tileUV = GetTileUV(uv);
 
-            float4 result = SampleAperiodicTexture(tileUV);
+            float4 albedo = SampleAlbedoTexture(tileUV);
+            float smoothness = SampleSmoothnessTexture(tileUV);
+            float3 normal = SampleBumpTexture(tileUV);
 
-            o.Albedo = result.rgb * _Color.rgb;
-            o.Alpha = result.a * _Color.a;
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
+            o.Albedo = albedo.rgb;
+            o.Alpha = albedo.a;
+            o.Normal = normal;
+            o.Metallic = _MetallicScale;
+            o.Smoothness = smoothness;
 
         }
 
