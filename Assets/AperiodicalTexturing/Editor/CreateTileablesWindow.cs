@@ -174,10 +174,10 @@ namespace AperiodicTexturing
 
                 //If the algorithm has progressed at least 10% then
                 //dispay this as the progress, if not just show thats its calculating.
-                if (progress > 0.1f)
+                //if (progress > 0.1f)
                     estimatedTime = m_token.EstimatedCompletionTime().ToString("F2") + m_token.TimePeriodUnit;
-                else
-                    estimatedTime = "(Calculating...)";
+                //else
+                //    estimatedTime = "(Calculating...)";
 
                 //There will be messages from the token about what stage the agorithm is at.
                 if (m_token.NumMessages > 0)
