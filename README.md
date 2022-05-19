@@ -5,7 +5,8 @@ gems website](https://developer.nvidia.com/gpugems/gpugems2/part-ii-shading-ligh
 
 This project also depends on the [image processing](https://github.com/Scrawk/ImageProcessing) and [common code](https://github.com/Scrawk/Common) library's.
 
-Note: The current method does not handle creating tileable height maps very well and I am still looking into the best way to do this. 
+**Note: The current method does not handle creating tileable height maps very well and  
+creating the aperiodic tiles also takes a very long time. I am still looking into the best way to do this.**
 
 There are a lot of methods used to help break up the repeating patterns when texturing but they 
 all involve resampling the texture multiple times and blending the results somehow.
@@ -126,7 +127,25 @@ Press create to make the textures. The results will be saved in the results fold
 
 # Creating the material.
 
-The last step is to create the material. TODO
+The last step is to create the material. 
+
+![creatematerial](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/MaterialSettings.png)
+
+**Albedo Texture:** This is the aperiodic albedo texture.
+
+**Smoothness Texture:** This is the aperiodic smoothness texture.
+
+**Bumpmap Texture:** This is the aperiodic bump map texture.
+
+**Tile Mapping Texture:** This is the mapping texture.
+
+**Tile Scale:** The x value should be set to the horizontal edge colors squared. 
+So if you 2 edge colors when creating the aperiodic texture you need to enter 4 here, 3 colors enter 9, 4 colors enter 16.
+Its the same for the y value exected it should be the number of vertical colors squared.
+
+**Metallic Scale:** The metallicnesss value used.
+
+**Smoothness Scale:** The smoothness value from the soomthness texture is multiplied by this value.
 
 At this point you maybe wondering how the wang tiles are created. Heres a example of a 2 by 2 color wang tile. You can see that it consists of 4 by 4 tiles and they always have the sample edge colors when they meet another tile.
 
