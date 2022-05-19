@@ -155,6 +155,22 @@ Heres another example that just shows the edges.
 
 ![wangtileedge](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/ColorTile2x2_256.png)
 
+Heres a few screen shots of the materials on a plane with a 1m cube for scale. Here the material is using 2 edge colors you can still see some repeating but there is a nice breaking up of the tiles.
+
+![AperiodicTexturing2x2](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/AperiodicTexturing2x2.png)
+
+With the edge colors showing.
+
+![Colors2x2](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/Colors2x2.png)
+
+And here a material with 3 colors. Again some repeating but much better than the 2 colors.
+
+![AperiodicTexturing3x3](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/AperiodicTexturing3x3.png)
+
+With the edge colors showing.
+
+![Colors3x3](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/Colors3x3.png)
+
 It can be hard to create a tile that has no artifacts or obvious repeating features. As a optional steep the textures can be cleaned up in photoshop and you can used this edge color texture as a guide of where you can edit and what areas can no be changed. Basically you can not change the pixels on the edges of the tile where they are colored.
 
 I have included a bunch of pre-generated textures and materials which you can use and they can be found in the textures and materials folder.
