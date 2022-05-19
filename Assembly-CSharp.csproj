@@ -56,6 +56,8 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Common\Utility\GraphicsSettings.cs" />
+    <Compile Include="Assets\Common\Utility\ConsoleRedirect.cs" />
     <Compile Include="Assets\Common\Extensions\PointExtension4.cs" />
     <Compile Include="Assets\AperiodicalTexturing\Scripts\Tile.cs" />
     <Compile Include="Assets\Common\Extensions\VectorExtension4.cs" />
@@ -75,8 +77,6 @@
     <Compile Include="Assets\AperiodicalTexturing\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
-    <Compile Include="Assets\Common\Utility\GraphicsSettings.cs" />
-    <Compile Include="Assets\Common\Utility\ConsoleRedirect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Common\Plugins\Common.Collections.xml" />
