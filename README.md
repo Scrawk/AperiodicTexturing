@@ -5,7 +5,8 @@ gems website](https://developer.nvidia.com/gpugems/gpugems2/part-ii-shading-ligh
 
 This project also depends on the [image processing](https://github.com/Scrawk/ImageProcessing) and [common code](https://github.com/Scrawk/Common) library's.
 
-Note: The current method does not handle creating tileable height maps very well and I am still looking into the best way to do this. 
+**Note: The current method does not handle creating tileable height maps very well and  
+creating the aperiodic tiles also takes a very long time. I am still looking into the best way to do this.**
 
 There are a lot of methods used to help break up the repeating patterns when texturing but they 
 all involve resampling the texture multiple times and blending the results somehow.
