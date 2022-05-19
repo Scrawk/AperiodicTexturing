@@ -130,7 +130,21 @@ The last step is to create the material.
 
 ![creatematerial](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/MaterialSettings.png)
 
+**Albedo Texture:** This is the aperiodic albedo texture.
 
+**Smoothness Texture:** This is the aperiodic smoothness texture.
+
+**Bumpmap Texture:** This is the aperiodic bump map texture.
+
+**Tile Mapping Texture:** This is the mapping texture.
+
+**Tile Scale:** The x value should be set to the horizontal edge colors squared. 
+So if you 2 edge colors when creating the aperiodic texture you need to enter 4 here, 3 colors enter 9, 4 colors enter 16.
+Its the same for the y value exected it should be the number of vertical colors squared.
+
+**Metallic Scale:** The metallicnesss value used.
+
+**Smoothness Scale:** The smoothness value from the soomthness texture is multiplied by this value.
 
 At this point you maybe wondering how the wang tiles are created. Heres a example of a 2 by 2 color wang tile. You can see that it consists of 4 by 4 tiles and they always have the sample edge colors when they meet another tile.
 
