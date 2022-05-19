@@ -75,6 +75,8 @@
     <Compile Include="Assets\AperiodicalTexturing\Scripts\Exemplar.cs" />
     <Compile Include="Assets\Common\Extensions\MatrixExtension.cs" />
     <Compile Include="Assets\Common\Extensions\GameObjectExtension.cs" />
+    <Compile Include="Assets\Common\Utility\GraphicsSettings.cs" />
+    <Compile Include="Assets\Common\Utility\ConsoleRedirect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Common\Plugins\Common.Collections.xml" />
