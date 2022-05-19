@@ -66,7 +66,7 @@ namespace AperiodicTexturing
         /// <param name="dilation">The amount to dilate.</param>
         /// <param name="strength">The amount to blur.</param>
         /// <returns></returns>
-        private static GreyScaleImage2D CreateBlendMaskFromGraph(GridFlowGraph graph, int dilation, float strength)
+        private static GreyScaleImage2D CreateBlendMaskFromGraph(FlowGridGraph graph, int dilation, float strength)
         {
             var mask = new GreyScaleImage2D(graph.Width, graph.Height);
 
@@ -90,7 +90,7 @@ namespace AperiodicTexturing
         /// </summary>
         /// <param name="graph"></param>
         /// <returns></returns>
-        private static BinaryImage2D CreateBinaryMaskFromGraph(GridFlowGraph graph)
+        private static BinaryImage2D CreateBinaryMaskFromGraph(FlowGridGraph graph)
         {
             var mask = new BinaryImage2D(graph.Width, graph.Height);
 
@@ -109,7 +109,7 @@ namespace AperiodicTexturing
         /// <param name="graph">The graph.</param>
         /// <param name="sourceOffset">The border thickness around edge of graph that will be marked as the source. </param>
         /// <param name="sinkOffset">The area in center of graph that will be marked as the sink.</param>
-        private static void MarkSourceAndSink(GridFlowGraph graph, int sourceOffset, int sinkOffset)
+        private static void MarkSourceAndSink(FlowGridGraph graph, int sourceOffset, int sinkOffset)
         {
             graph.Iterate((x, y) =>
             {
@@ -165,9 +165,9 @@ namespace AperiodicTexturing
         /// <param name="image2"></param>
         /// <param name="isOrthogonal">Is the grapgh othogonal, ie no diagonal edges.</param>
         /// <returns></returns>
-        private static GridFlowGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, bool isOrthogonal)
+        private static FlowGridGraph CreateGraph(ColorImage2D image1, ColorImage2D image2, bool isOrthogonal)
         {
-            var graph = new GridFlowGraph(image1.Width, image1.Height, isOrthogonal);
+            var graph = new FlowGridGraph(image1.Width, image1.Height, isOrthogonal);
  
             graph.Iterate((x, y) =>
             {
@@ -200,7 +200,7 @@ namespace AperiodicTexturing
         /// <param name="image2"></param>
         /// <param name="isOrthogonal">Is the grapgh othogonal, ie no diagonal edges.</param>
         /// <returns></returns>
-        private static void FillGraph(GridFlowGraph graph, ColorImage2D image1, ColorImage2D image2)
+        private static void FillGraph(FlowGridGraph graph, ColorImage2D image1, ColorImage2D image2)
         {
             graph.Iterate((x, y) =>
             {

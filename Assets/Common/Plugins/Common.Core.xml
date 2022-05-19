@@ -3820,6 +3820,11 @@
             Lerp between two points.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point2d.BLerp(Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,Common.Core.Numerics.Point2d,System.Double,System.Double)">
+            <summary>
+            BLerp between four points.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Point2d.Rounded(System.Int32)">
             <summary>
             A rounded point.
@@ -4183,6 +4188,11 @@
         <member name="M:Common.Core.Numerics.Point2f.Lerp(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,System.Single)">
             <summary>
             Lerp between two points.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.BLerp(Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,Common.Core.Numerics.Point2f,System.Single,System.Single)">
+            <summary>
+            BLerp between four points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Point2f.Rounded(System.Int32)">
@@ -4818,6 +4828,11 @@
             Lerp between two points.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point3d.BLerp(Common.Core.Numerics.Point3d,Common.Core.Numerics.Point3d,Common.Core.Numerics.Point3d,Common.Core.Numerics.Point3d,System.Double,System.Double)">
+            <summary>
+            BLerp between four points.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Point3d.Rounded(System.Int32)">
             <summary>
             A rounded point.
@@ -5178,6 +5193,11 @@
         <member name="M:Common.Core.Numerics.Point3f.Lerp(Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f,System.Single)">
             <summary>
             Lerp between two points.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.BLerp(Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f,System.Single,System.Single)">
+            <summary>
+            BLerp between four points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Point3f.Rounded(System.Int32)">
@@ -5793,6 +5813,11 @@
             Lerp between two points.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point4d.BLerp(Common.Core.Numerics.Point4d,Common.Core.Numerics.Point4d,Common.Core.Numerics.Point4d,Common.Core.Numerics.Point4d,System.Double,System.Double)">
+            <summary>
+            BLerp between four points.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Point4d.Rounded(System.Int32)">
             <summary>
             A rounded point.
@@ -6128,6 +6153,11 @@
         <member name="M:Common.Core.Numerics.Point4f.Lerp(Common.Core.Numerics.Point4f,Common.Core.Numerics.Point4f,System.Single)">
             <summary>
             Lerp between two points.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.BLerp(Common.Core.Numerics.Point4f,Common.Core.Numerics.Point4f,Common.Core.Numerics.Point4f,Common.Core.Numerics.Point4f,System.Single,System.Single)">
+            <summary>
+            BLerp between four points.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Point4f.Rounded(System.Int32)">
@@ -7309,12 +7339,12 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector2d.Lerp(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector2d.Lerp(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,System.Double)">
             <summary>
             Lerp between two vectors.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector2d.BLerp(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,System.Single,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector2d.BLerp(Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,Common.Core.Numerics.Vector2d,System.Double,System.Double)">
             <summary>
             BLerp between four vectors.
             </summary>
@@ -8105,12 +8135,12 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector3d.Lerp(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector3d.Lerp(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Double)">
             <summary>
             Lerp between two vectors.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector3d.BLerp(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Single,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector3d.BLerp(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d,System.Double,System.Double)">
             <summary>
             BLerp between four vectors.
             </summary>
@@ -8877,12 +8907,12 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector4d.Lerp(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector4d.Lerp(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,System.Double)">
             <summary>
             Lerp between two vectors.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Vector4d.BLerp(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,System.Single,System.Single)">
+        <member name="M:Common.Core.Numerics.Vector4d.BLerp(Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,Common.Core.Numerics.Vector4d,System.Double,System.Double)">
             <summary>
             BLerp between four vectors.
             </summary>

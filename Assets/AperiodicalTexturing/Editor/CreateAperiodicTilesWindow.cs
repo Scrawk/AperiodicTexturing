@@ -226,8 +226,8 @@ namespace AperiodicTexturing
         /// </summary>
         private void DrawMain()
         {
-            m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 4);
-            m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 4);
+            m_numHColors = Mathf.Clamp(EditorGUILayout.IntField("Number of horizonal colors", m_numHColors), 2, 3);
+            m_numVColors = Mathf.Clamp(EditorGUILayout.IntField("Number of vertical colors", m_numVColors), 2, 3);
             m_tileSize = Mathf.Max(EditorGUILayout.IntField("Tile Size", m_tileSize), 128);
             m_exemplarSize = Mathf.Clamp(EditorGUILayout.IntField("Exemplar size", m_exemplarSize), 16, 32);
             m_maxExemplars = Mathf.Max(EditorGUILayout.IntField("Max exemplars", m_maxExemplars), 10);

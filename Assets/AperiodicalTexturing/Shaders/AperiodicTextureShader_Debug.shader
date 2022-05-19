@@ -7,7 +7,6 @@ Shader "AperiodicTexturing/AperiodicTexturingShader_Debug"
         _TilesColorTexture("Tiles Color Texture", 2D) = "white" {}
         _TileMappingTexture("Tile Mapping Texture", 2D) = "black" {}
         _TileScale("Tile Scale", Vector) = (4, 4, 0, 0)
-        _TileMappingScale("Tile Mapping Scale", Vector) = (256, 256, 0, 0)
         _DebugColorAlpha("Debug Color Alpha", Range(0, 1)) = 0.5
         _Glossiness("Smoothness", Range(0, 1)) = 0.0
         _Metallic("Metallic", Range(0,1)) = 0.0
@@ -24,6 +23,7 @@ Shader "AperiodicTexturing/AperiodicTexturingShader_Debug"
 
             sampler2D _TilesTexture, _TilesColorTexture, _TileMappingTexture;
             float2 _TileMappingScale, _TileScale;
+            float4 _TileMappingTexture_TexelSize;
 
             struct Input
             {
@@ -40,12 +40,12 @@ Shader "AperiodicTexturing/AperiodicTexturingShader_Debug"
                 // put more per-instance properties here
             UNITY_INSTANCING_BUFFER_END(Props)
 
-            float4 GetTileUV(float2 uv)
+            float4 GetTileUV(float2 uv, float2 mappingSize)
             {
                 float2 tileIndex = tex2D(_TileMappingTexture, uv) * 255.0;
                 float2 invScale = 1.0 / _TileScale;
 
-                float2 mappingUV = uv * _TileMappingScale;
+                float2 mappingUV = uv * mappingSize;
                 float2 mappingScaledUV = mappingUV * invScale;
 
                 float4 tileUV;
@@ -67,8 +67,9 @@ Shader "AperiodicTexturing/AperiodicTexturingShader_Debug"
             void surf(Input IN, inout SurfaceOutputStandard o)
             {
                 float2 uv = IN.uv_TileMappingTexture.xy;
+                float2 mappingSize = _TileMappingTexture_TexelSize.zw;
 
-                float4 tileUV = GetTileUV(uv);
+                float4 tileUV = GetTileUV(uv, mappingSize);
 
                 float4 result = SampleAperiodicTexture(tileUV);
 

@@ -8,7 +8,6 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
         _BumpMap("Bumpmap", 2D) = "bump" {}
         _TileMappingTexture("Tile Mapping Texture", 2D) = "black" {}
         _TileScale("Tile Scale", Vector) = (4, 4, 0, 0)
-        _TileMappingScale("Tile Mapping Scale", Vector) = (256, 256, 0, 0)
         _MetallicScale("Metallic Scale", Range(0,1)) = 0.0
         _GlossinessScale("Smoothness Scale", Range(0,1)) = 0.0
     }
@@ -24,6 +23,7 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
 
         sampler2D _Albedo, _Glossiness, _BumpMap, _TileMappingTexture;
         float2 _TileMappingScale, _TileScale;
+        float4 _TileMappingTexture_TexelSize;
 
         struct Input
         {
@@ -38,12 +38,12 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        float4 GetTileUV(float2 uv)
+        float4 GetTileUV(float2 uv, float2 mappingSize)
         {
             float2 tileIndex = tex2D(_TileMappingTexture, uv) * 255.0;
             float2 invScale = 1.0 / _TileScale;
 
-            float2 mappingUV = uv * _TileMappingScale;
+            float2 mappingUV = uv * mappingSize;
             float2 mappingScaledUV = mappingUV * invScale;
 
             float4 tileUV;
@@ -72,8 +72,9 @@ Shader "AperiodicTexturing/AperiodicTexturingShader"
         void surf(Input IN, inout SurfaceOutputStandard o)
         {
             float2 uv = IN.uv_TileMappingTexture.xy;
+            float2 mappingSize = _TileMappingTexture_TexelSize.zw;
 
-            float4 tileUV = GetTileUV(uv);
+            float4 tileUV = GetTileUV(uv, mappingSize);
 
             float4 albedo = SampleAlbedoTexture(tileUV);
             float smoothness = SampleSmoothnessTexture(tileUV);

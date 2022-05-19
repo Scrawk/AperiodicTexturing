@@ -134,7 +134,7 @@ namespace AperiodicTexturing
 
             //create a reusable search object for the graph cut.
             //Will help reduce the number garbage objects created.
-            var search = new GridFlowSearch(exemplarSize, exemplarSize);
+            var search = new FlowGridSearch(exemplarSize, exemplarSize);
 
             foreach (var p in points)
             {
