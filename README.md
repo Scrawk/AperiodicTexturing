@@ -10,14 +10,14 @@ creating the aperiodic tiles also takes a very long time. I am still looking int
 
 There are a lot of methods used to help break up the repeating patterns when texturing but they 
 all involve resampling the texture multiple times and blending the results somehow.
-The good thing abount this method is it only takes one extra texture sample per shader and 
+The good thing about this method is it only takes one extra texture sample per shader and 
 requires no blending of textures.
 
 I think this method had a lot of promise and never got the attention it deserved. 
 I think this comes down to the fact its quite difficult to make the textures. 
 The wang tiles need to be constucted in a special way.
 To help remedy this I have created a series of editor scripts in Unity that will automatically 
-generate the tiles for you. Its not perfert but any issues can easily be cleaned up in photoshop.
+generate the tiles for you. Its not perfect but any issues can easily be cleaned up in photoshop.
 
 So first you will need a series of tileable textures. You will need one for each 'color' the wang 
 tiles have. The project supports upto 4 colors. 
