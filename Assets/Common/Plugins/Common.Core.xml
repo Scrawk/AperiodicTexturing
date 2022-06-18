@@ -255,6 +255,14 @@
             </summary>
             <returns>A color will values in the 0-1 range.</returns>
         </member>
+        <member name="M:Common.Core.Colors.ColorRGB.ToBytes(System.Byte[],System.Int32)">
+            <summary>
+            Scale and clamp each channel to 0-255 range 
+            and copy into byte array.
+            </summary>
+            <param name="bytes">The bytes.</param>
+            <param name="offset">Optional offset into byte array.</param>
+        </member>
         <member name="M:Common.Core.Colors.ColorRGB.FromInteger(System.Int32,System.Boolean)">
             <summary>
             Create a color from a integer where each byte in the 
@@ -313,6 +321,15 @@
             <summary>
             BLerp between four colors.
             </summary>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGB.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new color by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new color.</returns>
         </member>
         <member name="M:Common.Core.Colors.ColorRGB.ToHSV(System.Single,System.Single,System.Single)">
             <summary>
@@ -450,6 +467,14 @@
             </summary>
             <returns>A color will values in the 0-1 range.</returns>
         </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.ToBytes(System.Byte[],System.Int32)">
+            <summary>
+            Scale and clamp each channel to 0-255 range 
+            and copy into byte array.
+            </summary>
+            <param name="bytes">The bytes.</param>
+            <param name="offset">Optional offset into byte array.</param>
+        </member>
         <member name="M:Common.Core.Colors.ColorRGBA.FromInteger(System.Int32,System.Boolean)">
             <summary>
             Create a color from a integer where each byte in the 
@@ -509,6 +534,16 @@
             <summary>
             BLerp between four colors.
             </summary>
+        </member>
+        <member name="M:Common.Core.Colors.ColorRGBA.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new color by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take z value from.</param>
+            <returns>The new color.</returns>
         </member>
         <member name="M:Common.Core.Colors.ColorRGBA.ToHSV">
             <summary>
@@ -1908,6 +1943,34 @@
             Mirror a value between 0 and count-1 (inclusive).
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.MathUtil.Swap(System.Single@,System.Single@)">
+            <summary>
+            Swaps the two values.
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.Swap(System.Double@,System.Double@)">
+            <summary>
+            Swaps the two values.
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.Swap(System.Int32@,System.Int32@)">
+            <summary>
+            Swaps the two values.
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.Swap``1(``0@,``0@)">
+            <summary>
+            Swaps the two values.
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+        </member>
         <member name="M:Common.Core.Numerics.MathUtil.IsPow2(System.Int32)">
             <summary>
             Is number a power of 2.
@@ -1928,6 +1991,14 @@
             Simple int pow function.
             System Math.Pow may produce precision errors.
             </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.IntPow(System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
         </member>
         <member name="M:Common.Core.Numerics.MathUtil.Binomial(System.Int32,System.Int32)">
             <summary>
@@ -1993,6 +2064,28 @@
             <summary>
             Creates a look up table for factorials.
             </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.SolveQuadratic(System.Single,System.Single,System.Single,System.Single@,System.Single@)">
+            <summary>
+            Solve the quadratic equation.
+            </summary>
+            <param name="A"></param>
+            <param name="B"></param>
+            <param name="C"></param>
+            <param name="t0">The first root.</param>
+            <param name="t1">The second root.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Numerics.MathUtil.SolveQuadratic(System.Double,System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Solve the quadratic equation.
+            </summary>
+            <param name="A"></param>
+            <param name="B"></param>
+            <param name="C"></param>
+            <param name="t0">The first root.</param>
+            <param name="t1">The second root.</param>
+            <returns></returns>
         </member>
         <member name="T:Common.Core.Numerics.Matrix2x2d">
             <summary>
@@ -2140,6 +2233,11 @@
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Matrix2x2d.ToString">
+            <summary>
+            A matrix as a string.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Matrix2x2d.ToString(System.String)">
             <summary>
             A matrix as a string.
             </summary>
@@ -2538,6 +2636,11 @@
             A matrix as a string.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix3x3d.ToString(System.String)">
+            <summary>
+            A matrix as a string.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix3x3d.TryInverse(Common.Core.Numerics.Matrix3x3d@)">
             <summary>
             The Inverse of the matrix copied into mInv.
@@ -2783,6 +2886,11 @@
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Matrix3x3f.ToString">
+            <summary>
+            A matrix as a string.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Matrix3x3f.ToString(System.String)">
             <summary>
             A matrix as a string.
             </summary>
@@ -3060,6 +3168,11 @@
             A matrix as a string.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4d.ToString(System.String)">
+            <summary>
+            A matrix as a string.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix4x4d.Minor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             The minor of a matrix. 
@@ -3121,7 +3234,17 @@
             Create a translation out of a vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4d.Translate(System.Double,System.Double,System.Double)">
+            <summary>
+            Create a translation out of a vector.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix4x4d.Scale(Common.Core.Numerics.Point3d)">
+            <summary>
+            Create a scale out of a vector.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4d.Scale(System.Double,System.Double,System.Double)">
             <summary>
             Create a scale out of a vector.
             </summary>
@@ -3159,12 +3282,17 @@
             <param name="axis">The axis to rotate on.</param>
             <returns>The rotation matrix.</returns>
         </member>
-        <member name="M:Common.Core.Numerics.Matrix4x4d.Perspective(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:Common.Core.Numerics.Matrix4x4d.Perspective(Common.Core.Numerics.Radian,System.Double,System.Double,System.Double)">
             <summary>
             Create a perspective matrix.
             </summary>
         </member>
         <member name="M:Common.Core.Numerics.Matrix4x4d.Ortho(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Create a ortho matrix.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4d.Ortho(System.Double,System.Double)">
             <summary>
             Create a ortho matrix.
             </summary>
@@ -3368,6 +3496,11 @@
             A matrix as a string.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4f.ToString(System.String)">
+            <summary>
+            A matrix as a string.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix4x4f.Minor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             The minor of a matrix. 
@@ -3429,7 +3562,17 @@
             Create a translation out of a vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4f.Translate(System.Single,System.Single,System.Single)">
+            <summary>
+            Create a translation out of a vector.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix4x4f.Scale(Common.Core.Numerics.Point3f)">
+            <summary>
+            Create a scale out of a vector.
+            </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4f.Scale(System.Single,System.Single,System.Single)">
             <summary>
             Create a scale out of a vector.
             </summary>
@@ -3467,7 +3610,7 @@
             <param name="axis">The axis to rotate on.</param>
             <returns>The rotation matrix.</returns>
         </member>
-        <member name="M:Common.Core.Numerics.Matrix4x4f.Perspective(System.Single,System.Single,System.Single,System.Single)">
+        <member name="M:Common.Core.Numerics.Matrix4x4f.Perspective(Common.Core.Numerics.Radian,System.Single,System.Single,System.Single)">
             <summary>
             Create a perspective matrix.
             </summary>
@@ -3477,9 +3620,19 @@
             Create a ortho matrix.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Matrix4x4f.Ortho(System.Single,System.Single)">
+            <summary>
+            Create a ortho matrix.
+            </summary>
+        </member>
         <member name="M:Common.Core.Numerics.Matrix4x4f.LookAt(Common.Core.Numerics.Point3f,Common.Core.Numerics.Point3f,Common.Core.Numerics.Vector3f)">
             <summary>
             Creates the matrix need to look at target from position.
+            </summary>
+        </member>
+        <member name="F:Common.Core.Numerics.Point2d.Dimension">
+            <summary>
+            The dimension is the number components in the point.
             </summary>
         </member>
         <member name="F:Common.Core.Numerics.Point2d.UnitX">
@@ -3558,6 +3711,16 @@
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
+        </member>
+        <member name="P:Common.Core.Numerics.Point2d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point2d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point2d.IsFinite">
             <summary>
@@ -3857,6 +4020,47 @@
             <param name="range">The range of the points.</param>
             <returns>The point array.</returns>
         </member>
+        <member name="M:Common.Core.Numerics.Point2d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2d.Permutate(System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point2f.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point2f.UnitX">
             <summary>
             The unit x point.
@@ -3938,6 +4142,16 @@
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
+        </member>
+        <member name="P:Common.Core.Numerics.Point2f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point2f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point2f.IsFinite">
             <summary>
@@ -4227,6 +4441,47 @@
             <param name="range">The range of the points.</param>
             <returns>The point array.</returns>
         </member>
+        <member name="M:Common.Core.Numerics.Point2f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2f.Permutate(System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point2i.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point2i.UnitX">
             <summary>
             The unit x point.
@@ -4493,6 +4748,47 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point2i.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point2i.Permutate(System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point3d.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point3d.UnitX">
             <summary>
             The unit x point.
@@ -4579,6 +4875,16 @@
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
+        </member>
+        <member name="P:Common.Core.Numerics.Point3d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point3d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point3d.IsFinite">
             <summary>
@@ -4865,6 +5171,48 @@
             <param name="range">The range of the points.</param>
             <returns>The point array.</returns>
         </member>
+        <member name="M:Common.Core.Numerics.Point3d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3d.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point3f.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point3f.UnitX">
             <summary>
             The unit x point.
@@ -4957,9 +5305,19 @@
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
         </member>
+        <member name="P:Common.Core.Numerics.Point3f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point3f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
+        </member>
         <member name="P:Common.Core.Numerics.Point3f.IsFinite">
             <summary>
-            Are all the components ofpoint finite.
+            Are all the components of point finite.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point3f.Finite">
@@ -5232,6 +5590,48 @@
             <param name="range">The range of the points.</param>
             <returns>The point array.</returns>
         </member>
+        <member name="M:Common.Core.Numerics.Point3f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3f.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point3i.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point3i.UnitX">
             <summary>
             The unit x point.
@@ -5503,6 +5903,48 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point3i.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point3i.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point4d.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point4d.UnitX">
             <summary>
             The unit x point.
@@ -5575,9 +6017,19 @@
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
         </member>
+        <member name="P:Common.Core.Numerics.Point4d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point4d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
+        </member>
         <member name="P:Common.Core.Numerics.Point4d.IsFinite">
             <summary>
-            Are all the components ofpoint finite.
+            Are all the components of point finite.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point4d.Finite">
@@ -5841,6 +6293,49 @@
             Ceilling each component if point.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point4d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4d.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take w value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point4f.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point4f.UnitX">
             <summary>
             The unit x point.
@@ -5917,6 +6412,16 @@
             </summary>
             <param name="i">The variables index.</param>
             <returns>The variable value</returns>
+        </member>
+        <member name="P:Common.Core.Numerics.Point4f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Point4f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
+            </summary>
         </member>
         <member name="P:Common.Core.Numerics.Point4f.IsFinite">
             <summary>
@@ -6183,6 +6688,49 @@
             Ceilling each component if point.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point4f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4f.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take w value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Point4i.Dimension">
+            <summary>
+            The dimension is the number components in the point.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Point4i.UnitX">
             <summary>
             The unit x point.
@@ -6434,22 +6982,55 @@
             Clamp each component to specified min and max.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Point4i.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the point. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Point4i.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new point by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take w value from.</param>
+            <returns>The new vector</returns>
+        </member>
         <member name="M:Common.Core.Numerics.Quaternion3d.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             A Quaternion from varibles.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.#ctor(Common.Core.Numerics.Vector3d,System.Double)">
+        <member name="P:Common.Core.Numerics.Quaternion3d.Item(System.Int32)">
             <summary>
-            A Quaternion from a vector axis and angle.
-            The axis is the up direction and the angle is the rotation.
+            Array accessor for variables. 
             </summary>
-        </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.#ctor(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d)">
-            <summary>
-            A quaternion with the rotation required to
-            rotation from the from direction to the to direction.
-            </summary>
+            <param name="i">The variables index.</param>
+            <returns>The variable value</returns>
         </member>
         <member name="P:Common.Core.Numerics.Quaternion3d.Conjugate">
             <summary>
@@ -6571,6 +7152,13 @@
             Convert to a single precision 4 dimension matrix.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Quaternion3d.FromMatrix(Common.Core.Numerics.Matrix4x4d)">
+            <summary>
+            Extract the rotation from a matrix.
+            </summary>
+            <param name="m"></param>
+            <returns>The rotation as a quaternion from the matrix.</returns>
+        </member>
         <member name="M:Common.Core.Numerics.Quaternion3d.Normalize">
             <summary>
             The normalize the quaternion.
@@ -6581,40 +7169,58 @@
             The dot product of two quaternion..
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.Slerp(Common.Core.Numerics.Quaternion3d,Common.Core.Numerics.Quaternion3d,System.Double)">
-            <summary>
-            Slerp the quaternion from the from rotation to the to rotation by t.
-            </summary>
-        </member>
         <member name="M:Common.Core.Numerics.Quaternion3d.FromEuler(Common.Core.Numerics.Vector3d)">
             <summary>
             Create a rotation out of a vector.
             Uses Unity euler axis (+x right, +y up, +z forward)
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.RotateX(System.Double)">
+        <member name="M:Common.Core.Numerics.Quaternion3d.RotateX(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the x-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the x-axis towards the origin in degrees.
             </param>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.RotateY(System.Double)">
+        <member name="M:Common.Core.Numerics.Quaternion3d.RotateY(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the y-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the y-axis towards the origin in degrees.
             </param>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3d.RotateZ(System.Double)">
+        <member name="M:Common.Core.Numerics.Quaternion3d.RotateZ(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the z-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the z-axis towards the origin in degrees.
             </param>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3d.Rotate(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Radian)">
+            <summary>
+            A Quaternion from a vector axis and angle.
+            The axis is the up direction and the angle is the rotation.
+            </summary>
+            <param name="axis">The up axis.</param>
+            <param name="radian">The amount to rotate in radians.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3d.Slerp(Common.Core.Numerics.Vector3d,Common.Core.Numerics.Vector3d)">
+            <summary>
+            A quaternion with the rotation required to
+            rotation from the from direction to the to direction.
+            </summary>
+            <param name="from">The vector to start from.</param>
+            <param name="to">The vector to slerp to.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3d.Slerp(Common.Core.Numerics.Quaternion3d,Common.Core.Numerics.Quaternion3d,System.Double)">
+            <summary>
+            Slerp the quaternion from the from rotation to the to rotation by t.
+            </summary>
         </member>
         <member name="M:Common.Core.Numerics.Quaternion3f.#ctor(System.Single,System.Single,System.Single,System.Single)">
             <summary>
@@ -6626,17 +7232,12 @@
             A Quaternion from varibles.
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.#ctor(Common.Core.Numerics.Vector3f,System.Single)">
+        <member name="P:Common.Core.Numerics.Quaternion3f.Item(System.Int32)">
             <summary>
-            A Quaternion from a vector axis and angle.
-            The axis is the up direction and the angle is the rotation.
+            Array accessor for variables. 
             </summary>
-        </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.#ctor(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f)">
-            <summary>
-            A quaternion with the rotation required to
-            rotation from the from direction to the to direction.
-            </summary>
+            <param name="i">The variables index.</param>
+            <returns>The variable value</returns>
         </member>
         <member name="P:Common.Core.Numerics.Quaternion3f.Conjugate">
             <summary>
@@ -6758,6 +7359,13 @@
             Convert to a single precision 4 dimension matrix.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Quaternion3f.FromMatrix(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Extract the rotation from a matrix.
+            </summary>
+            <param name="m"></param>
+            <returns>The rotation as a quaternion from the matrix.</returns>
+        </member>
         <member name="M:Common.Core.Numerics.Quaternion3f.Normalize">
             <summary>
             The normalize the quaternion.
@@ -6768,40 +7376,58 @@
             The dot product of two quaternion..
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.Slerp(Common.Core.Numerics.Quaternion3f,Common.Core.Numerics.Quaternion3f,System.Single)">
-            <summary>
-            Slerp the quaternion from the from rotation to the to rotation by t.
-            </summary>
-        </member>
         <member name="M:Common.Core.Numerics.Quaternion3f.FromEuler(Common.Core.Numerics.Vector3f)">
             <summary>
             Create a rotation out of a vector.
             Uses Unity euler axis (+x right, +y up, +z forward)
             </summary>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.RotateX(System.Single)">
+        <member name="M:Common.Core.Numerics.Quaternion3f.RotateX(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the x-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the x-axis towards the origin in degrees.
             </param>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.RotateY(System.Single)">
+        <member name="M:Common.Core.Numerics.Quaternion3f.RotateY(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the y-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the y-axis towards the origin in degrees.
             </param>
         </member>
-        <member name="M:Common.Core.Numerics.Quaternion3f.RotateZ(System.Single)">
+        <member name="M:Common.Core.Numerics.Quaternion3f.RotateZ(Common.Core.Numerics.Radian)">
             <summary>
             Returns a 4x4 matrix that rotates around the z-axis by a given number of degrees.
             </summary>
-            <param name="angle">
+            <param name="radian">
             The clockwise rotation angle when looking along the z-axis towards the origin in degrees.
             </param>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3f.Rotate(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Radian)">
+            <summary>
+            A Quaternion from a vector axis and angle.
+            The axis is the up direction and the angle is the rotation.
+            </summary>
+            <param name="axis">The up axis.</param>
+            <param name="radian">The amount to rotate in radians.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3f.Slerp(Common.Core.Numerics.Vector3f,Common.Core.Numerics.Vector3f)">
+            <summary>
+            A quaternion with the rotation required to
+            rotation from the from direction to the to direction.
+            </summary>
+            <param name="from">The vector to start from.</param>
+            <param name="to">The vector to slerp to.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Quaternion3f.Slerp(Common.Core.Numerics.Quaternion3f,Common.Core.Numerics.Quaternion3f,System.Single)">
+            <summary>
+            Slerp the quaternion from the from rotation to the to rotation by t.
+            </summary>
         </member>
         <member name="T:Common.Core.Numerics.Radian">
             <summary>
@@ -6997,6 +7623,11 @@
             <param name="digits">The number of digits to round to.</param>
             <returns>The rounded angle</returns>
         </member>
+        <member name="F:Common.Core.Numerics.Vector2d.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector2d.UnitX">
             <summary>
             The unit x vector.
@@ -7060,6 +7691,16 @@
         <member name="M:Common.Core.Numerics.Vector2d.#ctor(System.Double,System.Double)">
             <summary>
             A vector from the varibles.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector2d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector2d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector2d.IsFinite">
@@ -7376,6 +8017,47 @@
             Ceilling each component of vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector2d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2d.Permutate(System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Vector2f.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector2f.UnitX">
             <summary>
             The unit x vector.
@@ -7444,6 +8126,16 @@
         <member name="M:Common.Core.Numerics.Vector2f.#ctor(System.Double,System.Double)">
             <summary>
             A vector from the varibles.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector2f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector2f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector2f.IsFinite">
@@ -7760,6 +8452,47 @@
             Ceilling each component of vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector2f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector2f.Permutate(System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Vector3d.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector3d.UnitX">
             <summary>
             The unit x vector.
@@ -7843,6 +8576,16 @@
         <member name="M:Common.Core.Numerics.Vector3d.#ctor(Common.Core.Numerics.Vector2d,System.Double)">
             <summary>
             A vector from a 2d vector and the z varible.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector3d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector3d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector3d.IsFinite">
@@ -8172,6 +8915,48 @@
             Ceilling each component of vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3d.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Vector3f.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector3f.UnitX">
             <summary>
             The unit x vector.
@@ -8260,6 +9045,16 @@
         <member name="M:Common.Core.Numerics.Vector3f.#ctor(Common.Core.Numerics.Vector2f,System.Single)">
             <summary>
             A vector from a 2f vector and the z varible.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector3f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector3f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector3f.IsFinite">
@@ -8589,6 +9384,48 @@
             Ceilling each component of vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector3f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector3f.Permutate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Vector4d.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector4d.UnitX">
             <summary>
             The unit x vector.
@@ -8672,6 +9509,16 @@
         <member name="M:Common.Core.Numerics.Vector4d.#ctor(Common.Core.Numerics.Vector3d,System.Double)">
             <summary>
             A vector from a 3d vector and the w varible.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector4d.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector4d.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector4d.IsFinite">
@@ -8939,6 +9786,49 @@
             Ceilling each component of vector.
             </summary>
         </member>
+        <member name="M:Common.Core.Numerics.Vector4d.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4d.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take w value from.</param>
+            <returns>The new vector</returns>
+        </member>
+        <member name="F:Common.Core.Numerics.Vector4f.Dimension">
+            <summary>
+            The dimension is the number components in the vector.
+            </summary>
+        </member>
         <member name="F:Common.Core.Numerics.Vector4f.UnitX">
             <summary>
             The unit x vector.
@@ -9027,6 +9917,16 @@
         <member name="M:Common.Core.Numerics.Vector4f.#ctor(Common.Core.Numerics.Vector3f,System.Single)">
             <summary>
             A vector from a 3d vector and the w varible.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector4f.Frac">
+            <summary>
+            Reurun the fractional part of each component.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Numerics.Vector4f.Trunc">
+            <summary>
+            Reurun the fractional truncated part of each component.
             </summary>
         </member>
         <member name="P:Common.Core.Numerics.Vector4f.IsFinite">
@@ -9293,6 +10193,44 @@
             <summary>
             Ceilling each component of vector.
             </summary>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.MinDimension(System.Boolean)">
+            <summary>
+            The index of the min component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the min component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.MaxDimension(System.Boolean)">
+            <summary>
+            The index of the max component. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The index of the max component.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.MinComponent(System.Boolean)">
+            <summary>
+            The min component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The min components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.MaxComponent(System.Boolean)">
+            <summary>
+            The max component in the vector. 
+            </summary>
+            <param name="abs">Should the components abs value be used.</param>
+            <returns>The max components value.</returns>
+        </member>
+        <member name="M:Common.Core.Numerics.Vector4f.Permutate(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new vector by reordering the componets.
+            </summary>
+            <param name="i">The index to take x value from.></param>
+            <param name="j">The index to take y value from.</param>
+            <param name="k">The index to take z value from.</param>
+            <param name="l">The index to take w value from.</param>
+            <returns>The new vector</returns>
         </member>
         <member name="T:Common.Core.RandomNum.LCHGenerator">
             <summary>
@@ -12081,6 +13019,22 @@
             </summary>
             <param name="digits">number of digits to round to.</param>
         </member>
+        <member name="M:Common.Core.Shapes.Ray3d.Intersects(Common.Core.Shapes.Box3d)">
+            <summary>
+            Does the ray intersect the box.
+            </summary>
+            <param name="bounds">The box.</param>
+            <returns>Does the ray intersect the box.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Ray3d.Intersects(Common.Core.Shapes.Box3d,System.Double@,System.Double@)">
+            <summary>
+            Does the ray intersect the box.
+            </summary>
+            <param name="bounds">The box.</param>
+            <param name="s">Intersection point = Position + s * Direction where ray enters box.</param>
+            <param name="t">Intersection point = Position + t * Direction where ray exits box.</param>
+            <returns>Does the ray intersect the box.</returns>
+        </member>
         <member name="T:Common.Core.Shapes.Ray3f">
             <summary>
             A 3D ray struct represented by a position and a direction.
@@ -12183,6 +13137,22 @@
             Round the rays position and direction.
             </summary>
             <param name="digits">number of digits to round to.</param>
+        </member>
+        <member name="M:Common.Core.Shapes.Ray3f.Intersects(Common.Core.Shapes.Box3f)">
+            <summary>
+            Does the ray intersect the box.
+            </summary>
+            <param name="bounds">The box.</param>
+            <returns>Does the ray intersect the box.</returns>
+        </member>
+        <member name="M:Common.Core.Shapes.Ray3f.Intersects(Common.Core.Shapes.Box3f,System.Single@,System.Single@)">
+            <summary>
+            Does the ray intersect the box.
+            </summary>
+            <param name="bounds">The box.</param>
+            <param name="s">Intersection point = Position + s * Direction where ray enters box.</param>
+            <param name="t">Intersection point = Position + t * Direction where ray exits box.</param>
+            <returns>Does the ray intersect the box.</returns>
         </member>
         <member name="T:Common.Core.Shapes.Segment2d">
             <summary>
@@ -14099,6 +15069,11 @@
             The bounding box of the triangle.
             </summary>
         </member>
+        <member name="P:Common.Core.Shapes.Triangle3d.Area">
+            <summary>
+            The triangels surface area.
+            </summary>
+        </member>
         <member name="P:Common.Core.Shapes.Triangle3d.Item(System.Int32)">
             <summary>
             Array acess to the triangles points.
@@ -14189,6 +15164,11 @@
         <member name="P:Common.Core.Shapes.Triangle3f.Bounds">
             <summary>
             The bounding box of the triangle.
+            </summary>
+        </member>
+        <member name="P:Common.Core.Shapes.Triangle3f.Area">
+            <summary>
+            The triangels surface area.
             </summary>
         </member>
         <member name="P:Common.Core.Shapes.Triangle3f.Item(System.Int32)">

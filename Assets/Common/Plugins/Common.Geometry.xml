@@ -1674,6 +1674,347 @@
             <param name="v">The other vert.</param>
             <returns>True is are connected by a edge</returns>
         </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.HasIndices">
+            <summary>
+            Does the mesh have indices.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.IndexCount">
+            <summary>
+            The number of indices in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.Indices">
+            <summary>
+            The mesh indices.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.HasColors">
+            <summary>
+            The does the mesh have colors..
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.IndexableMesh.Colors">
+            <summary>
+            The mesh colors.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.IndexableMesh.CreateColors">
+            <summary>
+            Creates the color array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.IndexableMesh.SetColors(System.Collections.Generic.IList{Common.Core.Colors.ColorRGBA})">
+            <summary>
+            Create the color array.
+            </summary>
+            <param name="colors">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.IndexableMesh.CreateIndices(System.Int32)">
+            <summary>
+            Creates the index array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.IndexableMesh.SetIndices(System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            Create the index array.
+            </summary>
+            <param name="indices">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.IndexableMesh.AddTriangle(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Add a triangle to the index array.
+            </summary>
+            <param name="i">The index in the indices array to add triangle.</param>
+            <param name="a">The index in the position array for the first point.</param>
+            <param name="b">The index in the position array for the second point.</param>
+            <param name="c">The index in the position array for the third point.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="numPositions"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            
+            </summary>
+            <param name="positions"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point2f},System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="positions"></param>
+            <param name="indices"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="numPositions"></param>
+            <param name="numIndices"></param>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.Positions">
+            <summary>
+            The vertex positions.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.HasNormals">
+            <summary>
+            Does the mesh have normals.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.Normals">
+            <summary>
+            The vertex normals.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.HasTexCoords">
+            <summary>
+            Does the mesh have tex coords.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh2f.TexCoords">
+            <summary>
+            The vertex uvs.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.ToString">
+            <summary>
+            Convert mesh to string.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Point2f})">
+            <summary>
+            Create the position array.
+            </summary>
+            <param name="positions">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.CreateNormals">
+            <summary>
+            Creates the normals array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the normal array.
+            </summary>
+            <param name="normals">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.CreateTexCoords">
+            <summary>
+            Creates the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the uv array.
+            </summary>
+            <param name="texCoords">Array to copy from.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.Translate(Common.Core.Numerics.Point2f)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.Scale(Common.Core.Numerics.Point2f)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix2x2f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="numPositions"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point3f})">
+            <summary>
+            
+            </summary>
+            <param name="positions"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.#ctor(System.Collections.Generic.IList{Common.Core.Numerics.Point3f},System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="positions"></param>
+            <param name="indices"></param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.#ctor(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="numPositions"></param>
+            <param name="numIndices"></param>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.PositionCount">
+            <summary>
+            The number of positions in mesh.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.Positions">
+            <summary>
+            The vertex positions.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.HasNormals">
+            <summary>
+            Does the mesh have normals.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.Normals">
+            <summary>
+            The vertex normals.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.HasTangents">
+            <summary>
+            Does the mesh have tangents.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.Tangents">
+            <summary>
+            The vertex normals.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.HasTexCoords">
+            <summary>
+            Does the mesh have tex coords.
+            </summary>
+        </member>
+        <member name="P:Common.Geometry.Meshes.Mesh3f.TexCoords">
+            <summary>
+            The vertex uvs.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.ToString">
+            <summary>
+            Convert mesh to string.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.CreatePositions(System.Int32)">
+            <summary>
+            Creates the position array.
+            </summary>
+            <param name="size">The size of the array.</param>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Point3f})">
+            <summary>
+            Create the position array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.CreateNormals">
+            <summary>
+            Creates the normals array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
+            <summary>
+            Create the normal array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.CreateTangents">
+            <summary>
+            Creates the tangents array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.SetTangents(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
+            <summary>
+            Create the tangent array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.CreateTexCoords">
+            <summary>
+            Creates the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
+            <summary>
+            Create the uv array.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.Translate(Common.Core.Numerics.Point3f)">
+            <summary>
+            Translate the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.Rotate(Common.Core.Numerics.Vector3f)">
+            <summary>
+            Rotate allpositions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.Scale(Common.Core.Numerics.Point3f)">
+            <summary>
+            Scale the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix4x4f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix3x3f)">
+            <summary>
+            Transform the positions.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.CreateTriangleNormals">
+            <summary>
+            Create the area weighted normals
+            presuming mesh has triangle faces.
+            </summary>
+        </member>
+        <member name="M:Common.Geometry.Meshes.Mesh3f.FlipTriangles">
+            <summary>
+            Flip triangle orientation.
+            </summary>
+        </member>
+        <member name="T:Common.Geometry.Meshes.MeshFactory">
+            <summary>
+            https://github.com/caosdoar/spheres/blob/master/src/spheres.cpp
+            https://github.com/mrdoob/three.js/tree/dev/src/geometries
+            </summary>
+        </member>
         <member name="T:Common.Geometry.Points.KdTree2f">
             <summary>
             A 2f KdTree using T as the point.
@@ -3006,245 +3347,6 @@
             <param name="t">The normalized param representing length between first and last point.</param>
             <param name="idx">The index of the point.</param>
             <param name="s">The normalized param representing length between idx and idx+1.</param>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.PositionCount">
-            <summary>
-            The number of positions in mesh.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.HasIndices">
-            <summary>
-            Does the mesh have indices.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.IndexCount">
-            <summary>
-            The number of indices in mesh.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.Indices">
-            <summary>
-            The mesh indices.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.HasColors">
-            <summary>
-            The does the mesh have colors..
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.IndexableMesh.Colors">
-            <summary>
-            The mesh colors.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.IndexableMesh.CreateColors">
-            <summary>
-            Creates the color array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.IndexableMesh.SetColors(System.Collections.Generic.IList{Common.Core.Colors.ColorRGBA})">
-            <summary>
-            Create the color array.
-            </summary>
-            <param name="colors">Array to copy from.</param>
-        </member>
-        <member name="M:Common.Meshes.IndexableMesh.CreateIndices(System.Int32)">
-            <summary>
-            Creates the index array.
-            </summary>
-            <param name="size">The size of the array.</param>
-        </member>
-        <member name="M:Common.Meshes.IndexableMesh.SetIndices(System.Collections.Generic.IList{System.Int32})">
-            <summary>
-            Create the index array.
-            </summary>
-            <param name="indices">Array to copy from.</param>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.PositionCount">
-            <summary>
-            The number of positions in mesh.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.Positions">
-            <summary>
-            The vertex positions.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.HasNormals">
-            <summary>
-            Does the mesh have normals.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.Normals">
-            <summary>
-            The vertex normals.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.HasTexCoords">
-            <summary>
-            Does the mesh have tex coords.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh2f.TexCoords">
-            <summary>
-            The vertex uvs.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.ToString">
-            <summary>
-            Convert mesh to string.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.CreatePositions(System.Int32)">
-            <summary>
-            Creates the position array.
-            </summary>
-            <param name="size">The size of the array.</param>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
-            <summary>
-            Create the position array.
-            </summary>
-            <param name="positions">Array to copy from.</param>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.CreateNormals">
-            <summary>
-            Creates the normals array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
-            <summary>
-            Create the normal array.
-            </summary>
-            <param name="normals">Array to copy from.</param>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.CreateTexCoords">
-            <summary>
-            Creates the uv array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
-            <summary>
-            Create the uv array.
-            </summary>
-            <param name="texCoords">Array to copy from.</param>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.Translate(Common.Core.Numerics.Vector2f)">
-            <summary>
-            Translate the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.Scale(Common.Core.Numerics.Vector2f)">
-            <summary>
-            Scale the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix4x4f)">
-            <summary>
-            Transform the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh2f.Transform(Common.Core.Numerics.Matrix2x2f)">
-            <summary>
-            Transform the positions.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.PositionCount">
-            <summary>
-            The number of positions in mesh.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.Positions">
-            <summary>
-            The vertex positions.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.HasNormals">
-            <summary>
-            Does the mesh have normals.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.Normals">
-            <summary>
-            The vertex normals.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.HasTexCoords">
-            <summary>
-            Does the mesh have tex coords.
-            </summary>
-        </member>
-        <member name="P:Common.Meshes.Mesh3f.TexCoords">
-            <summary>
-            The vertex uvs.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.ToString">
-            <summary>
-            Convert mesh to string.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.CreatePositions(System.Int32)">
-            <summary>
-            Creates the position array.
-            </summary>
-            <param name="size">The size of the array.</param>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.SetPositions(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
-            <summary>
-            Create the position array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.CreateNormals">
-            <summary>
-            Creates the normals array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.SetNormals(System.Collections.Generic.IList{Common.Core.Numerics.Vector3f})">
-            <summary>
-            Create the normal array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.CreateTexCoords">
-            <summary>
-            Creates the uv array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.SetTexCoords(System.Collections.Generic.IList{Common.Core.Numerics.Vector2f})">
-            <summary>
-            Create the uv array.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.Translate(Common.Core.Numerics.Vector3f)">
-            <summary>
-            Translate the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.Rotate(Common.Core.Numerics.Vector3f)">
-            <summary>
-            Rotate allpositions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.Scale(Common.Core.Numerics.Vector3f)">
-            <summary>
-            Scale the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix4x4f)">
-            <summary>
-            Transform the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.Transform(Common.Core.Numerics.Matrix3x3f)">
-            <summary>
-            Transform the positions.
-            </summary>
-        </member>
-        <member name="M:Common.Meshes.Mesh3f.CreateTriangleNormals">
-            <summary>
-            Create the area weighted normals
-            presuming mesh has triangle faces.
-            </summary>
         </member>
     </members>
 </doc>
