@@ -10,14 +10,14 @@ creating the aperiodic tiles also takes a very long time. I am still looking int
 
 There are a lot of methods used to help break up the repeating patterns when texturing but they 
 all involve resampling the texture multiple times and blending the results somehow.
-The good thing abount this method is it only takes one extra texture sample per shader and 
+The good thing about this method is it only takes one extra texture sample per shader and 
 requires no blending of textures.
 
 I think this method had a lot of promise and never got the attention it deserved. 
 I think this comes down to the fact its quite difficult to make the textures. 
 The wang tiles need to be constucted in a special way.
 To help remedy this I have created a series of editor scripts in Unity that will automatically 
-generate the tiles for you. Its not perfert but any issues can easily be cleaned up in photoshop.
+generate the tiles for you. Its not perfect but any issues can easily be cleaned up in photoshop.
 
 So first you will need a series of tileable textures. You will need one for each 'color' the wang 
 tiles have. The project supports upto 4 colors. 
@@ -147,13 +147,31 @@ Its the same for the y value exected it should be the number of vertical colors 
 
 **Smoothness Scale:** The smoothness value from the soomthness texture is multiplied by this value.
 
-At this point you maybe wondering how the wang tiles are created. Heres a example of a 2 by 2 color wang tile. You can see that it consists of 4 by 4 tiles and they always have the sample edge colors when they meet another tile.
+# Summary
+
+At this point you maybe wondering how the wang tiles are created. Heres a example of a 2 by 2 color wang tile. You can see that it consists of 4 by 4 tiles and they always have the same edge colors when they meet another tile.
 
 ![wangtile](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/SolidColorTile2x2_256.png)
 
 Heres another example that just shows the edges.
 
 ![wangtileedge](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/ColorTile2x2_256.png)
+
+Heres a few screen shots of the materials on a plane with a 1m cube for scale. Here the material is using 2 edge colors you can still see some repeating but there is a nice breaking up of the tiles.
+
+![AperiodicTexturing2x2](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/AperiodicTexturing2x2.png)
+
+With the edge colors showing.
+
+![Colors2x2](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/Colors2x2.png)
+
+And here a material with 3 colors. Again some repeating but much better than the 2 colors.
+
+![AperiodicTexturing3x3](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/AperiodicTexturing3x3.png)
+
+With the edge colors showing.
+
+![Colors3x3](https://github.com/Scrawk/AperiodicTexturing/blob/master/Media/Colors3x3.png)
 
 It can be hard to create a tile that has no artifacts or obvious repeating features. As a optional steep the textures can be cleaned up in photoshop and you can used this edge color texture as a guide of where you can edit and what areas can no be changed. Basically you can not change the pixels on the edges of the tile where they are colored.
 
