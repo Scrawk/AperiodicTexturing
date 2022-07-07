@@ -825,11 +825,23 @@
             <param name="image">The image to transform.</param>
             <returns>The transformed greyscale image.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMax(System.Single@,System.Single@)">
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinMaxValue(System.Single@,System.Single@)">
             <summary>
             The minimum and maximum values in the image.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MinValue">
+            <summary>
+            Find the min value in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.GreyScaleImage2D.MaxValue">
+            <summary>
+            Find the max value in image.
+            </summary>
+            <returns>The max value.</returns>
         </member>
         <member name="M:ImageProcessing.Images.GreyScaleImage2D.Sum">
             <summary>
@@ -1213,6 +1225,14 @@
             <param name="y">The second index.</param>
             <param name="value">The pixels channel value.</param>
             <param name="mode">The wrap mode for indices outside image bounds.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.Image2D`1.AlphaBlend(Common.Core.Colors.ColorRGBA,Common.Core.Colors.ColorRGBA)">
+            <summary>
+            Alpha blend the two pixels.
+            </summary>
+            <param name="c0">The first pixel.</param>
+            <param name="c1">The second pixel.</param>
+            <returns>The alpha blened pixel.</returns>
         </member>
         <member name="M:ImageProcessing.Images.Image2D`1.AreSameSize(ImageProcessing.Images.IImage2D)">
             <summary>
@@ -3129,11 +3149,35 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MinRGBA">
+            <summary>
+            Find the min value for each channel in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MaxRGBA">
+            <summary>
+            Find the max value for each channel in image.
+            </summary>
+            <returns>The max value.</returns>
+        </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.MinMaxIntensity(System.Single@,System.Single@)">
             <summary>
             The minimum and maximum values in the image.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MinIntensity">
+            <summary>
+            Find the min intensity in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.ColorImage2D.MaxIntensity">
+            <summary>
+            Find the max intensity in image.
+            </summary>
+            <returns>The max value.</returns>
         </member>
         <member name="M:ImageProcessing.Images.ColorImage2D.Sum">
             <summary>
@@ -3214,6 +3258,12 @@
             Normalize each vector in the image.
             </summary>
         </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Normalize(System.Single)">
+            <summary>
+            Normalize each vector in the image.
+            </summary>
+            <param name="len"></param>
+        </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Invert">
             <summary>
             Inverts the vectors in the image.
@@ -3221,28 +3271,54 @@
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Add(Common.Core.Numerics.Vector2f)">
             <summary>
-            Add the vectors in the image.
+            Add the vector to the vectors in the image.
             </summary>
-            <param name="vector">The vector.</param>
+            <param name="vector">The vector to add.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Add(System.Single)">
+            <summary>
+            Add the value to the vectors in the image.
+            </summary>
+            <param name="value">The value to add.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Subtract(Common.Core.Numerics.Vector2f,System.Boolean)">
             <summary>
-            Subtract the vectors in the image.
+            Subtract the vector to the vectors in the image.
             </summary>
-            <param name="vector">The vector.</param>
+            <param name="vector">The vector to subtract.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Subtract(System.Single,System.Boolean)">
+            <summary>
+            Subtract the value to the vectors in the image.
+            </summary>
+            <param name="value">The value to subtract.</param>
             <param name="reverse">Reverse the operations order.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Multiply(Common.Core.Numerics.Vector2f)">
             <summary>
-            Multiply the vectors in the image.
+            Multiply the vector to the vectors in the image.
             </summary>
-            <param name="vector">The vector.</param>
+            <param name="vector">The vector to multipy.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Multiply(System.Single)">
+            <summary>
+            Multiply the value to the vectors in the image.
+            </summary>
+            <param name="value">The value to multipy.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Divide(Common.Core.Numerics.Vector2f,System.Boolean)">
             <summary>
-            Add the vectors in the image.
+            Add the vector to the vectors in the image.
             </summary>
-            <param name="vector">The vector.</param>
+            <param name="vector">The vector to divide.</param>
+            <param name="reverse">Reverse the operations order.</param>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.Divide(System.Single,System.Boolean)">
+            <summary>
+            Add the value to the vectors in the image.
+            </summary>
+            <param name="value">The value to divide.</param>
             <param name="reverse">Reverse the operations order.</param>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.op_Addition(ImageProcessing.Images.VectorImage2D,ImageProcessing.Images.VectorImage2D)">
@@ -3651,11 +3727,59 @@
             </summary>
             <returns>A Vector image containing the spectrum.</returns>
         </member>
-        <member name="M:ImageProcessing.Images.VectorImage2D.MinMax(Common.Core.Numerics.Vector2f@,Common.Core.Numerics.Vector2f@)">
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinMaxVector(Common.Core.Numerics.Vector2f@,Common.Core.Numerics.Vector2f@)">
             <summary>
             The minimum and maximum values in the image.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinVector">
+            <summary>
+            Find the min value for each channel in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MaxVector">
+            <summary>
+            Find the max value for each channel in image.
+            </summary>
+            <returns>The max value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinMaxSqrMagnitude(System.Single@,System.Single@)">
+            <summary>
+            The minimum and maximum sqr magnitudes in the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinMaxMagnitude(System.Single@,System.Single@)">
+            <summary>
+            The minimum and maximum magnitudes in the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinSqrMagnitude">
+            <summary>
+            Find the min sqr magnitudes in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MaxSqrMagnitude">
+            <summary>
+            Find the max sqr magnitudes in image.
+            </summary>
+            <returns>The max value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MinMagnitude">
+            <summary>
+            Find the min magnitudes in image.
+            </summary>
+            <returns>The min value.</returns>
+        </member>
+        <member name="M:ImageProcessing.Images.VectorImage2D.MaxMagnitude">
+            <summary>
+            Find the max magnitudes in image.
+            </summary>
+            <returns>The max value.</returns>
         </member>
         <member name="M:ImageProcessing.Images.VectorImage2D.Sum">
             <summary>
